@@ -4,7 +4,7 @@ import { Users, Award, Clock, Shield } from 'lucide-react';
 
 const AboutUs = () => {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -41,8 +41,8 @@ const AboutUs = () => {
           </div>
 
           <div className="text-center">
-            <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-8 h-8 text-purple-600" />
+            <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Trusted</h3>
             <p className="text-gray-600">Licensed, insured, and locally owned</p>

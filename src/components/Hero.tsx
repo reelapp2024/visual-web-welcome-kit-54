@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Clock } from 'lucide-react';
+import { Phone, Clock, CheckCircle } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -12,12 +12,28 @@ const Hero = () => {
           alt="Local business services"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-indigo-800/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-indigo-800/90"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-8">
         <div className="max-w-4xl mx-auto">
+          {/* Trust Indicators */}
+          <div className="flex flex-wrap justify-center gap-6 mb-6 text-white/90 text-sm">
+            <div className="flex items-center">
+              <CheckCircle size={16} className="mr-2 text-yellow-400" />
+              <span>Licensed & Insured</span>
+            </div>
+            <div className="flex items-center">
+              <CheckCircle size={16} className="mr-2 text-yellow-400" />
+              <span>24/7 Emergency Service</span>
+            </div>
+            <div className="flex items-center">
+              <CheckCircle size={16} className="mr-2 text-yellow-400" />
+              <span>Same Day Service</span>
+            </div>
+          </div>
+
           {/* Main Heading */}
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight animate-fade-in">
             Get Professional
@@ -51,10 +67,17 @@ const Hero = () => {
               <span>CALL NOW</span>
             </button>
             
-            <button className="group bg-green-600 hover:bg-green-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-full font-bold text-xl sm:text-2xl hover:scale-105 transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl">
+            <button className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-full font-bold text-xl sm:text-2xl hover:scale-105 transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl">
               <Clock size={24} className="group-hover:rotate-12 transition-transform duration-200" />
-              <span>24/7 SERVICE</span>
+              <span>FREE QUOTE</span>
             </button>
+          </div>
+
+          {/* Urgency Message */}
+          <div className="mt-6 animate-fade-in">
+            <p className="text-yellow-300 font-semibold text-lg animate-pulse">
+              ⚡ Emergency Services Available 24/7 ⚡
+            </p>
           </div>
         </div>
       </div>
