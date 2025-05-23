@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { Phone, MapPin, Clock } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -8,76 +8,90 @@ const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"
-          alt="Modern workspace with laptop and code"
+          src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
+          alt="Local business services"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-indigo-800/80"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium mb-8 animate-fade-in">
-            <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-            Welcome to the future of blogging
+          <div className="inline-flex items-center px-4 py-2 bg-green-500/20 backdrop-blur-sm rounded-full text-green-300 text-sm font-medium mb-6 animate-fade-in">
+            <MapPin size={16} className="mr-2" />
+            Local Services Available 24/7
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in">
-            Share Your Ideas
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
-              Change the World
+            Get Professional
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">
+              Local Services
             </span>
+            <span className="block text-3xl md:text-4xl lg:text-5xl mt-2">Today!</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in">
-            Join thousands of writers and readers in a community where every story matters. 
-            Create, discover, and engage with content that inspires.
+            Need urgent help? Our local experts are ready to serve you. 
+            Call now for immediate assistance and quick solutions!
           </p>
 
+          {/* Phone Number - Large Display */}
+          <div className="mb-8 animate-fade-in">
+            <div className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+              <Phone size={32} className="text-yellow-300 mr-4" />
+              <div className="text-left">
+                <div className="text-sm text-white/70 uppercase tracking-wide font-medium">Call Now</div>
+                <div className="text-3xl md:text-4xl font-bold text-white">(555) 123-4567</div>
+              </div>
+            </div>
+          </div>
+
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
-            <button className="group bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center space-x-2 hover:scale-105">
-              <span>Start Writing Today</span>
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-200" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in">
+            <button className="group bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-6 rounded-full font-bold text-xl hover:scale-105 transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl">
+              <Phone size={24} className="group-hover:animate-pulse" />
+              <span>CALL NOW</span>
             </button>
             
-            <button className="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center space-x-2">
-              <Play size={20} className="group-hover:scale-110 transition-transform duration-200" />
-              <span>Watch Demo</span>
+            <button className="group bg-green-600 hover:bg-green-500 text-white px-8 py-6 rounded-full font-bold text-xl hover:scale-105 transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl">
+              <Clock size={24} className="group-hover:rotate-12 transition-transform duration-200" />
+              <span>24/7 SERVICE</span>
             </button>
           </div>
 
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
-            <div className="text-center animate-fade-in">
-              <div className="text-3xl font-bold text-white">50K+</div>
-              <div className="text-white/70">Writers</div>
+          {/* Service Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto animate-fade-in">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+              <div className="text-yellow-300 text-3xl font-bold mb-2">Fast</div>
+              <div className="text-white/90">Same Day Service</div>
             </div>
-            <div className="text-center animate-fade-in">
-              <div className="text-3xl font-bold text-white">2M+</div>
-              <div className="text-white/70">Articles</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+              <div className="text-green-300 text-3xl font-bold mb-2">Local</div>
+              <div className="text-white/90">In Your Area</div>
             </div>
-            <div className="text-center animate-fade-in">
-              <div className="text-3xl font-bold text-white">100K+</div>
-              <div className="text-white/70">Readers</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+              <div className="text-blue-300 text-3xl font-bold mb-2">Expert</div>
+              <div className="text-white/90">Professional Team</div>
             </div>
-            <div className="text-center animate-fade-in">
-              <div className="text-3xl font-bold text-white">15M+</div>
-              <div className="text-white/70">Views</div>
-            </div>
+          </div>
+
+          {/* Emergency Notice */}
+          <div className="mt-8 p-4 bg-red-600/20 backdrop-blur-sm rounded-lg border border-red-500/30 animate-fade-in">
+            <div className="text-red-300 font-bold text-lg mb-1">Emergency Services Available</div>
+            <div className="text-white/90">Call anytime - We're here to help!</div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
-        </div>
+      {/* Floating Call Button for Mobile */}
+      <div className="fixed bottom-6 right-6 z-50 md:hidden">
+        <button className="bg-yellow-500 hover:bg-yellow-400 text-black p-4 rounded-full shadow-2xl animate-pulse">
+          <Phone size={28} />
+        </button>
       </div>
     </section>
   );
