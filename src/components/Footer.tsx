@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">JunkPro Hauling</h3>
+            <a href="/" className="text-2xl font-bold hover:text-lime-300 transition-colors">JunkPro Hauling</a>
             <p className="text-gray-300 leading-relaxed">
               Professional junk removal and hauling services for residential and commercial properties. 
               Fast, reliable, and eco-friendly disposal solutions.
@@ -35,11 +35,11 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Our Services</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Residential Junk Removal</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Commercial Cleanouts</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Estate Cleanouts</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Furniture Removal</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Construction Debris</a></li>
+              <li><a href="/services/residential-junk-removal" className="text-gray-300 hover:text-white transition-colors duration-200">Residential Junk Removal</a></li>
+              <li><a href="/services/commercial-cleanouts" className="text-gray-300 hover:text-white transition-colors duration-200">Commercial Cleanouts</a></li>
+              <li><a href="/services/estate-cleanouts" className="text-gray-300 hover:text-white transition-colors duration-200">Estate Cleanouts</a></li>
+              <li><a href="/services/furniture-removal" className="text-gray-300 hover:text-white transition-colors duration-200">Furniture Removal</a></li>
+              <li><a href="/services/construction-debris" className="text-gray-300 hover:text-white transition-colors duration-200">Construction Debris</a></li>
             </ul>
           </div>
 
@@ -47,11 +47,11 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Home</a></li>
-              <li><a href="#about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
-              <li><a href="#services" className="text-gray-300 hover:text-white transition-colors duration-200">Services</a></li>
-              <li><a href="#contact" className="text-gray-300 hover:text-white transition-colors duration-200">Service Areas</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Same-Day Service</a></li>
+              <li><a href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</a></li>
+              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
+              <li><a href="/services" className="text-gray-300 hover:text-white transition-colors duration-200">Services</a></li>
+              <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">Contact</a></li>
+              <li><a href="tel:5551234567" className="text-gray-300 hover:text-white transition-colors duration-200">Same-Day Service</a></li>
             </ul>
           </div>
 
@@ -61,11 +61,11 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone size={16} className="text-gray-400" />
-                <span className="text-gray-300">(555) 123-4567</span>
+                <a href="tel:5551234567" className="text-gray-300 hover:text-white transition-colors">(555) 123-4567</a>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail size={16} className="text-gray-400" />
-                <span className="text-gray-300">info@junkprohauling.com</span>
+                <a href="mailto:info@junkprohauling.com" className="text-gray-300 hover:text-white transition-colors">info@junkprohauling.com</a>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin size={16} className="text-gray-400" />
@@ -84,9 +84,9 @@ const Footer = () => {
             <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
               Call now for same-day junk removal service! We handle everything from single items to complete property cleanouts.
             </p>
-            <button className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
+            <a href="tel:5551234567" className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
               Call Now: (555) 123-4567
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -99,13 +99,13 @@ const Footer = () => {
               © 2024 JunkPro Hauling. All rights reserved. Licensed & Insured Junk Removal Services.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Privacy
               </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Terms
               </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Service Areas
               </a>
             </div>

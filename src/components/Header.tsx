@@ -15,7 +15,7 @@ const Header = () => {
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
                 <Phone size={14} className="mr-2" />
-                <span className="font-medium">(555) 123-4567</span>
+                <a href="tel:5551234567" className="font-medium hover:text-lime-200 transition-colors">(555) 123-4567</a>
               </div>
               <div className="hidden sm:flex items-center">
                 <MapPin size={14} className="mr-2" />
@@ -34,26 +34,26 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-500 to-electric-600 bg-clip-text text-transparent">
+            <a href="/" className="text-2xl font-bold bg-gradient-to-r from-brand-500 to-electric-600 bg-clip-text text-transparent">
               JunkPro Hauling
-            </h1>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+            <a href="/" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="#about" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+            <a href="/about" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="#services" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+            <a href="/services" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               Services
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="#contact" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+            <a href="/contact" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
@@ -61,9 +61,9 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce-slow">
+            <a href="tel:5551234567" className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce-slow">
               CALL NOW: (555) 123-4567
-            </button>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -81,14 +81,14 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Home</a>
-              <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">About</a>
-              <a href="#services" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Services</a>
-              <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Contact</a>
+              <a href="/" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Home</a>
+              <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">About</a>
+              <a href="/services" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Services</a>
+              <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Contact</a>
               <div className="px-3 py-2">
-                <button className="w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-2 rounded-full font-bold text-sm">
+                <a href="tel:5551234567" className="block w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-2 rounded-full font-bold text-sm text-center">
                   CALL NOW: (555) 123-4567
-                </button>
+                </a>
               </div>
             </div>
           </div>
