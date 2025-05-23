@@ -19,11 +19,11 @@ const Header = () => {
               </div>
               <div className="hidden sm:flex items-center">
                 <MapPin size={14} className="mr-2" />
-                <span>24/7 Emergency Service Available</span>
+                <span>Same-Day Junk Removal Available</span>
               </div>
             </div>
             <div className="hidden md:block">
-              <span className="font-semibold">Licensed • Insured • Local</span>
+              <span className="font-semibold">Licensed • Insured • Local Hauling Experts</span>
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-500 to-electric-600 bg-clip-text text-transparent">
-              LocalPro Services
+              JunkPro Hauling
             </h1>
           </div>
 
@@ -62,7 +62,7 @@ const Header = () => {
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
             <button className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce-slow">
-              FREE QUOTE
+              CALL NOW: (555) 123-4567
             </button>
           </div>
 
@@ -87,7 +87,7 @@ const Header = () => {
               <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Contact</a>
               <div className="px-3 py-2">
                 <button className="w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-2 rounded-full font-bold text-sm">
-                  FREE QUOTE
+                  CALL NOW: (555) 123-4567
                 </button>
               </div>
             </div>

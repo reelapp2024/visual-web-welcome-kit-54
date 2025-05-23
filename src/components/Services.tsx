@@ -1,56 +1,56 @@
 
 import React from 'react';
-import { Wrench, Home, Zap, Droplet, Hammer, Shield, Phone } from 'lucide-react';
+import { Truck, Home, Recycle, Building, Sofa, Trash, Phone } from 'lucide-react';
 
 const Services = () => {
   const services = [
     {
-      icon: <Wrench className="w-10 h-10" />,
-      title: "General Repairs",
-      description: "Quick fixes for all household repairs and maintenance needs",
+      icon: <Truck className="w-10 h-10" />,
+      title: "Residential Junk Removal",
+      description: "Complete household junk removal including furniture, appliances, and debris",
       gradient: "from-electric-500 to-electric-600",
-      slug: "general-repairs",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=500&auto=format&fit=crop"
+      slug: "residential-junk-removal",
+      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?q=80&w=500&auto=format&fit=crop"
+    },
+    {
+      icon: <Building className="w-10 h-10" />,
+      title: "Commercial Cleanouts",
+      description: "Office cleanouts, retail space clearing, and commercial waste removal",
+      gradient: "from-lime-500 to-lime-600",
+      slug: "commercial-cleanouts",
+      image: "https://images.unsplash.com/photo-1487252665478-49b61b47f302?q=80&w=500&auto=format&fit=crop"
     },
     {
       icon: <Home className="w-10 h-10" />,
-      title: "Home Maintenance",
-      description: "Regular upkeep and preventive maintenance for your property",
-      gradient: "from-lime-500 to-lime-600",
-      slug: "home-maintenance",
-      image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500&auto=format&fit=crop"
-    },
-    {
-      icon: <Zap className="w-10 h-10" />,
-      title: "Electrical Services",
-      description: "Licensed electrical work, installations, and emergency repairs",
+      title: "Estate Cleanouts",
+      description: "Compassionate estate and foreclosure cleanout services",
       gradient: "from-brand-500 to-brand-600",
-      slug: "electrical-services",
-      image: "https://images.unsplash.com/photo-1621905251189-08b45249ff49?q=80&w=500&auto=format&fit=crop"
+      slug: "estate-cleanouts",
+      image: "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac?q=80&w=500&auto=format&fit=crop"
     },
     {
-      icon: <Droplet className="w-10 h-10" />,
-      title: "Plumbing Services",
-      description: "Professional plumbing repairs, installations, and drain cleaning",
+      icon: <Sofa className="w-10 h-10" />,
+      title: "Furniture Removal",
+      description: "Safe removal and disposal of old furniture and appliances",
       gradient: "from-electric-600 to-brand-500",
-      slug: "plumbing-services",
-      image: "https://images.unsplash.com/photo-1542013936693-884638332954?q=80&w=500&auto=format&fit=crop"
+      slug: "furniture-removal",
+      image: "https://images.unsplash.com/photo-1485833077593-4278bba3f11f?q=80&w=500&auto=format&fit=crop"
     },
     {
-      icon: <Hammer className="w-10 h-10" />,
-      title: "Handyman Services",
-      description: "Skilled craftsman for various home improvement projects",
+      icon: <Recycle className="w-10 h-10" />,
+      title: "Construction Debris",
+      description: "Construction waste removal and renovation cleanup services",
       gradient: "from-brand-600 to-electric-500",
-      slug: "handyman-services",
-      image: "https://images.unsplash.com/photo-1580901368919-7738efb0f87e?q=80&w=500&auto=format&fit=crop"
+      slug: "construction-debris",
+      image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?q=80&w=500&auto=format&fit=crop"
     },
     {
-      icon: <Shield className="w-10 h-10" />,
-      title: "Emergency Services",
-      description: "24/7 emergency response for urgent repair needs",
+      icon: <Trash className="w-10 h-10" />,
+      title: "Yard Waste Removal",
+      description: "Tree limbs, leaves, brush, and landscaping debris hauling",
       gradient: "from-lime-600 to-brand-500",
-      slug: "emergency-services",
-      image: "https://images.unsplash.com/photo-1544985361-b420d7a77140?q=80&w=500&auto=format&fit=crop"
+      slug: "yard-waste-removal",
+      image: "https://images.unsplash.com/photo-1433832597046-4f10e10ac764?q=80&w=500&auto=format&fit=crop"
     }
   ];
 
@@ -63,11 +63,11 @@ const Services = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-6">
-            Our Services
+            Our Junk Removal Services
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Professional local services you can trust. From emergency repairs to regular maintenance, 
-            we're here to help with all your home and business needs.
+            Professional junk removal and hauling services you can trust. From single items to complete cleanouts, 
+            we handle all your junk removal needs with same-day service available.
           </p>
         </div>
 
@@ -106,10 +106,10 @@ const Services = () => {
         <div className="text-center">
           <div className="bg-gradient-to-r from-gray-50 to-white rounded-2xl p-8 max-w-3xl mx-auto shadow-xl border border-gray-200">
             <h3 className="text-3xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-4">
-              Need a Custom Solution?
+              Need Something Removed Today?
             </h3>
             <p className="text-gray-600 mb-6 text-lg">
-              Don't see exactly what you need? We offer customized solutions for unique requirements.
+              No job too big or small! We remove everything from single items to complete property cleanouts.
             </p>
             <button className="flex items-center justify-center bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
               <Phone className="w-5 h-5 mr-2" />

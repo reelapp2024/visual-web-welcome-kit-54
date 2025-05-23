@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Clock, CheckCircle, Star, Zap } from 'lucide-react';
+import { Phone, Clock, CheckCircle, Star, Zap, Truck } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -8,8 +8,8 @@ const Hero = () => {
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
-          alt="Local business services"
+          src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
+          alt="Junk removal services"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-brand-900/95 via-electric-900/90 to-brand-800/95"></div>
@@ -29,8 +29,8 @@ const Hero = () => {
               <span className="font-medium">Licensed & Insured</span>
             </div>
             <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-              <Zap size={16} className="mr-2 text-brand-400" />
-              <span className="font-medium">24/7 Emergency</span>
+              <Truck size={16} className="mr-2 text-brand-400" />
+              <span className="font-medium">Same-Day Service</span>
             </div>
             <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
               <Star size={16} className="mr-2 text-lime-400" />
@@ -42,16 +42,16 @@ const Hero = () => {
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
             Professional
             <span className="block bg-gradient-to-r from-lime-400 via-brand-400 to-electric-400 bg-clip-text text-transparent animate-pulse">
-              Local Services
+              Junk Removal
             </span>
             <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 font-bold">
-              When You Need Them Most!
+              & Hauling Services!
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            🚀 Same-day service • 💯 100% satisfaction guarantee • ⚡ Emergency response in 30 minutes
+            🚛 Same-day pickup • 💯 Eco-friendly disposal • ⚡ Fast, reliable service in 30 minutes
           </p>
 
           {/* Phone Number Display */}
@@ -59,7 +59,7 @@ const Hero = () => {
             <div className="inline-flex items-center justify-center bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-2xl">
               <Phone size={32} className="text-lime-400 mr-4 animate-pulse" />
               <div className="text-left">
-                <div className="text-sm text-white/70 uppercase tracking-wide font-semibold">Call Now - 24/7</div>
+                <div className="text-sm text-white/70 uppercase tracking-wide font-semibold">Call Now - Same Day Service</div>
                 <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">(555) 123-4567</div>
               </div>
             </div>
@@ -69,12 +69,12 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <button className="group bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black px-8 py-4 sm:px-12 sm:py-6 rounded-full font-bold text-xl sm:text-2xl transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl transform hover:scale-105">
               <Phone size={28} className="group-hover:animate-pulse" />
-              <span>CALL NOW</span>
+              <span>CALL NOW: (555) 123-4567</span>
             </button>
             
             <button className="group bg-gradient-to-r from-electric-500 to-electric-600 hover:from-electric-400 hover:to-electric-500 text-white px-8 py-4 sm:px-12 sm:py-6 rounded-full font-bold text-xl sm:text-2xl transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-2xl transform hover:scale-105">
               <Clock size={28} className="group-hover:rotate-12 transition-transform duration-200" />
-              <span>FREE QUOTE</span>
+              <span>CALL NOW: (555) 123-4567</span>
             </button>
           </div>
 
@@ -82,7 +82,7 @@ const Hero = () => {
           <div className="bg-gradient-to-r from-brand-500/80 to-electric-500/80 backdrop-blur-sm rounded-xl p-4 border border-white/20">
             <p className="text-white font-bold text-lg sm:text-xl flex items-center justify-center">
               <Zap className="mr-2 text-lime-400 animate-pulse" />
-              Emergency Response Available 24/7 - Call Now!
+              Same-Day Junk Removal Available - Call Now!
               <Zap className="ml-2 text-lime-400 animate-pulse" />
             </p>
           </div>
