@@ -39,26 +39,26 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-white font-poppins">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-6">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Got questions? We've got answers. Find everything you need to know about our services, 
             process, and what to expect when you choose us.
           </p>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-8">
+        <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-200">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-200 last:border-b-0">
-                <AccordionTrigger className="text-left text-lg font-semibold text-gray-900 hover:text-blue-600 py-4">
+                <AccordionTrigger className="text-left text-xl font-bold text-gray-900 hover:text-brand-600 py-6 transition-colors">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-4 leading-relaxed">
+                <AccordionContent className="text-gray-600 pb-6 leading-relaxed text-lg">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -66,17 +66,17 @@ const FAQ = () => {
           </Accordion>
         </div>
 
-        <div className="text-center mt-12">
-          <div className="bg-blue-50 rounded-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Still Have Questions?</h3>
-            <p className="text-gray-600 mb-6">
+        <div className="text-center mt-16">
+          <div className="bg-gradient-to-r from-electric-500 to-brand-600 rounded-2xl p-8 text-white shadow-2xl">
+            <h3 className="text-3xl font-bold mb-4">Still Have Questions?</h3>
+            <p className="text-electric-100 mb-8 text-lg">
               Can't find what you're looking for? Our friendly team is here to help!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-lg">
+              <button className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
                 Call (555) 123-4567
               </button>
-              <button className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-lg">
+              <button className="bg-white hover:bg-gray-100 text-electric-600 px-10 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
                 Contact Us
               </button>
             </div>
