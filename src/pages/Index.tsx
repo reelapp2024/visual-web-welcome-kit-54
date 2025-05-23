@@ -2,9 +2,11 @@
 import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
+import AboutUs from '../components/AboutUs';
 import Services from '../components/Services';
 import Process from '../components/Process';
-import AboutUs from '../components/AboutUs';
+import WhyChooseUs from '../components/WhyChooseUs';
+import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 
 const Index = () => {
@@ -12,9 +14,11 @@ const Index = () => {
     <div className="min-h-screen">
       <Header />
       <Hero />
+      <AboutUs />
       <Services />
       <Process />
-      <AboutUs />
+      <WhyChooseUs />
+      <FAQ />
       <Footer />
     </div>
   );
