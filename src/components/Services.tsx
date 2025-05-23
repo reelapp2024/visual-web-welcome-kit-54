@@ -8,39 +8,49 @@ const Services = () => {
       icon: <Wrench className="w-10 h-10" />,
       title: "General Repairs",
       description: "Quick fixes for all household repairs and maintenance needs",
-      gradient: "from-electric-500 to-electric-600"
+      gradient: "from-electric-500 to-electric-600",
+      slug: "general-repairs"
     },
     {
       icon: <Home className="w-10 h-10" />,
       title: "Home Maintenance",
       description: "Regular upkeep and preventive maintenance for your property",
-      gradient: "from-lime-500 to-lime-600"
+      gradient: "from-lime-500 to-lime-600",
+      slug: "home-maintenance"
     },
     {
       icon: <Zap className="w-10 h-10" />,
       title: "Electrical Services",
       description: "Licensed electrical work, installations, and emergency repairs",
-      gradient: "from-brand-500 to-brand-600"
+      gradient: "from-brand-500 to-brand-600",
+      slug: "electrical-services"
     },
     {
       icon: <Droplet className="w-10 h-10" />,
       title: "Plumbing Services",
       description: "Professional plumbing repairs, installations, and drain cleaning",
-      gradient: "from-electric-600 to-brand-500"
+      gradient: "from-electric-600 to-brand-500",
+      slug: "plumbing-services"
     },
     {
       icon: <Hammer className="w-10 h-10" />,
       title: "Handyman Services",
       description: "Skilled craftsman for various home improvement projects",
-      gradient: "from-brand-600 to-electric-500"
+      gradient: "from-brand-600 to-electric-500",
+      slug: "handyman-services"
     },
     {
       icon: <Shield className="w-10 h-10" />,
       title: "Emergency Services",
       description: "24/7 emergency response for urgent repair needs",
-      gradient: "from-lime-600 to-brand-500"
+      gradient: "from-lime-600 to-brand-500",
+      slug: "emergency-services"
     }
   ];
+
+  const handleServiceClick = (slug: string) => {
+    window.open(`/services/${slug}`, '_blank');
+  };
 
   return (
     <section id="services" className="py-20 bg-white font-poppins">
@@ -57,7 +67,11 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <div key={index} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden transform hover:-translate-y-2">
+            <div 
+              key={index} 
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden transform hover:-translate-y-2 cursor-pointer"
+              onClick={() => handleServiceClick(service.slug)}
+            >
               <div className="p-8">
                 <div className={`bg-gradient-to-br ${service.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
                   {service.icon}
