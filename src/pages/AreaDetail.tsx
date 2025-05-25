@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { MapPin, Phone, Clock, CheckCircle, Star, Truck, Navigation } from 'lucide-react';
+import MapboxMap from '../components/MapboxMap';
+import { MapPin, Phone, Clock, CheckCircle, Star, Truck } from 'lucide-react';
 
 const AreaDetail = () => {
   const { slug } = useParams();
@@ -118,16 +118,6 @@ const AreaDetail = () => {
 
   const area = areaData[slug || ''] || areaData['downtown-metro'];
 
-  const openGoogleMaps = () => {
-    const url = `https://www.google.com/maps?q=${area.coordinates.lat},${area.coordinates.lng}&z=15`;
-    window.open(url, '_blank');
-  };
-
-  const getDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${area.coordinates.lat},${area.coordinates.lng}`;
-    window.open(url, '_blank');
-  };
-
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -183,56 +173,19 @@ const AreaDetail = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Service Location
+              Live Service Location Map
             </h2>
             <p className="text-lg md:text-xl text-gray-600">
-              We serve {area.name} and surrounding neighborhoods
+              Interactive map showing our service coverage in {area.name}
             </p>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="relative h-64 md:h-96 bg-gradient-to-br from-blue-100 to-green-100">
-              {/* Interactive Map Container */}
-              <iframe
-                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.5!2d${area.coordinates.lng}!3d${area.coordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjEiTiA3NMKwMDAnMjEuNiJX!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus&z=14`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0"
-                title={`${area.name} Service Area Map`}
-              ></iframe>
-              
-              {/* Overlay Controls */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <button
-                  onClick={openGoogleMaps}
-                  className="bg-white hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium"
-                >
-                  <MapPin size={16} className="mr-1" />
-                  View Larger
-                </button>
-                <button
-                  onClick={getDirections}
-                  className="bg-brand-500 hover:bg-brand-600 text-white px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium"
-                >
-                  <Navigation size={16} className="mr-1" />
-                  Directions
-                </button>
-              </div>
-
-              {/* Location Info Card */}
-              <div className="absolute bottom-4 left-4 bg-white rounded-lg p-3 md:p-4 shadow-lg max-w-xs">
-                <h3 className="font-bold text-gray-800 mb-1 text-sm md:text-base">{area.name}</h3>
-                <p className="text-gray-600 text-xs md:text-sm mb-2">Service Area</p>
-                <div className="flex items-center text-xs md:text-sm text-gray-700">
-                  <Truck className="mr-2" size={14} />
-                  Average response: 30-60 min
-                </div>
-              </div>
-            </div>
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-4">
+            <MapboxMap 
+              coordinates={area.coordinates}
+              areaName={area.name}
+              className="h-64 md:h-96 w-full"
+            />
           </div>
         </div>
       </section>
