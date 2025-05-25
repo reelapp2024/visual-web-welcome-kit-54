@@ -56,13 +56,13 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-2xl font-bold bg-gradient-to-r from-brand-500 to-electric-600 bg-clip-text text-transparent">
+            <a href="/" className="text-xl md:text-2xl font-bold bg-gradient-to-r from-brand-500 to-electric-600 bg-clip-text text-transparent">
               JunkPro Hauling
             </a>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-6 lg:space-x-8">
             <a href="/" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
@@ -74,21 +74,27 @@ const Header = () => {
             
             {/* Services Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group outline-none">
                 Services
                 <ChevronDown size={16} className="ml-1" />
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[250px] p-2">
                 {services.map((service) => (
-                  <DropdownMenuItem key={service.slug}>
-                    <a href={`/services/${service.slug}`} className="w-full text-gray-700 hover:text-brand-600">
+                  <DropdownMenuItem key={service.slug} className="p-0">
+                    <a 
+                      href={`/services/${service.slug}`} 
+                      className="w-full px-4 py-3 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium block"
+                    >
                       {service.name}
                     </a>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuItem>
-                  <a href="/services" className="w-full text-brand-600 font-semibold">
+                <DropdownMenuItem className="p-0 border-t border-gray-100 mt-2 pt-2">
+                  <a 
+                    href="/services" 
+                    className="w-full px-4 py-3 text-brand-600 font-semibold hover:bg-brand-50 rounded-md transition-all duration-200 block"
+                  >
                     View All Services
                   </a>
                 </DropdownMenuItem>
@@ -97,21 +103,27 @@ const Header = () => {
 
             {/* Areas We Serve Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group outline-none">
                 Areas We Serve
                 <ChevronDown size={16} className="ml-1" />
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] p-2">
                 {areas.map((area) => (
-                  <DropdownMenuItem key={area.slug}>
-                    <a href={`/areas/${area.slug}`} className="w-full text-gray-700 hover:text-brand-600">
+                  <DropdownMenuItem key={area.slug} className="p-0">
+                    <a 
+                      href={`/areas/${area.slug}`} 
+                      className="w-full px-4 py-3 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium block"
+                    >
                       {area.name}
                     </a>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuItem>
-                  <a href="/areas" className="w-full text-brand-600 font-semibold">
+                <DropdownMenuItem className="p-0 border-t border-gray-100 mt-2 pt-2">
+                  <a 
+                    href="/areas" 
+                    className="w-full px-4 py-3 text-brand-600 font-semibold hover:bg-brand-50 rounded-md transition-all duration-200 block"
+                  >
                     View All Areas
                   </a>
                 </DropdownMenuItem>
@@ -125,8 +137,8 @@ const Header = () => {
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="tel:5551234567" className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce-slow">
+          <div className="hidden lg:flex items-center space-x-4">
+            <a href="tel:5551234567" className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-4 lg:px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 transform hover:scale-105 shadow-lg animate-bounce-slow">
               CALL NOW: (555) 123-4567
             </a>
           </div>
@@ -144,40 +156,40 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="/" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Home</a>
-              <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">About</a>
+          <div className="md:hidden border-t border-gray-200 bg-white shadow-lg">
+            <div className="px-2 pt-2 pb-3 space-y-1 max-h-96 overflow-y-auto">
+              <a href="/" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Home</a>
+              <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">About</a>
               
               {/* Mobile Services */}
               <div className="px-3 py-2">
-                <div className="text-gray-700 font-medium mb-2">Services</div>
-                <div className="pl-4 space-y-1">
+                <div className="text-gray-700 font-semibold mb-3 text-base">Services</div>
+                <div className="pl-4 space-y-2">
                   {services.map((service) => (
-                    <a key={service.slug} href={`/services/${service.slug}`} className="block py-1 text-sm text-gray-600 hover:text-brand-600">
+                    <a key={service.slug} href={`/services/${service.slug}`} className="block py-2 text-sm text-gray-600 hover:text-brand-600 transition-colors duration-200 font-medium">
                       {service.name}
                     </a>
                   ))}
-                  <a href="/services" className="block py-1 text-sm text-brand-600 font-semibold">View All Services</a>
+                  <a href="/services" className="block py-2 text-sm text-brand-600 font-semibold border-t border-gray-100 pt-3 mt-2">View All Services</a>
                 </div>
               </div>
 
               {/* Mobile Areas */}
               <div className="px-3 py-2">
-                <div className="text-gray-700 font-medium mb-2">Areas We Serve</div>
-                <div className="pl-4 space-y-1">
+                <div className="text-gray-700 font-semibold mb-3 text-base">Areas We Serve</div>
+                <div className="pl-4 space-y-2">
                   {areas.map((area) => (
-                    <a key={area.slug} href={`/areas/${area.slug}`} className="block py-1 text-sm text-gray-600 hover:text-brand-600">
+                    <a key={area.slug} href={`/areas/${area.slug}`} className="block py-2 text-sm text-gray-600 hover:text-brand-600 transition-colors duration-200 font-medium">
                       {area.name}
                     </a>
                   ))}
-                  <a href="/areas" className="block py-1 text-sm text-brand-600 font-semibold">View All Areas</a>
+                  <a href="/areas" className="block py-2 text-sm text-brand-600 font-semibold border-t border-gray-100 pt-3 mt-2">View All Areas</a>
                 </div>
               </div>
 
-              <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Contact</a>
+              <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Contact</a>
               <div className="px-3 py-2">
-                <a href="tel:5551234567" className="block w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-2 rounded-full font-bold text-sm text-center">
+                <a href="tel:5551234567" className="block w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-3 rounded-full font-bold text-sm text-center transition-all duration-300 transform hover:scale-105">
                   CALL NOW: (555) 123-4567
                 </a>
               </div>
