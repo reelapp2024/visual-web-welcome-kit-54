@@ -1,10 +1,32 @@
 
 import React from 'react';
-import { Menu, X, Phone, MapPin } from 'lucide-react';
+import { Menu, X, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const services = [
+    { name: 'Residential Junk Removal', slug: 'residential-junk-removal' },
+    { name: 'Commercial Cleanouts', slug: 'commercial-cleanouts' },
+    { name: 'Estate Cleanouts', slug: 'estate-cleanouts' },
+    { name: 'Furniture Removal', slug: 'furniture-removal' },
+    { name: 'Construction Debris', slug: 'construction-debris' }
+  ];
+
+  const areas = [
+    { name: 'Downtown Metro', slug: 'downtown-metro' },
+    { name: 'North Hills', slug: 'north-hills' },
+    { name: 'Westside District', slug: 'westside-district' },
+    { name: 'East Valley', slug: 'east-valley' },
+    { name: 'South Bay Area', slug: 'south-bay-area' }
+  ];
 
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 font-poppins">
@@ -49,10 +71,53 @@ const Header = () => {
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="/services" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
-              Services
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            
+            {/* Services Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+                Services
+                <ChevronDown size={16} className="ml-1" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {services.map((service) => (
+                  <DropdownMenuItem key={service.slug}>
+                    <a href={`/services/${service.slug}`} className="w-full text-gray-700 hover:text-brand-600">
+                      {service.name}
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuItem>
+                  <a href="/services" className="w-full text-brand-600 font-semibold">
+                    View All Services
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Areas We Serve Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
+                Areas We Serve
+                <ChevronDown size={16} className="ml-1" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50">
+                {areas.map((area) => (
+                  <DropdownMenuItem key={area.slug}>
+                    <a href={`/areas/${area.slug}`} className="w-full text-gray-700 hover:text-brand-600">
+                      {area.name}
+                    </a>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuItem>
+                  <a href="/areas" className="w-full text-brand-600 font-semibold">
+                    View All Areas
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <a href="/contact" className="text-gray-700 hover:text-brand-600 transition-all duration-300 font-medium relative group">
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
@@ -83,7 +148,33 @@ const Header = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <a href="/" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Home</a>
               <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">About</a>
-              <a href="/services" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Services</a>
+              
+              {/* Mobile Services */}
+              <div className="px-3 py-2">
+                <div className="text-gray-700 font-medium mb-2">Services</div>
+                <div className="pl-4 space-y-1">
+                  {services.map((service) => (
+                    <a key={service.slug} href={`/services/${service.slug}`} className="block py-1 text-sm text-gray-600 hover:text-brand-600">
+                      {service.name}
+                    </a>
+                  ))}
+                  <a href="/services" className="block py-1 text-sm text-brand-600 font-semibold">View All Services</a>
+                </div>
+              </div>
+
+              {/* Mobile Areas */}
+              <div className="px-3 py-2">
+                <div className="text-gray-700 font-medium mb-2">Areas We Serve</div>
+                <div className="pl-4 space-y-1">
+                  {areas.map((area) => (
+                    <a key={area.slug} href={`/areas/${area.slug}`} className="block py-1 text-sm text-gray-600 hover:text-brand-600">
+                      {area.name}
+                    </a>
+                  ))}
+                  <a href="/areas" className="block py-1 text-sm text-brand-600 font-semibold">View All Areas</a>
+                </div>
+              </div>
+
               <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md font-medium">Contact</a>
               <div className="px-3 py-2">
                 <a href="tel:5551234567" className="block w-full bg-gradient-to-r from-lime-500 to-lime-600 text-black px-4 py-2 rounded-full font-bold text-sm text-center">

@@ -7,9 +7,9 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="lg:col-span-2 space-y-4">
             <a href="/" className="text-2xl font-bold hover:text-lime-300 transition-colors">JunkPro Hauling</a>
             <p className="text-gray-300 leading-relaxed">
               Professional junk removal and hauling services for residential and commercial properties. 
@@ -43,22 +43,30 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Quick Links */}
+          {/* Areas We Serve */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Quick Links</h4>
+            <h4 className="text-lg font-semibold">Areas We Serve</h4>
             <ul className="space-y-2">
-              <li><a href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
-              <li><a href="/services" className="text-gray-300 hover:text-white transition-colors duration-200">Services</a></li>
-              <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">Contact</a></li>
-              <li><a href="tel:5551234567" className="text-gray-300 hover:text-white transition-colors duration-200">Same-Day Service</a></li>
+              <li><a href="/areas/downtown-metro" className="text-gray-300 hover:text-white transition-colors duration-200">Downtown Metro</a></li>
+              <li><a href="/areas/north-hills" className="text-gray-300 hover:text-white transition-colors duration-200">North Hills</a></li>
+              <li><a href="/areas/westside-district" className="text-gray-300 hover:text-white transition-colors duration-200">Westside District</a></li>
+              <li><a href="/areas/east-valley" className="text-gray-300 hover:text-white transition-colors duration-200">East Valley</a></li>
+              <li><a href="/areas/south-bay-area" className="text-gray-300 hover:text-white transition-colors duration-200">South Bay Area</a></li>
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Quick Links & Contact */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Contact</h4>
-            <div className="space-y-3">
+            <h4 className="text-lg font-semibold">Contact & Links</h4>
+            <ul className="space-y-2">
+              <li><a href="/" className="text-gray-300 hover:text-white transition-colors duration-200">Home</a></li>
+              <li><a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200">About Us</a></li>
+              <li><a href="/services" className="text-gray-300 hover:text-white transition-colors duration-200">All Services</a></li>
+              <li><a href="/areas" className="text-gray-300 hover:text-white transition-colors duration-200">Service Areas</a></li>
+              <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">Contact</a></li>
+            </ul>
+            
+            <div className="space-y-3 pt-4">
               <div className="flex items-center space-x-3">
                 <Phone size={16} className="text-gray-400" />
                 <a href="tel:5551234567" className="text-gray-300 hover:text-white transition-colors">(555) 123-4567</a>
@@ -105,7 +113,7 @@ const Footer = () => {
               <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Terms
               </a>
-              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <a href="/areas" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Service Areas
               </a>
             </div>
