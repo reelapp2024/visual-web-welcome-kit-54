@@ -107,14 +107,14 @@ const Footer = () => {
               © 2024 JunkPro Hauling. All rights reserved. Licensed & Insured Junk Removal Services.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                Privacy
+              <a href="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+                Privacy Policy
               </a>
-              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                Terms
+              <a href="/terms-conditions" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+                Terms & Conditions
               </a>
-              <a href="/areas" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
-                Service Areas
+              <a href="/disclaimer" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+                Disclaimer
               </a>
             </div>
           </div>

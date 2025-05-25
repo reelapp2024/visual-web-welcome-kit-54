@@ -15,6 +15,9 @@ import Cities from "./pages/Cities";
 import States from "./pages/States";
 import StateDetail from "./pages/StateDetail";
 import CityDetail from "./pages/CityDetail";
+import TermsConditions from "./pages/TermsConditions";
+import Disclaimer from "./pages/Disclaimer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +40,9 @@ const App = () => (
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states" element={<States />} />
           <Route path="/states/:slug" element={<StateDetail />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
