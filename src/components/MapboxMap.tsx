@@ -74,11 +74,12 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     map.current.on('load', () => {
       setIsLoaded(true);
       
-      // Add service area circle
+      // Add service area circle with proper GeoJSON structure
       map.current?.addSource('service-area', {
         type: 'geojson',
         data: {
           type: 'Feature',
+          properties: {},
           geometry: {
             type: 'Point',
             coordinates: [coordinates.lng, coordinates.lat]
