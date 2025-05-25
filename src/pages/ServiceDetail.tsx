@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Truck, Home, Recycle, Building, Sofa, Trash, CheckCircle, Star, Phone, Clock, Award, Users, MapPin, DollarSign, Shield } from 'lucide-react';
+import { Truck, Home, Recycle, Building, Sofa, Trash, CheckCircle, Star, Phone, Clock, Award, Users, MapPin, DollarSign, Shield, Headphones, ThumbsUp } from 'lucide-react';
 
 const ServiceDetail = () => {
   const { slug } = useParams();
@@ -150,6 +149,47 @@ const ServiceDetail = () => {
 
   const service = serviceData[slug || ''];
 
+  const guarantees = [
+    {
+      icon: <CheckCircle className="w-8 h-8" />,
+      title: "100% Satisfaction",
+      description: "We guarantee your complete satisfaction or we'll make it right."
+    },
+    {
+      icon: <Clock className="w-8 h-8" />,
+      title: "On-Time Service",
+      description: "We arrive when promised or your service is discounted."
+    },
+    {
+      icon: <Shield className="w-8 h-8" />,
+      title: "Fully Insured",
+      description: "Complete insurance coverage for your peace of mind."
+    },
+    {
+      icon: <Award className="w-8 h-8" />,
+      title: "Quality Work",
+      description: "Professional service that exceeds industry standards."
+    }
+  ];
+
+  const customerSupport = [
+    {
+      icon: <Phone className="w-12 h-12" />,
+      title: "24/7 Support",
+      description: "Call us anytime for emergency service or questions"
+    },
+    {
+      icon: <Headphones className="w-12 h-12" />,
+      title: "Friendly Staff",
+      description: "Our team is always ready to help with a smile"
+    },
+    {
+      icon: <ThumbsUp className="w-12 h-12" />,
+      title: "Follow-Up Service",
+      description: "We check back to ensure you're completely satisfied"
+    }
+  ];
+
   if (!service) {
     return (
       <div className="min-h-screen font-poppins">
@@ -275,8 +315,34 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Before & After Gallery */}
+      {/* Our Guarantee Section */}
       <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-4">
+              Our Service Guarantee
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              We stand behind every job with unmatched guarantees for your complete peace of mind.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {guarantees.map((guarantee, index) => (
+              <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 text-center">
+                <div className={`bg-gradient-to-br ${service.gradient} rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 text-white shadow-lg`}>
+                  {guarantee.icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{guarantee.title}</h3>
+                <p className="text-gray-600 text-sm">{guarantee.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Before & After Gallery */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-4">
@@ -312,6 +378,39 @@ const ServiceDetail = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Support Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-4">
+              Exceptional Customer Support
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Our commitment to you doesn't end when the job is done. We're here to support you every step of the way.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {customerSupport.map((support, index) => (
+              <div key={index} className="text-center group hover:transform hover:scale-105 transition-all duration-300">
+                <div className={`bg-gradient-to-br ${service.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:shadow-2xl transition-all duration-300`}>
+                  {support.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{support.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{support.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <a href="tel:5551234567" className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-400 hover:to-lime-500 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center mx-auto max-w-sm">
+              <Phone className="w-5 h-5 mr-2" />
+              Call Now: (555) 123-4567
+            </a>
           </div>
         </div>
       </section>

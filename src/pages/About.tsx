@@ -1,8 +1,7 @@
-
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Users, Award, Clock, Shield, Truck, Recycle, Heart, MapPin, Phone, Star } from 'lucide-react';
+import { Users, Award, Clock, Shield, Truck, Recycle, Heart, MapPin, Phone, Star, CheckCircle } from 'lucide-react';
 
 const About = () => {
   const stats = [
@@ -53,6 +52,25 @@ const About = () => {
       role: "Lead Hauler",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
       description: "David leads our hauling team with expertise in safe, efficient junk removal."
+    }
+  ];
+
+  const guarantees = [
+    {
+      title: "100% Satisfaction Guarantee",
+      description: "If you're not completely satisfied with our service, we'll make it right or refund your money."
+    },
+    {
+      title: "On-Time Promise",
+      description: "We arrive when we say we will. If we're late, your service is discounted."
+    },
+    {
+      title: "No Hidden Fees",
+      description: "The price we quote is the price you pay. No surprises, no unexpected charges."
+    },
+    {
+      title: "Licensed & Insured",
+      description: "Fully licensed and insured for your complete peace of mind and protection."
     }
   ];
 
@@ -144,8 +162,41 @@ const About = () => {
         </div>
       </section>
 
-      {/* Our Team */}
+      {/* Our Guarantee Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-6">
+              Our Guarantee to You
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              We stand behind our work with unmatched guarantees that give you complete confidence in our service.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {guarantees.map((guarantee, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+                <div className="bg-gradient-to-br from-lime-500 to-lime-600 rounded-2xl w-16 h-16 flex items-center justify-center mb-6 text-white shadow-xl">
+                  <CheckCircle className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{guarantee.title}</h3>
+                <p className="text-gray-600 leading-relaxed text-lg">{guarantee.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <button className="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center mx-auto">
+              <Phone className="w-5 h-5 mr-2" />
+              Experience Our Guarantee: (555) 123-4567
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Team */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-6">
@@ -176,7 +227,7 @@ const About = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-brand-600 to-electric-600 bg-clip-text text-transparent mb-6">
