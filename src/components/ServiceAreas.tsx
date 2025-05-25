@@ -5,27 +5,33 @@ import { MapPin, Clock, Phone, Truck } from 'lucide-react';
 const ServiceAreas = () => {
   const areas = [
     {
-      name: "Downtown District",
+      name: "Downtown Metro",
+      slug: "downtown-metro",
       neighborhoods: ["Financial District", "Arts Quarter", "Business Center", "Historic Downtown"]
     },
     {
-      name: "North Side",
+      name: "North Hills", 
+      slug: "north-hills",
       neighborhoods: ["Riverside", "Parkview", "Highland", "Northgate"]
     },
     {
-      name: "South Side", 
+      name: "Westside District",
+      slug: "westside-district", 
       neighborhoods: ["Southport", "Garden District", "Industrial Area", "Lakefront"]
     },
     {
-      name: "East Side",
+      name: "East Valley",
+      slug: "east-valley",
       neighborhoods: ["Eastwood", "Sunrise", "Valley View", "Hillcrest"]
     },
     {
-      name: "West Side",
+      name: "South Bay Area",
+      slug: "south-bay-area",
       neighborhoods: ["Westbrook", "Sunset Hills", "Meadowbrook", "Westfield"]
     },
     {
       name: "Suburban Areas",
+      slug: "suburban-areas",
       neighborhoods: ["Maple Heights", "Oak Grove", "Pine Valley", "Cedar Park"]
     }
   ];
@@ -45,7 +51,11 @@ const ServiceAreas = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {areas.map((area, index) => (
-            <div key={index} className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-200 group transform hover:-translate-y-2">
+            <a 
+              key={index}
+              href={`/areas/${area.slug}`}
+              className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-200 group transform hover:-translate-y-2 block"
+            >
               <div className="flex items-center mb-6">
                 <div className="bg-gradient-to-r from-electric-500 to-brand-500 p-3 rounded-full mr-4">
                   <MapPin className="w-6 h-6 text-white" />
@@ -60,7 +70,10 @@ const ServiceAreas = () => {
                   </li>
                 ))}
               </ul>
-            </div>
+              <div className="mt-6 text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
+                View Area Details →
+              </div>
+            </a>
           ))}
         </div>
 
