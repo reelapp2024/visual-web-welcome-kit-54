@@ -13,6 +13,8 @@ import Areas from "./pages/Areas";
 import AreaDetail from "./pages/AreaDetail";
 import Cities from "./pages/Cities";
 import States from "./pages/States";
+import StateDetail from "./pages/StateDetail";
+import CityDetail from "./pages/CityDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,7 +34,9 @@ const App = () => (
           <Route path="/areas" element={<Areas />} />
           <Route path="/areas/:slug" element={<AreaDetail />} />
           <Route path="/cities" element={<Cities />} />
+          <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states" element={<States />} />
+          <Route path="/states/:slug" element={<StateDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

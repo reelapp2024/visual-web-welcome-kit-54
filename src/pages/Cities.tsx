@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { MapPin, Phone, Clock, CheckCircle } from 'lucide-react';
@@ -82,12 +83,12 @@ const Cities = () => {
                     ))}
                   </div>
                   
-                  <a 
-                    href={`/cities/${city.slug}`} 
+                  <Link 
+                    to={`/cities/${city.slug}`} 
                     className="block w-full bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 rounded-full font-bold text-center transition-all duration-300 transform hover:scale-105"
                   >
                     View City Details
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
