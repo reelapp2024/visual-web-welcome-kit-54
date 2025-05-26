@@ -94,12 +94,7 @@ const TreeAreaDetail = () => {
           </div>
           
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <EnhancedMapboxMap 
-              coordinates={area.coordinates}
-              areaName={area.name}
-              className="h-96 md:h-[500px]"
-              theme="tree"
-            />
+            <EnhancedMapboxMap className="h-96 md:h-[500px]" />
           </div>
         </div>
       </section>

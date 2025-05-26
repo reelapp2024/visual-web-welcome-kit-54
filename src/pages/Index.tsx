@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Header as JunkHeader } from '../themes/junk/components/JunkHeader';
-import { Hero as JunkHero } from '../themes/junk/components/JunkHero';
+import JunkHeader from '../themes/junk/components/JunkHeader';
+import JunkHero from '../themes/junk/components/JunkHero';
 import AboutUs from '../components/AboutUs';
 import Services from '../components/Services';
 import Process from '../components/Process';
