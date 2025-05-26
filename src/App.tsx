@@ -4,25 +4,35 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import TreeIndex from "./pages/TreeIndex";
-import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
 import TreeAreaDetail from "./pages/TreeAreaDetail";
 
-// Tree theme pages
+// Junk Removal Theme (original theme)
+import JunkIndex from "./themes/junk/pages/JunkIndex";
+import JunkAbout from "./themes/junk/pages/JunkAbout";
+import JunkServices from "./themes/junk/pages/JunkServices";
+import JunkContact from "./themes/junk/pages/JunkContact";
+import JunkServiceDetail from "./themes/junk/pages/JunkServiceDetail";
+import JunkAreas from "./themes/junk/pages/JunkAreas";
+import JunkAreaDetail from "./themes/junk/pages/JunkAreaDetail";
+
+// Tree Removal Theme
+import TreeIndex from "./pages/TreeIndex";
 import TreeAbout from "./themes/tree/pages/TreeAbout";
 import TreeServices from "./themes/tree/pages/TreeServices";
 import TreeContact from "./themes/tree/pages/TreeContact";
 import TreeServiceDetail from "./themes/tree/pages/TreeServiceDetail";
 import TreeAreas from "./themes/tree/pages/TreeAreas";
 
-// Generic pages (used by junk theme and others)
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Contact from "./pages/Contact";
-import ServiceDetail from "./pages/ServiceDetail";
-import Areas from "./pages/Areas";
-import AreaDetail from "./pages/AreaDetail";
+// Roofing Services Theme
+import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
+import RoofingAbout from "./themes/roofing/pages/RoofingAbout";
+import RoofingServices from "./themes/roofing/pages/RoofingServices";
+import RoofingContact from "./themes/roofing/pages/RoofingContact";
+import RoofingServiceDetail from "./themes/roofing/pages/RoofingServiceDetail";
+import RoofingAreas from "./themes/roofing/pages/RoofingAreas";
+import RoofingAreaDetail from "./themes/roofing/pages/RoofingAreaDetail";
+
+// Legal Pages
 import Cities from "./pages/Cities";
 import States from "./pages/States";
 import StateDetail from "./pages/StateDetail";
@@ -41,20 +51,20 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Original Junk Removal Theme */}
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/services/:slug" element={<ServiceDetail />} />
-          <Route path="/areas" element={<Areas />} />
-          <Route path="/areas/:slug" element={<AreaDetail />} />
+          {/* Junk Removal Theme (Original) */}
+          <Route path="/" element={<JunkIndex />} />
+          <Route path="/about" element={<JunkAbout />} />
+          <Route path="/services" element={<JunkServices />} />
+          <Route path="/contact" element={<JunkContact />} />
+          <Route path="/services/:slug" element={<JunkServiceDetail />} />
+          <Route path="/areas" element={<JunkAreas />} />
+          <Route path="/areas/:slug" element={<JunkAreaDetail />} />
           <Route path="/cities" element={<Cities />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states" element={<States />} />
           <Route path="/states/:slug" element={<StateDetail />} />
           
-          {/* Tree Removal Theme - Using dedicated tree pages */}
+          {/* Tree Removal Theme */}
           <Route path="/tree" element={<TreeIndex />} />
           <Route path="/tree/about" element={<TreeAbout />} />
           <Route path="/tree/services" element={<TreeServices />} />
@@ -65,12 +75,12 @@ const App = () => (
           
           {/* Roofing Services Theme */}
           <Route path="/roofing" element={<RoofingIndex />} />
-          <Route path="/roofing/about" element={<About />} />
-          <Route path="/roofing/services" element={<Services />} />
-          <Route path="/roofing/contact" element={<Contact />} />
-          <Route path="/roofing/services/:slug" element={<ServiceDetail />} />
-          <Route path="/roofing/areas" element={<Areas />} />
-          <Route path="/roofing/areas/:slug" element={<AreaDetail />} />
+          <Route path="/roofing/about" element={<RoofingAbout />} />
+          <Route path="/roofing/services" element={<RoofingServices />} />
+          <Route path="/roofing/contact" element={<RoofingContact />} />
+          <Route path="/roofing/services/:slug" element={<RoofingServiceDetail />} />
+          <Route path="/roofing/areas" element={<RoofingAreas />} />
+          <Route path="/roofing/areas/:slug" element={<RoofingAreaDetail />} />
           
           {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />
