@@ -8,6 +8,15 @@ import Index from "./pages/Index";
 import TreeIndex from "./pages/TreeIndex";
 import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
 import TreeAreaDetail from "./pages/TreeAreaDetail";
+
+// Tree theme pages
+import TreeAbout from "./themes/tree/pages/TreeAbout";
+import TreeServices from "./themes/tree/pages/TreeServices";
+import TreeContact from "./themes/tree/pages/TreeContact";
+import TreeServiceDetail from "./themes/tree/pages/TreeServiceDetail";
+import TreeAreas from "./themes/tree/pages/TreeAreas";
+
+// Generic pages (used by junk theme and others)
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
@@ -45,13 +54,13 @@ const App = () => (
           <Route path="/states" element={<States />} />
           <Route path="/states/:slug" element={<StateDetail />} />
           
-          {/* Tree Removal Theme */}
+          {/* Tree Removal Theme - Using dedicated tree pages */}
           <Route path="/tree" element={<TreeIndex />} />
-          <Route path="/tree/about" element={<About />} />
-          <Route path="/tree/services" element={<Services />} />
-          <Route path="/tree/contact" element={<Contact />} />
-          <Route path="/tree/services/:slug" element={<ServiceDetail />} />
-          <Route path="/tree/areas" element={<Areas />} />
+          <Route path="/tree/about" element={<TreeAbout />} />
+          <Route path="/tree/services" element={<TreeServices />} />
+          <Route path="/tree/contact" element={<TreeContact />} />
+          <Route path="/tree/services/:slug" element={<TreeServiceDetail />} />
+          <Route path="/tree/areas" element={<TreeAreas />} />
           <Route path="/tree/areas/:slug" element={<TreeAreaDetail />} />
           
           {/* Roofing Services Theme */}
