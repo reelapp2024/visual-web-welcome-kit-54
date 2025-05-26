@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Phone, Clock, CheckCircle, Star, Zap, Trees } from 'lucide-react';
 
@@ -50,7 +51,7 @@ const TreeHero = () => {
 
           {/* Subtitle */}
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            🌲 Same-day service • 🌲 Eco-friendly disposal • ⚡ Licensed arborists in 30 minutes
+            🌲 Same-day service • 🌿 Eco-friendly disposal • ⚡ Licensed arborists in 30 minutes
           </p>
 
           {/* Phone Number Display - Fixed and Responsive */}
@@ -59,7 +60,7 @@ const TreeHero = () => {
               <Phone size={28} className="text-nature-400 mr-3 sm:mr-4 animate-pulse flex-shrink-0" />
               <div className="text-left">
                 <div className="text-xs sm:text-sm text-white/70 uppercase tracking-wide font-semibold">Call Now - Emergency Service</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white break-all sm:break-normal">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
                   (555) 123-4567
                 </div>
               </div>

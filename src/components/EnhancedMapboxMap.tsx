@@ -2,341 +2,309 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapPin, Navigation, ZoomIn, ZoomOut, Phone, Star, Clock } from 'lucide-react';
+import { Phone, MapPin, Navigation } from 'lucide-react';
 
-interface EnhancedMapboxMapProps {
-  coordinates: { lat: number; lng: number };
-  areaName: string;
-  className?: string;
-  theme?: 'junk' | 'tree';
+interface ServiceArea {
+  name: string;
+  coordinates: [number, number];
+  radius: number;
+  color: string;
 }
 
-const EnhancedMapboxMap: React.FC<EnhancedMapboxMapProps> = ({ 
-  coordinates, 
-  areaName, 
-  className = '',
-  theme = 'junk'
-}) => {
+const EnhancedMapboxMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+  const [mapboxToken, setMapboxToken] = useState('pk.eyJ1Ijoic2pibG9nczIwMjMiLCJhIjoiY21iM2ZmNDQ4MDZ5djJwc2F4MXdvejRjZSJ9.DM8BhznWkYNPO_ty6UFtkQ');
 
-  const themeColors = {
-    junk: {
-      primary: '#f97316',
-      secondary: '#0ea5e9',
-      accent: '#84cc16'
+  const serviceAreas: ServiceArea[] = [
+    {
+      name: 'Downtown Metro',
+      coordinates: [-74.006, 40.7128],
+      radius: 2000,
+      color: '#22c55e'
     },
-    tree: {
-      primary: '#22c55e',
-      secondary: '#eab308',
-      accent: '#16a34a'
+    {
+      name: 'North Hills',
+      coordinates: [-73.996, 40.7228],
+      radius: 1800,
+      color: '#3b82f6'
+    },
+    {
+      name: 'Westside District',
+      coordinates: [-74.016, 40.7078],
+      radius: 2200,
+      color: '#f59e0b'
+    },
+    {
+      name: 'East Valley',
+      coordinates: [-73.986, 40.7178],
+      radius: 1900,
+      color: '#ef4444'
+    },
+    {
+      name: 'South Bay Area',
+      coordinates: [-74.001, 40.7028],
+      radius: 2100,
+      color: '#8b5cf6'
     }
-  };
-
-  const currentTheme = themeColors[theme];
+  ];
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || !mapboxToken) return;
 
-    // Set Mapbox access token
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2pibG9nczIwMjMiLCJhIjoiY21iM2ZmNDQ4MDZ5djJwc2F4MXdvejRjZSJ9.DM8BhznWkYNPO_ty6UFtkQ';
-
-    // Initialize map
+    mapboxgl.accessToken = mapboxToken;
+    
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [coordinates.lng, coordinates.lat],
-      zoom: 13,
-      pitch: 45,
-      bearing: -17.6
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [-74.006, 40.7128],
+      zoom: 11,
+      pitch: 30,
     });
 
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    map.current.addControl(
+      new mapboxgl.NavigationControl({
+        visualizePitch: true,
+      }),
+      'top-right'
+    );
 
-    // Add fullscreen control
-    map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+    map.current.on('load', () => {
+      // Add service area circles
+      serviceAreas.forEach((area, index) => {
+        const sourceId = `service-area-${index}`;
+        const layerId = `service-area-layer-${index}`;
 
-    // Create custom marker with theme colors
-    const el = document.createElement('div');
-    el.className = 'custom-marker';
-    el.innerHTML = `
-      <div style="
-        width: 50px; 
-        height: 50px; 
-        background: linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary});
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        border: 3px solid white;
-        cursor: pointer;
-        animation: pulse 2s infinite;
-      ">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-      </div>
-    `;
+        // Create circle data
+        const circleData = {
+          type: 'Feature' as const,
+          geometry: {
+            type: 'Point' as const,
+            coordinates: area.coordinates
+          },
+          properties: {
+            name: area.name,
+            radius: area.radius
+          }
+        };
 
-    // Add marker to map
-    const marker = new mapboxgl.Marker(el)
-      .setLngLat([coordinates.lng, coordinates.lat])
-      .addTo(map.current);
+        map.current?.addSource(sourceId, {
+          type: 'geojson',
+          data: circleData
+        });
 
-    // Create enhanced popup
-    const popup = new mapboxgl.Popup({ 
-      offset: 25,
-      closeButton: false,
-      className: 'custom-popup'
-    }).setLngLat([coordinates.lng, coordinates.lat])
-      .setHTML(`
-        <div style="padding: 16px; text-align: center; font-family: 'Poppins', sans-serif; min-width: 250px;">
-          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary}); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-            </div>
-            <div>
-              <h3 style="margin: 0; color: ${currentTheme.primary}; font-weight: bold; font-size: 16px;">${areaName}</h3>
-              <p style="margin: 0; color: #666; font-size: 12px;">${theme === 'tree' ? 'Tree Care' : 'Junk Removal'} Service Area</p>
-            </div>
-          </div>
-          
-          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px; gap: 8px;">
-            <div style="display: flex; align-items: center;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="${currentTheme.accent}" style="margin-right: 4px;">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-              <span style="color: ${currentTheme.accent}; font-weight: bold; font-size: 14px;">5.0 Rating</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="${currentTheme.secondary}" style="margin-right: 4px;">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12,6 12,12 16,14"/>
-              </svg>
-              <span style="color: ${currentTheme.secondary}; font-weight: bold; font-size: 14px;">Same Day</span>
-            </div>
-          </div>
-          
-          <div style="margin-bottom: 12px;">
-            <span style="color: ${currentTheme.primary}; font-weight: bold; font-size: 14px;">✓ Licensed & Insured</span>
-          </div>
-          
-          <a href="tel:5551234567" style="
-            display: inline-flex;
-            align-items: center;
-            background: linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary});
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: transform 0.2s;
-          " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px;">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        // Add circle layer
+        map.current?.addLayer({
+          id: layerId,
+          type: 'circle',
+          source: sourceId,
+          paint: {
+            'circle-radius': {
+              stops: [
+                [10, area.radius / 200],
+                [15, area.radius / 100]
+              ]
+            },
+            'circle-color': area.color,
+            'circle-opacity': 0.3,
+            'circle-stroke-color': area.color,
+            'circle-stroke-width': 2
+          }
+        });
+
+        // Add marker with custom popup
+        const markerEl = document.createElement('div');
+        markerEl.className = 'custom-marker';
+        markerEl.innerHTML = `
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-2 border-white shadow-lg flex items-center justify-center cursor-pointer transform hover:scale-110 transition-transform duration-200">
+            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
             </svg>
-            Call Now: (555) 123-4567
-          </a>
+          </div>
+        `;
+
+        const popup = new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false,
+          className: 'custom-popup'
+        }).setHTML(`
+          <div class="p-4 font-poppins">
+            <h3 class="font-bold text-lg text-gray-800 mb-2">${area.name}</h3>
+            <p class="text-gray-600 mb-3">Professional service area</p>
+            <div class="flex gap-2">
+              <a href="tel:5551234567" class="flex items-center bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                </svg>
+                Call Now
+              </a>
+              <a href="/areas/${area.name.toLowerCase().replace(/\s+/g, '-')}" class="flex items-center bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+                Details
+              </a>
+            </div>
+          </div>
+        `);
+
+        new mapboxgl.Marker(markerEl)
+          .setLngLat(area.coordinates)
+          .setPopup(popup)
+          .addTo(map.current!);
+
+        // Click events
+        map.current?.on('click', layerId, (e) => {
+          setSelectedArea(area.name);
+          map.current?.flyTo({
+            center: area.coordinates,
+            zoom: 13,
+            pitch: 45
+          });
+        });
+
+        map.current?.on('mouseenter', layerId, () => {
+          map.current!.getCanvas().style.cursor = 'pointer';
+        });
+
+        map.current?.on('mouseleave', layerId, () => {
+          map.current!.getCanvas().style.cursor = '';
+        });
+      });
+
+      // Add main office marker
+      const officeMarker = document.createElement('div');
+      officeMarker.innerHTML = `
+        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-full border-4 border-white shadow-xl flex items-center justify-center animate-pulse">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-6a1 1 0 00-1-1H9a1 1 0 00-1 1v6a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      `;
+
+      const officePopup = new mapboxgl.Popup({
+        offset: 25,
+        closeButton: false
+      }).setHTML(`
+        <div class="p-4 font-poppins">
+          <h3 class="font-bold text-lg text-gray-800 mb-2">🏢 Main Office</h3>
+          <p class="text-gray-600 mb-3">Our headquarters & dispatch center</p>
+          <div class="space-y-2">
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+              </svg>
+              123 Business Ave, New York, NY
+            </div>
+            <div class="flex items-center text-sm text-gray-600">
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+              </svg>
+              (555) 123-4567
+            </div>
+            <a href="tel:5551234567" class="block w-full bg-green-500 hover:bg-green-600 text-white text-center py-2 px-4 rounded-lg font-medium transition-colors mt-3">
+              📞 Call Our Office
+            </a>
+          </div>
         </div>
       `);
 
-    // Add click event to marker
-    el.addEventListener('click', () => {
-      popup.addTo(map.current!);
+      new mapboxgl.Marker(officeMarker)
+        .setLngLat([-74.006, 40.7128])
+        .setPopup(officePopup)
+        .addTo(map.current!);
     });
 
-    map.current.on('load', () => {
-      setIsLoaded(true);
-      
-      // Add service area circle
-      map.current?.addSource('service-area', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: [coordinates.lng, coordinates.lat]
-          }
-        }
-      });
-
-      // Add multiple service area circles with different radii
-      map.current?.addLayer({
-        id: 'service-area-outer',
-        type: 'circle',
-        source: 'service-area',
-        paint: {
-          'circle-radius': {
-            stops: [
-              [10, 150],
-              [16, 300]
-            ]
-          },
-          'circle-color': currentTheme.primary,
-          'circle-opacity': 0.05,
-          'circle-stroke-width': 1,
-          'circle-stroke-color': currentTheme.primary,
-          'circle-stroke-opacity': 0.3
-        }
-      });
-
-      map.current?.addLayer({
-        id: 'service-area-inner',
-        type: 'circle',
-        source: 'service-area',
-        paint: {
-          'circle-radius': {
-            stops: [
-              [10, 100],
-              [16, 200]
-            ]
-          },
-          'circle-color': currentTheme.secondary,
-          'circle-opacity': 0.1,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': currentTheme.secondary,
-          'circle-stroke-opacity': 0.5
-        }
-      });
-
-      // Add pulsing animation to circles
-      let animationId: number;
-      const animate = () => {
-        const opacity = (Math.sin(Date.now() * 0.003) + 1) / 2 * 0.2 + 0.05;
-        map.current?.setPaintProperty('service-area-outer', 'circle-opacity', opacity);
-        animationId = requestAnimationFrame(animate);
-      };
-      animate();
-
-      // Cleanup animation on unmount
-      return () => {
-        if (animationId) {
-          cancelAnimationFrame(animationId);
-        }
-      };
-    });
-
-    // Cleanup
     return () => {
       map.current?.remove();
     };
-  }, [coordinates, areaName, theme]);
-
-  const zoomIn = () => {
-    map.current?.zoomIn();
-  };
-
-  const zoomOut = () => {
-    map.current?.zoomOut();
-  };
-
-  const openGoogleMaps = () => {
-    const url = `https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15`;
-    window.open(url, '_blank');
-  };
-
-  const getDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`;
-    window.open(url, '_blank');
-  };
-
-  const callNow = () => {
-    window.location.href = 'tel:5551234567';
-  };
+  }, [mapboxToken]);
 
   return (
-    <div className={`relative ${className}`}>
-      <div ref={mapContainer} className="w-full h-full rounded-2xl" />
+    <div className="relative w-full h-[600px] bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+      {/* Map Container */}
+      <div ref={mapContainer} className="absolute inset-0" />
       
-      {/* Loading overlay */}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-100 rounded-2xl flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-forest-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading interactive map...</p>
-          </div>
+      {/* Control Panel */}
+      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg max-w-xs z-10">
+        <div className="flex items-center mb-3">
+          <MapPin className="w-5 h-5 text-blue-500 mr-2" />
+          <h3 className="font-bold text-gray-800 font-poppins">Service Areas</h3>
         </div>
-      )}
+        
+        {selectedArea ? (
+          <div className="mb-3">
+            <div className="text-sm text-gray-600 mb-1">Selected Area:</div>
+            <div className="font-semibold text-blue-600">{selectedArea}</div>
+          </div>
+        ) : null}
 
-      {/* Custom controls */}
-      <div className="absolute top-4 left-4 flex flex-col gap-2">
-        <button
-          onClick={zoomIn}
-          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
-          title="Zoom In"
-        >
-          <ZoomIn size={16} />
-        </button>
-        <button
-          onClick={zoomOut}
-          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
-          title="Zoom Out"
-        >
-          <ZoomOut size={16} />
-        </button>
+        <div className="space-y-2 mb-3">
+          {serviceAreas.slice(0, 3).map((area, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setSelectedArea(area.name);
+                map.current?.flyTo({
+                  center: area.coordinates,
+                  zoom: 13,
+                  pitch: 45
+                });
+              }}
+              className="w-full text-left px-3 py-2 text-sm bg-gray-50 hover:bg-blue-50 rounded-md transition-colors duration-200 flex items-center"
+            >
+              <div 
+                className="w-3 h-3 rounded-full mr-2" 
+                style={{ backgroundColor: area.color }}
+              ></div>
+              {area.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="pt-3 border-t border-gray-200">
+          <a 
+            href="tel:5551234567"
+            className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 w-full"
+          >
+            <Phone className="w-4 h-4 mr-2" />
+            Call Now: (555) 123-4567
+          </a>
+        </div>
       </div>
 
-      {/* Action buttons */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-        <button
-          onClick={callNow}
-          className={`bg-gradient-to-r from-${theme === 'tree' ? 'forest' : 'brand'}-500 to-${theme === 'tree' ? 'nature' : 'electric'}-500 hover:opacity-90 text-white px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium`}
-        >
-          <Phone size={16} className="mr-1" />
-          Call Now
-        </button>
-        <button
-          onClick={openGoogleMaps}
-          className="bg-white hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium border"
-        >
-          <MapPin size={16} className="mr-1" />
-          View Larger
-        </button>
-        <button
-          onClick={getDirections}
-          className={`bg-${theme === 'tree' ? 'forest' : 'brand'}-500 hover:bg-${theme === 'tree' ? 'forest' : 'brand'}-600 text-white px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium`}
-        >
-          <Navigation size={16} className="mr-1" />
-          Directions
-        </button>
-      </div>
-
-      {/* Enhanced info card */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-lg p-4 shadow-lg max-w-xs border">
-        <div className="flex items-center mb-2">
-          <div className={`w-8 h-8 bg-gradient-to-r from-${theme === 'tree' ? 'forest' : 'brand'}-500 to-${theme === 'tree' ? 'nature' : 'electric'}-500 rounded-full flex items-center justify-center mr-3`}>
-            <MapPin size={16} className="text-white" />
-          </div>
-          <div>
-            <h3 className="font-bold text-gray-800 text-sm">{areaName}</h3>
-            <p className="text-gray-600 text-xs">Service Area Coverage</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-between text-xs">
-          <div className="flex items-center text-green-600">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-            Active Service Zone
+      {/* Legend */}
+      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-lg z-10">
+        <div className="text-sm font-semibold text-gray-800 mb-2">Legend</div>
+        <div className="space-y-1 text-xs">
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+            <span>Main Office</span>
           </div>
           <div className="flex items-center">
-            <Star size={12} className={`text-${theme === 'tree' ? 'nature' : 'lime'}-500 mr-1`} />
-            <span className="text-gray-600 font-medium">5.0</span>
+            <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+            <span>Service Areas</span>
           </div>
         </div>
-        <div className="mt-2 pt-2 border-t border-gray-100">
-          <div className="flex items-center text-xs text-blue-600">
-            <Clock size={12} className="mr-1" />
-            Same-Day Service Available
-          </div>
-        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="absolute top-4 right-4 space-y-2 z-10">
+        <button
+          onClick={() => {
+            map.current?.flyTo({
+              center: [-74.006, 40.7128],
+              zoom: 11,
+              pitch: 30
+            });
+            setSelectedArea(null);
+          }}
+          className="bg-white/95 hover:bg-white p-2 rounded-lg shadow-lg transition-colors duration-200"
+          title="Reset View"
+        >
+          <Navigation className="w-5 h-5 text-gray-600" />
+        </button>
       </div>
     </div>
   );

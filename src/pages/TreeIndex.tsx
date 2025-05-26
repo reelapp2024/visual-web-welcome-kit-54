@@ -1,7 +1,7 @@
 
 import React from 'react';
-import TreeHeader from '../components/TreeHeader';
-import TreeHero from '../components/TreeHero';
+import { TreeHeader } from '../themes/tree/components/TreeHeader';
+import { TreeHero } from '../themes/tree/components/TreeHero';
 import AboutUs from '../components/AboutUs';
 import Services from '../components/Services';
 import Process from '../components/Process';

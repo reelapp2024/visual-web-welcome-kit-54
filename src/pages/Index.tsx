@@ -1,7 +1,7 @@
 
 import React from 'react';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
+import { Header as JunkHeader } from '../themes/junk/components/JunkHeader';
+import { Hero as JunkHero } from '../themes/junk/components/JunkHero';
 import AboutUs from '../components/AboutUs';
 import Services from '../components/Services';
 import Process from '../components/Process';
@@ -14,8 +14,8 @@ import Footer from '../components/Footer';
 const Index = () => {
   return (
     <div className="min-h-screen font-poppins">
-      <Header />
-      <Hero />
+      <JunkHeader />
+      <JunkHero />
       <AboutUs />
       <Services />
       <Process />

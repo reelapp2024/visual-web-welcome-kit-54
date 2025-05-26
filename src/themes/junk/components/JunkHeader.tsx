@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Menu, X, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
@@ -8,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const Header = () => {
+const JunkHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const services = [
@@ -200,4 +201,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default JunkHeader;
