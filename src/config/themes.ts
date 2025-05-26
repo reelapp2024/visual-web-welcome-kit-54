@@ -66,4 +66,20 @@ export const redTheme: ThemeConfig = {
   email: 'info@redprosolutions.com'
 };
 
-export const availableThemes = [defaultTheme, blueTheme, redTheme];
+export const purpleTheme: ThemeConfig = {
+  id: 'purplepro',
+  name: 'PurplePro Elite',
+  colors: {
+    primary: 'rgb(147, 51, 234)', // purple-600
+    secondary: 'rgb(236, 72, 153)', // pink-500
+    accent: 'rgb(34, 197, 94)', // green-500
+    background: 'rgb(255, 255, 255)',
+    text: 'rgb(17, 24, 39)',
+    muted: 'rgb(107, 114, 128)'
+  },
+  brandName: 'PurplePro Elite',
+  phone: '(555) 321-9876',
+  email: 'info@purpleproelite.com'
+};
+
+export const availableThemes = [defaultTheme, blueTheme, redTheme, purpleTheme];

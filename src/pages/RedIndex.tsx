@@ -12,12 +12,12 @@ import Testimonials from '../components/Testimonials';
 import ServiceAreas from '../components/ServiceAreas';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
-import { defaultTheme } from '../config/themes';
+import { redTheme } from '../config/themes';
 import { defaultContent } from '../config/content';
 
-const Index = () => {
+const RedIndex = () => {
   return (
-    <Template theme={defaultTheme} content={defaultContent}>
+    <Template theme={redTheme} content={defaultContent}>
       <div className="min-h-screen font-poppins">
         <ThemeNavigation />
         <ThemedHeader />
@@ -35,4 +35,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default RedIndex;
