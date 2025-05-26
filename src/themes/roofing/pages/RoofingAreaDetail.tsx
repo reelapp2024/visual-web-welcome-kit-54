@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import RoofingHeader from '../components/RoofingHeader';
@@ -298,18 +297,7 @@ const RoofingAreaDetail = () => {
           </div>
           
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <EnhancedMapboxMap
-              center={area.coordinates}
-              zoom={13}
-              markers={[
-                {
-                  coordinates: area.coordinates,
-                  title: `Elite Roofing Pro - ${area.name}`,
-                  description: `Professional roofing services in ${area.name}`
-                }
-              ]}
-              className="h-96"
-            />
+            <EnhancedMapboxMap className="h-96" />
           </div>
         </div>
       </section>
