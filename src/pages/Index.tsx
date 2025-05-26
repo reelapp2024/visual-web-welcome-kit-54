@@ -1,8 +1,6 @@
 
 import React from 'react';
-import Template from '../components/Template';
-import ThemedHeader from '../components/ThemedHeader';
-import ThemeNavigation from '../components/ThemeNavigation';
+import Header from '../components/Header';
 import Hero from '../components/Hero';
 import AboutUs from '../components/AboutUs';
 import Services from '../components/Services';
@@ -12,26 +10,21 @@ import Testimonials from '../components/Testimonials';
 import ServiceAreas from '../components/ServiceAreas';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
-import { defaultTheme } from '../config/themes';
-import { defaultContent } from '../config/content';
 
 const Index = () => {
   return (
-    <Template theme={defaultTheme} content={defaultContent}>
-      <div className="min-h-screen font-poppins">
-        <ThemeNavigation />
-        <ThemedHeader />
-        <Hero />
-        <AboutUs />
-        <Services />
-        <Process />
-        <WhyChooseUs />
-        <Testimonials />
-        <ServiceAreas />
-        <FAQ />
-        <Footer />
-      </div>
-    </Template>
+    <div className="min-h-screen font-poppins">
+      <Header />
+      <Hero />
+      <AboutUs />
+      <Services />
+      <Process />
+      <WhyChooseUs />
+      <Testimonials />
+      <ServiceAreas />
+      <FAQ />
+      <Footer />
+    </div>
   );
 };
 
