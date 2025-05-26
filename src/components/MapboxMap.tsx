@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapPin, Navigation, ZoomIn, ZoomOut, Phone, TreePine } from 'lucide-react';
+import { MapPin, Navigation, ZoomIn, ZoomOut } from 'lucide-react';
 
 interface MapboxMapProps {
   coordinates: { lat: number; lng: number };
@@ -24,7 +24,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     // Initialize map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/satellite-streets-v12',
+      style: 'mapbox://styles/mapbox/streets-v12',
       center: [coordinates.lng, coordinates.lat],
       zoom: 13,
       pitch: 45,
@@ -37,73 +37,32 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     // Add fullscreen control
     map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
-    // Create custom tree service marker
+    // Create custom marker
     const el = document.createElement('div');
-    el.className = 'custom-tree-marker';
-    el.innerHTML = `
-      <div style="
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, #369960, #5bb882);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(54, 153, 96, 0.4);
-        border: 3px solid white;
-        cursor: pointer;
-        animation: pulse 2s infinite;
-      ">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <path d="M12 2v20M8 8l4-4 4 4"/>
-        </svg>
-      </div>
-    `;
+    el.className = 'custom-marker';
+    el.style.backgroundImage = 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzMjc4RkYiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0zIDExIDMtM20wIDAgMy4wMDEtM00xNSAyMWwtMy0zbTAgMC0zIDNtMTIuMDAxLTE0djZtMCAwdjZtMCAwLTYtNm02IDZ2Nm0wIDBoNm0tNiAwaDYiLz4KPC9zdmc+Cjwvc3ZnPgo=)';
+    el.style.width = '40px';
+    el.style.height = '40px';
+    el.style.backgroundSize = 'cover';
+    el.style.borderRadius = '50%';
+    el.style.cursor = 'pointer';
+    el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
 
     // Add marker to map
     new mapboxgl.Marker(el)
       .setLngLat([coordinates.lng, coordinates.lat])
       .addTo(map.current);
 
-    // Add enhanced popup
-    const popup = new mapboxgl.Popup({ 
-      offset: 25,
-      closeButton: true,
-      closeOnClick: false
-    })
+    // Add popup
+    const popup = new mapboxgl.Popup({ offset: 25 })
       .setLngLat([coordinates.lng, coordinates.lat])
       .setHTML(`
-        <div style="padding: 15px; text-align: center; min-width: 250px;">
-          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-            <div style="background: linear-gradient(135deg, #369960, #5bb882); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <path d="M12 2v20M8 8l4-4 4 4"/>
-              </svg>
-            </div>
-            <h3 style="margin: 0; color: #369960; font-weight: bold; font-size: 18px;">${areaName}</h3>
+        <div style="padding: 10px; text-align: center;">
+          <h3 style="margin: 0 0 8px 0; color: #3278FF; font-weight: bold;">${areaName}</h3>
+          <p style="margin: 0; color: #666; font-size: 14px;">JunkPro Hauling Service Area</p>
+          <div style="margin-top: 8px;">
+            <span style="color: #10B981; font-weight: bold;">✓ Same-Day Service Available</span>
           </div>
-          <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">TreeCare Pro Service Area</p>
-          <div style="margin: 10px 0; padding: 8px; background: #f0f9f4; border-radius: 8px;">
-            <span style="color: #369960; font-weight: bold; font-size: 14px;">✓ 24/7 Emergency Tree Service</span>
-          </div>
-          <div style="margin: 10px 0; padding: 8px; background: #f0f9f4; border-radius: 8px;">
-            <span style="color: #5bb882; font-weight: bold; font-size: 14px;">🌳 Licensed Arborists Available</span>
-          </div>
-          <a href="tel:5551234567" style="
-            display: inline-flex;
-            align-items: center;
-            background: linear-gradient(135deg, #369960, #5bb882);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 10px;
-            transition: transform 0.2s;
-          " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            📞 Call Now: (555) 123-4567
-          </a>
         </div>
       `);
 
@@ -115,7 +74,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     map.current.on('load', () => {
       setIsLoaded(true);
       
-      // Add service area circle with tree theme
+      // Add service area circle with proper GeoJSON structure
       map.current?.addSource('service-area', {
         type: 'geojson',
         data: {
@@ -135,35 +94,15 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
         paint: {
           'circle-radius': {
             stops: [
-              [10, 120],
-              [16, 250]
+              [10, 100],
+              [16, 200]
             ]
           },
-          'circle-color': '#369960',
-          'circle-opacity': 0.15,
-          'circle-stroke-width': 3,
-          'circle-stroke-color': '#5bb882',
-          'circle-stroke-opacity': 0.8
-        }
-      });
-
-      // Add animated pulse effect
-      map.current?.addLayer({
-        id: 'service-area-pulse',
-        type: 'circle',
-        source: 'service-area',
-        paint: {
-          'circle-radius': {
-            stops: [
-              [10, 80],
-              [16, 180]
-            ]
-          },
-          'circle-color': '#5bb882',
-          'circle-opacity': 0.3,
+          'circle-color': '#3278FF',
+          'circle-opacity': 0.1,
           'circle-stroke-width': 2,
-          'circle-stroke-color': '#369960',
-          'circle-stroke-opacity': 0.6
+          'circle-stroke-color': '#3278FF',
+          'circle-stroke-opacity': 0.5
         }
       });
     });
@@ -192,10 +131,6 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     window.open(url, '_blank');
   };
 
-  const callNow = () => {
-    window.location.href = 'tel:5551234567';
-  };
-
   return (
     <div className={`relative ${className}`}>
       <div ref={mapContainer} className="w-full h-full rounded-2xl" />
@@ -204,80 +139,56 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
       {!isLoaded && (
         <div className="absolute inset-0 bg-gray-100 rounded-2xl flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-forest-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading service area map...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading interactive map...</p>
           </div>
         </div>
       )}
 
-      {/* Enhanced custom controls */}
+      {/* Custom controls */}
       <div className="absolute top-4 left-4 flex flex-col gap-2">
         <button
           onClick={zoomIn}
-          className="bg-white hover:bg-forest-50 text-forest-700 p-2 rounded-lg shadow-lg transition-all duration-200 border border-forest-200"
+          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
           title="Zoom In"
         >
           <ZoomIn size={16} />
         </button>
         <button
           onClick={zoomOut}
-          className="bg-white hover:bg-forest-50 text-forest-700 p-2 rounded-lg shadow-lg transition-all duration-200 border border-forest-200"
+          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
           title="Zoom Out"
         >
           <ZoomOut size={16} />
         </button>
       </div>
 
-      {/* Enhanced action buttons */}
+      {/* Action buttons */}
       <div className="absolute bottom-4 right-4 flex flex-col gap-2">
         <button
-          onClick={callNow}
-          className="bg-forest-500 hover:bg-forest-600 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-200 flex items-center text-sm font-bold animate-pulse"
-        >
-          <Phone size={16} className="mr-2" />
-          Call Now
-        </button>
-        <button
           onClick={openGoogleMaps}
-          className="bg-white hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg shadow-lg transition-all duration-200 flex items-center text-sm font-medium border"
+          className="bg-white hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium border"
         >
           <MapPin size={16} className="mr-1" />
           View Larger
         </button>
         <button
           onClick={getDirections}
-          className="bg-nature-500 hover:bg-nature-600 text-white px-3 py-2 rounded-lg shadow-lg transition-all duration-200 flex items-center text-sm font-medium"
+          className="bg-brand-500 hover:bg-brand-600 text-white px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium"
         >
           <Navigation size={16} className="mr-1" />
           Directions
         </button>
       </div>
 
-      {/* Enhanced area info card */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-xl p-4 shadow-xl max-w-xs border border-forest-200">
-        <div className="flex items-center mb-2">
-          <div className="bg-forest-500 rounded-full w-8 h-8 flex items-center justify-center mr-3">
-            <TreePine className="text-white" size={16} />
-          </div>
-          <h3 className="font-bold text-forest-800 text-sm">{areaName}</h3>
+      {/* Area info card */}
+      <div className="absolute bottom-4 left-4 bg-white rounded-lg p-3 shadow-lg max-w-xs border">
+        <h3 className="font-bold text-gray-800 mb-1 text-sm">{areaName}</h3>
+        <p className="text-gray-600 text-xs mb-2">Service Area Coverage</p>
+        <div className="flex items-center text-xs text-green-600">
+          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+          Active Service Zone
         </div>
-        <p className="text-gray-600 text-xs mb-3">Tree Service Coverage Area</p>
-        <div className="space-y-2">
-          <div className="flex items-center text-xs text-forest-600">
-            <div className="w-2 h-2 bg-forest-500 rounded-full mr-2"></div>
-            24/7 Emergency Service
-          </div>
-          <div className="flex items-center text-xs text-nature-600">
-            <div className="w-2 h-2 bg-nature-500 rounded-full mr-2"></div>
-            Licensed Arborists
-          </div>
-        </div>
-        <button
-          onClick={callNow}
-          className="w-full mt-3 bg-gradient-to-r from-forest-500 to-nature-500 text-white px-3 py-2 rounded-lg text-xs font-bold hover:from-forest-600 hover:to-nature-600 transition-all duration-200"
-        >
-          Call (555) 123-4567
-        </button>
       </div>
     </div>
   );
