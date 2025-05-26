@@ -79,7 +79,7 @@ const Header = () => {
                 <ChevronDown size={16} className="ml-1" />
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[250px] p-2">
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[250px] p-2 font-poppins">
                 {services.map((service) => (
                   <DropdownMenuItem key={service.slug} className="p-0">
                     <a 
@@ -108,7 +108,7 @@ const Header = () => {
                 <ChevronDown size={16} className="ml-1" />
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] p-2">
+              <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] p-2 font-poppins">
                 {areas.map((area) => (
                   <DropdownMenuItem key={area.slug} className="p-0">
                     <a 

@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import TreeIndex from "./pages/TreeIndex";
+import TreeAreaDetail from "./pages/TreeAreaDetail";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
@@ -29,6 +31,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Original Junk Removal Theme */}
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
@@ -40,9 +43,21 @@ const App = () => (
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states" element={<States />} />
           <Route path="/states/:slug" element={<StateDetail />} />
+          
+          {/* Tree Removal Theme */}
+          <Route path="/tree" element={<TreeIndex />} />
+          <Route path="/tree/about" element={<About />} />
+          <Route path="/tree/services" element={<Services />} />
+          <Route path="/tree/contact" element={<Contact />} />
+          <Route path="/tree/services/:slug" element={<ServiceDetail />} />
+          <Route path="/tree/areas" element={<Areas />} />
+          <Route path="/tree/areas/:slug" element={<TreeAreaDetail />} />
+          
+          {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
