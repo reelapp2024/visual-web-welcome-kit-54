@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -11,7 +10,11 @@ interface ServiceArea {
   color: string;
 }
 
-const EnhancedMapboxMap = () => {
+interface EnhancedMapboxMapProps {
+  className?: string;
+}
+
+const EnhancedMapboxMap = ({ className = "h-[600px]" }: EnhancedMapboxMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
@@ -222,7 +225,7 @@ const EnhancedMapboxMap = () => {
   }, [mapboxToken]);
 
   return (
-    <div className="relative w-full h-[600px] bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+    <div className={`relative w-full bg-gray-100 rounded-lg overflow-hidden shadow-lg ${className}`}>
       {/* Map Container */}
       <div ref={mapContainer} className="absolute inset-0" />
       
