@@ -32,6 +32,15 @@ import RoofingServiceDetail from "./themes/roofing/pages/RoofingServiceDetail";
 import RoofingAreas from "./themes/roofing/pages/RoofingAreas";
 import RoofingAreaDetail from "./themes/roofing/pages/RoofingAreaDetail";
 
+// Pet Waste Removal Theme
+import PetIndex from "./pages/PetIndex";
+import PetAbout from "./themes/pet/pages/PetAbout";
+import PetServices from "./themes/pet/pages/PetServices";
+import PetContact from "./themes/pet/pages/PetContact";
+import PetServiceDetail from "./themes/pet/pages/PetServiceDetail";
+import PetAreas from "./themes/pet/pages/PetAreas";
+import PetAreaDetail from "./themes/pet/pages/PetAreaDetail";
+
 // Legal Pages
 import Cities from "./pages/Cities";
 import States from "./pages/States";
@@ -81,6 +90,15 @@ const App = () => (
           <Route path="/roofing/services/:slug" element={<RoofingServiceDetail />} />
           <Route path="/roofing/areas" element={<RoofingAreas />} />
           <Route path="/roofing/areas/:slug" element={<RoofingAreaDetail />} />
+          
+          {/* Pet Waste Removal Theme */}
+          <Route path="/pet" element={<PetIndex />} />
+          <Route path="/pet/about" element={<PetAbout />} />
+          <Route path="/pet/services" element={<PetServices />} />
+          <Route path="/pet/contact" element={<PetContact />} />
+          <Route path="/pet/services/:slug" element={<PetServiceDetail />} />
+          <Route path="/pet/areas" element={<PetAreas />} />
+          <Route path="/pet/areas/:slug" element={<PetAreaDetail />} />
           
           {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />

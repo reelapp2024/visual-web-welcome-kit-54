@@ -153,6 +153,31 @@ export default {
 					700: '#b45309',
 					800: '#92400e',
 					900: '#78350f',
+				},
+				// Pet Waste Removal theme colors
+				pet: {
+					50: '#fef7ee',
+					100: '#fdedd3',
+					200: '#fbd7a5',
+					300: '#f8bb6d',
+					400: '#f49332',
+					500: '#f1740e',
+					600: '#e25a04',
+					700: '#bb4307',
+					800: '#95360c',
+					900: '#792e0d',
+				},
+				paw: {
+					50: '#f0fdf0',
+					100: '#dcfce7',
+					200: '#bbf7d0',
+					300: '#86efac',
+					400: '#4ade80',
+					500: '#22c55e',
+					600: '#16a34a',
+					700: '#15803d',
+					800: '#166534',
+					900: '#14532d',
 				}
 			},
 			borderRadius: {
@@ -204,6 +229,10 @@ export default {
 					'50%': {
 						opacity: '0.7'
 					}
+				},
+				'wiggle': {
+					'0%, 100%': { transform: 'rotate(-3deg)' },
+					'50%': { transform: 'rotate(3deg)' }
 				}
 			},
 			animation: {
@@ -211,7 +240,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out forwards',
 				'bounce-slow': 'bounce-slow 3s infinite',
-				'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+				'pulse-slow': 'pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'wiggle': 'wiggle 1s ease-in-out infinite'
 			}
 		}
 	},
