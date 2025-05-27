@@ -15,7 +15,7 @@ interface MapboxMapProps {
   locations: Location[];
   areaName: string;
   className?: string;
-  theme?: 'plumbing' | 'hvac' | 'roofing';
+  theme?: 'plumbing' | 'hvac' | 'roofing' | 'painting';
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({
@@ -44,6 +44,11 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       primary: 'from-slate-600 to-gray-600',
       pin: '#475569',
       hover: 'hover:bg-slate-700'
+    },
+    painting: {
+      primary: 'from-purple-600 to-pink-600',
+      pin: '#9333ea',
+      hover: 'hover:bg-purple-700'
     }
   };
 

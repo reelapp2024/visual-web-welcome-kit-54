@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -29,14 +28,6 @@ import RoofingCountry from "./themes/roofing/pages/RoofingCountry";
 import RoofingState from "./themes/roofing/pages/RoofingState";
 import RoofingCity from "./themes/roofing/pages/RoofingCity";
 
-// Legal Pages
-import StateDetail from "./pages/StateDetail";
-import CityDetail from "./pages/CityDetail";
-import TermsConditions from "./pages/TermsConditions";
-import Disclaimer from "./pages/Disclaimer";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import NotFound from "./pages/NotFound";
-
 // HVAC Theme Imports
 import HVACIndex from './themes/hvac/pages/HVACIndex';
 import HVACAbout from './themes/hvac/pages/HVACAbout';
@@ -47,6 +38,26 @@ import HVACAreas from './themes/hvac/pages/HVACAreas';
 import HVACCountry from './themes/hvac/pages/HVACCountry';
 import HVACState from './themes/hvac/pages/HVACState';
 import HVACCity from './themes/hvac/pages/HVACCity';
+
+// Painting Theme Imports
+import PaintingIndex from './themes/painting/pages/PaintingIndex';
+import PaintingAbout from './themes/painting/pages/PaintingAbout';
+import PaintingServicesPage from './themes/painting/pages/PaintingServices';
+import PaintingContact from './themes/painting/pages/PaintingContact';
+import PaintingServiceDetail from './themes/painting/pages/PaintingServiceDetail';
+import PaintingAreas from './themes/painting/pages/PaintingAreas';
+import PaintingAreaDetail from './themes/painting/pages/PaintingAreaDetail';
+import PaintingCountry from './themes/painting/pages/PaintingCountry';
+import PaintingState from './themes/painting/pages/PaintingState';
+import PaintingCity from './themes/painting/pages/PaintingCity';
+
+// Legal Pages
+import StateDetail from "./pages/StateDetail";
+import CityDetail from "./pages/CityDetail";
+import TermsConditions from "./pages/TermsConditions";
+import Disclaimer from "./pages/Disclaimer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -83,11 +94,6 @@ const App = () => (
           <Route path="/roofing/states" element={<RoofingState />} />
           <Route path="/roofing/cities" element={<RoofingCity />} />
           
-          {/* Legal Pages */}
-          <Route path="/terms-conditions" element={<TermsConditions />} />
-          <Route path="/disclaimer" element={<Disclaimer />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          
           {/* HVAC Theme Routes */}
           <Route path="/hvac" element={<HVACIndex />} />
           <Route path="/hvac/about" element={<HVACAbout />} />
@@ -99,6 +105,23 @@ const App = () => (
           <Route path="/hvac/country" element={<HVACCountry />} />
           <Route path="/hvac/state" element={<HVACState />} />
           <Route path="/hvac/city" element={<HVACCity />} />
+          
+          {/* Painting Theme Routes */}
+          <Route path="/painting" element={<PaintingIndex />} />
+          <Route path="/painting/about" element={<PaintingAbout />} />
+          <Route path="/painting/services" element={<PaintingServicesPage />} />
+          <Route path="/painting/contact" element={<PaintingContact />} />
+          <Route path="/painting/services/:slug" element={<PaintingServiceDetail />} />
+          <Route path="/painting/areas" element={<PaintingAreas />} />
+          <Route path="/painting/areas/:slug" element={<PaintingAreaDetail />} />
+          <Route path="/painting/country" element={<PaintingCountry />} />
+          <Route path="/painting/states" element={<PaintingState />} />
+          <Route path="/painting/cities" element={<PaintingCity />} />
+          
+          {/* Legal Pages */}
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
