@@ -6,6 +6,32 @@ import ElectricalFooter from '../components/ElectricalFooter';
 import { Phone, MapPin, Clock, Mail } from 'lucide-react';
 
 const ElectricalContact = () => {
+  const contactMethods = [
+    {
+      icon: <Phone className="w-8 h-8" />,
+      title: "Emergency Hotline",
+      info: "(555) 123-4567",
+      description: "24/7 emergency electrical services available",
+      gradient: "from-red-500 to-red-600",
+      action: "Call Now"
+    },
+    {
+      icon: <Mail className="w-8 h-8" />,
+      title: "Email Us",
+      info: "info@electricpro.com",
+      description: "For non-emergency inquiries and estimates",
+      gradient: "from-amber-500 to-yellow-500",
+      action: "Email Us"
+    }
+  ];
+
+  const serviceHours = [
+    { day: "Monday - Friday", hours: "7:00 AM - 8:00 PM" },
+    { day: "Saturday", hours: "8:00 AM - 6:00 PM" },
+    { day: "Sunday", hours: "9:00 AM - 5:00 PM" },
+    { day: "Emergency Service", hours: "24/7 Available" }
+  ];
+
   return (
     <div className="min-h-screen font-poppins">
       <ElectricalHeader />
@@ -23,88 +49,58 @@ const ElectricalContact = () => {
 
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            {contactMethods.map((method, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 p-8 border border-gray-100 text-center">
+                <div className={`bg-gradient-to-br ${method.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl`}>
+                  {method.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">{method.title}</h3>
+                <p className="text-xl font-semibold text-gray-700 mb-3">{method.info}</p>
+                <p className="text-gray-600 leading-relaxed mb-6">{method.description}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">Get in Touch</h2>
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center text-white mr-4 flex-shrink-0">
-                    <Phone size={24} />
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="flex items-center mb-6">
+                <Clock className="w-12 h-12 text-amber-600 mr-4" />
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                  Service Hours
+                </h2>
+              </div>
+              <div className="space-y-4">
+                {serviceHours.map((schedule, index) => (
+                  <div key={index} className="flex justify-between items-center py-3 border-b border-gray-200 last:border-b-0">
+                    <span className="font-semibold text-gray-900">{schedule.day}</span>
+                    <span className="text-gray-600">{schedule.hours}</span>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Phone</h3>
-                    <p className="text-gray-600 mb-2">Call us for immediate electrical service</p>
-                    <a href="tel:5551234567" className="text-amber-600 font-bold text-lg hover:text-amber-700">
-                      (555) 123-4567
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center text-white mr-4 flex-shrink-0">
-                    <Clock size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Hours</h3>
-                    <p className="text-gray-600">24/7 Emergency Service Available</p>
-                    <p className="text-gray-600">Regular Hours: Mon-Fri 7AM-6PM</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center text-white mr-4 flex-shrink-0">
-                    <MapPin size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Service Area</h3>
-                    <p className="text-gray-600">Serving the entire metropolitan area</p>
-                    <p className="text-gray-600">Fast response times guaranteed</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center text-white mr-4 flex-shrink-0">
-                    <Mail size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>
-                    <p className="text-gray-600 mb-2">For non-emergency inquiries</p>
-                    <a href="mailto:info@electricpro.com" className="text-amber-600 font-bold hover:text-amber-700">
-                      info@electricpro.com
-                    </a>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-8 border border-amber-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Request Service</h3>
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                  <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="flex items-center mb-6">
+                <MapPin className="w-12 h-12 text-amber-600 mr-4" />
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                  Our Location
+                </h2>
+              </div>
+              <div className="space-y-3 text-gray-600">
+                <div className="flex items-center">
+                  <MapPin className="w-5 h-5 text-amber-600 mr-3" />
+                  <span>123 Main Street, Metro City, ST 12345</span>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                  <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" />
+                <div className="flex items-center">
+                  <Phone className="w-5 h-5 text-amber-600 mr-3" />
+                  <span>(555) 123-4567</span>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Service Needed</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
-                    <option>Emergency Repair</option>
-                    <option>Installation</option>
-                    <option>Inspection</option>
-                    <option>Maintenance</option>
-                  </select>
+                <div className="flex items-center">
+                  <Mail className="w-5 h-5 text-amber-600 mr-3" />
+                  <span>info@electricpro.com</span>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"></textarea>
-                </div>
-                <button type="submit" className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-white px-6 py-3 rounded-lg font-bold transition-all duration-300 transform hover:scale-105">
-                  Submit Request
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>

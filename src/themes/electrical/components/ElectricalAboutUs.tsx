@@ -1,59 +1,54 @@
 
 import React from 'react';
-import { Zap, Shield, Clock, Award } from 'lucide-react';
+import { Zap, Shield, Clock, Users } from 'lucide-react';
 
 const ElectricalAboutUs = () => {
+  const features = [
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: "Licensed Electricians",
+      description: "All our technicians are fully licensed and certified electrical professionals."
+    },
+    {
+      icon: <Shield className="w-8 h-8" />,
+      title: "Safety First",
+      description: "We prioritize safety in every electrical installation and repair project."
+    },
+    {
+      icon: <Clock className="w-8 h-8" />,
+      title: "24/7 Emergency Service",
+      description: "Electrical emergencies don't wait. Neither do we. Available round the clock."
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Experienced Team",
+      description: "Over 15 years of combined experience in residential and commercial electrical work."
+    }
+  ];
+
   return (
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent mb-6">
-              Professional Electrical Services You Can Trust
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              With over 15 years of experience serving the community, we're your trusted local electrical contractors providing safe, reliable, and code-compliant electrical solutions.
-            </p>
-            
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              <div className="text-center p-6 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl border border-amber-200">
-                <div className="text-3xl font-bold text-amber-600 mb-2">15+</div>
-                <div className="text-gray-700 font-medium">Years Experience</div>
-              </div>
-              <div className="text-center p-6 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl border border-amber-200">
-                <div className="text-3xl font-bold text-amber-600 mb-2">1000+</div>
-                <div className="text-gray-700 font-medium">Happy Customers</div>
-              </div>
-            </div>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent mb-6">
+            About ElectricPro
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Your trusted electrical service provider with years of experience delivering safe, 
+            reliable, and professional electrical solutions for homes and businesses.
+          </p>
+        </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <Zap className="w-6 h-6 text-amber-500 mr-4" />
-                <span className="text-gray-700">Licensed & Certified Electricians</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="text-center group">
+              <div className="bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2">
+                {feature.icon}
               </div>
-              <div className="flex items-center">
-                <Shield className="w-6 h-6 text-amber-500 mr-4" />
-                <span className="text-gray-700">Fully Bonded & Insured</span>
-              </div>
-              <div className="flex items-center">
-                <Clock className="w-6 h-6 text-amber-500 mr-4" />
-                <span className="text-gray-700">24/7 Emergency Service</span>
-              </div>
-              <div className="flex items-center">
-                <Award className="w-6 h-6 text-amber-500 mr-4" />
-                <span className="text-gray-700">100% Satisfaction Guarantee</span>
-              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{feature.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
             </div>
-          </div>
-
-          <div className="relative">
-            <img 
-              src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Professional Electrician at Work"
-              className="w-full h-96 object-cover rounded-2xl shadow-2xl"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-amber-900/20 to-transparent rounded-2xl"></div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

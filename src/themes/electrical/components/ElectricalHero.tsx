@@ -1,113 +1,99 @@
 
 import React from 'react';
-import { Phone, Clock, CheckCircle, Star, Zap, Wrench } from 'lucide-react';
+import { Phone, Zap, Shield, Clock } from 'lucide-react';
 
 const ElectricalHero = () => {
   return (
-    <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden font-poppins">
-      {/* Background with gradient overlay */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/95 via-yellow-900/90 to-amber-800/95"></div>
-      </div>
-
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl animate-bounce"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-amber-400/20 rounded-full blur-xl animate-bounce delay-1000"></div>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
-        <div className="max-w-5xl mx-auto">
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8 text-white/90 text-sm">
-            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-              <CheckCircle size={16} className="mr-2 text-yellow-400" />
-              <span className="font-medium">Licensed Electricians</span>
+    <section className="relative min-h-screen bg-gradient-to-br from-amber-900 via-yellow-900 to-amber-900 text-white overflow-hidden font-poppins">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ 
+          backgroundImage: 'url(https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-900/85 via-yellow-900/85 to-amber-900/85"></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="flex items-center mb-6">
+              <Zap className="w-8 h-8 text-yellow-400 mr-3" />
+              <span className="text-yellow-400 font-bold text-lg">Professional Electrical Services</span>
             </div>
-            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-              <Wrench size={16} className="mr-2 text-amber-400" />
-              <span className="font-medium">24/7 Emergency Service</span>
+            
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+              Expert <span className="bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent">Electrical</span> Solutions
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-yellow-100 mb-10 leading-relaxed">
+              Licensed electricians providing safe, reliable electrical services 24/7. 
+              From emergency repairs to complete installations - we've got you covered.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 mb-12">
+              <a 
+                href="tel:5551234567"
+                className="group bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center transform hover:scale-105 shadow-xl"
+              >
+                <Phone size={24} className="mr-3 group-hover:animate-pulse" />
+                Call Now: (555) 123-4567
+              </a>
+              <a 
+                href="/electrical/contact"
+                className="bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center backdrop-blur-sm transform hover:scale-105"
+              >
+                Get Free Estimate
+              </a>
             </div>
-            <div className="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-              <Star size={16} className="mr-2 text-yellow-400" />
-              <span className="font-medium">5-Star Rated</span>
-            </div>
-          </div>
 
-          {/* Main Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white mb-6 leading-tight">
-            Professional
-            <span className="block bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-400 bg-clip-text text-transparent animate-pulse">
-              Electrical Services
-            </span>
-            <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 font-bold">
-              & Emergency Repairs!
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-            ⚡ 24/7 Emergency Service • 🔌 Expert Installations • ⚡ Fast, reliable electrical solutions
-          </p>
-
-          {/* Phone Number Display - Fixed and Responsive */}
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/30 shadow-2xl">
-              <Phone size={28} className="text-yellow-400 mr-3 sm:mr-4 animate-pulse flex-shrink-0" />
-              <div className="text-left">
-                <div className="text-xs sm:text-sm text-white/70 uppercase tracking-wide font-semibold">Call Now - 24/7 Emergency Service</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white break-all sm:break-normal">
-                  (555) 123-4567
-                </div>
+            <div className="grid grid-cols-3 gap-6 text-center">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <Shield className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                <div className="text-sm font-bold">Licensed & Insured</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <Clock className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                <div className="text-sm font-bold">24/7 Emergency</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                <div className="text-sm font-bold">Expert Service</div>
               </div>
             </div>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <a 
-              href="tel:5551234567"
-              className="group bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black px-6 py-3 sm:px-8 sm:py-4 lg:px-12 lg:py-6 rounded-full font-bold text-lg sm:text-xl lg:text-2xl transition-all duration-300 flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto justify-center shadow-2xl transform hover:scale-105"
-            >
-              <Phone size={24} className="group-hover:animate-pulse flex-shrink-0" />
-              <span className="whitespace-nowrap">CALL NOW: (555) 123-4567</span>
-            </a>
-            
-            <a 
-              href="tel:5551234567"
-              className="group bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white px-6 py-3 sm:px-8 sm:py-4 lg:px-12 lg:py-6 rounded-full font-bold text-lg sm:text-xl lg:text-2xl transition-all duration-300 flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto justify-center shadow-2xl transform hover:scale-105"
-            >
-              <Clock size={24} className="group-hover:rotate-12 transition-transform duration-200 flex-shrink-0" />
-              <span className="whitespace-nowrap">Emergency Service</span>
-            </a>
-          </div>
-
-          {/* Urgency Message */}
-          <div className="bg-gradient-to-r from-amber-500/80 to-yellow-500/80 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-            <p className="text-white font-bold text-base sm:text-lg lg:text-xl flex items-center justify-center flex-wrap gap-2">
-              <Zap className="text-yellow-400 animate-pulse flex-shrink-0" />
-              <span className="text-center">24/7 Emergency Electrical Service - Call Now!</span>
-              <Zap className="text-yellow-400 animate-pulse flex-shrink-0" />
-            </p>
+          <div className="relative">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-2xl">
+              <h3 className="text-2xl font-bold mb-6 text-center">Emergency Electrical Service</h3>
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <Zap className="w-6 h-6 text-yellow-400 mr-3" />
+                  <span>Power outages and electrical failures</span>
+                </div>
+                <div className="flex items-center">
+                  <Zap className="w-6 h-6 text-yellow-400 mr-3" />
+                  <span>Faulty wiring and electrical hazards</span>
+                </div>
+                <div className="flex items-center">
+                  <Zap className="w-6 h-6 text-yellow-400 mr-3" />
+                  <span>Panel upgrades and installations</span>
+                </div>
+                <div className="flex items-center">
+                  <Zap className="w-6 h-6 text-yellow-400 mr-3" />
+                  <span>Outlet and lighting repairs</span>
+                </div>
+              </div>
+              <div className="mt-6 text-center">
+                <div className="text-yellow-400 font-bold text-lg mb-2">Available 24/7</div>
+                <a href="tel:5551234567" className="text-2xl font-bold text-white hover:text-yellow-400 transition-colors">
+                  (555) 123-4567
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Floating Call Button for Mobile */}
-      <div className="fixed bottom-6 right-6 z-50 md:hidden">
-        <a 
-          href="tel:5551234567"
-          className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black p-4 rounded-full shadow-2xl animate-bounce"
-        >
-          <Phone size={24} />
-        </a>
       </div>
     </section>
   );

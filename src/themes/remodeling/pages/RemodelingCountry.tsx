@@ -14,7 +14,7 @@ import ServiceMap from '../../../components/ServiceMap';
 import RemodelingFAQ from '../components/RemodelingFAQ';
 import RemodelingFooter from '../components/RemodelingFooter';
 
-const RemodelingIndex = () => {
+const RemodelingCountry = () => {
   return (
     <div className="min-h-screen font-poppins bg-gradient-to-br from-violet-50 to-purple-50">
       <RemodelingHeader />
@@ -37,4 +37,4 @@ const RemodelingIndex = () => {
   );
 };
 
-export default RemodelingIndex;
+export default RemodelingCountry;

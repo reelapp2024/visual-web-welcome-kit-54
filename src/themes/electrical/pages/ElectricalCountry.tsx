@@ -14,7 +14,7 @@ import ServiceMap from '../../../components/ServiceMap';
 import ElectricalFAQ from '../components/ElectricalFAQ';
 import ElectricalFooter from '../components/ElectricalFooter';
 
-const ElectricalIndex = () => {
+const ElectricalCountry = () => {
   return (
     <div className="min-h-screen font-poppins bg-gradient-to-br from-amber-50 to-yellow-50">
       <ElectricalHeader />
@@ -37,4 +37,4 @@ const ElectricalIndex = () => {
   );
 };
 
-export default ElectricalIndex;
+export default ElectricalCountry;

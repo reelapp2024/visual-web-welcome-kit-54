@@ -2,7 +2,12 @@
 import React from 'react';
 import RemodelingHeader from '../components/RemodelingHeader';
 import RemodelingServices from '../components/RemodelingServices';
+import RemodelingWhyChooseUs from '../components/RemodelingWhyChooseUs';
 import RemodelingCTA from '../components/RemodelingCTA';
+import RemodelingGuarantee from '../components/RemodelingGuarantee';
+import RemodelingProcess from '../components/RemodelingProcess';
+import RemodelingServiceAreas from '../components/RemodelingServiceAreas';
+import RemodelingFAQ from '../components/RemodelingFAQ';
 import RemodelingFooter from '../components/RemodelingFooter';
 
 const RemodelingServicesPage = () => {
@@ -20,6 +25,13 @@ const RemodelingServicesPage = () => {
         </div>
       </section>
       <RemodelingServices />
+      <RemodelingWhyChooseUs />
+      <RemodelingCTA />
+      <RemodelingGuarantee />
+      <RemodelingProcess />
+      <RemodelingCTA />
+      <RemodelingServiceAreas />
+      <RemodelingFAQ />
       <RemodelingCTA />
       <RemodelingFooter />
     </div>
