@@ -7,10 +7,13 @@ const PlumbingHero = () => {
     <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden font-poppins">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80"
-          alt="Professional plumbing services"
-          className="w-full h-full object-cover"
+        <div
+          className="w-full h-full bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/95 via-cyan-900/90 to-blue-800/95"></div>
       </div>

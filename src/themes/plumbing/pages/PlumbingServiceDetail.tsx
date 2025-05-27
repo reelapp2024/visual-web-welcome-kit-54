@@ -18,15 +18,18 @@ const PlumbingServiceDetail = () => {
       <PlumbingHeader />
       
       {/* Service Hero */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-cyan-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative py-20 bg-gradient-to-br from-blue-600 to-cyan-600 text-white overflow-hidden min-h-[600px] flex items-center">
         <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)' }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ 
+            backgroundImage: 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/90 to-cyan-600/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/85 to-cyan-600/85"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex items-center mb-4">
