@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PaintingHeader from '../components/PaintingHeader';
 import PaintingCTA from '../components/PaintingCTA';
@@ -16,12 +15,42 @@ import { Building } from 'lucide-react';
 
 const PaintingCity = () => {
   const localAreas = [
-    { name: 'Downtown LA', coordinates: [-118.2537, 34.0522] as [number, number], type: 'local' as const },
-    { name: 'Hollywood', coordinates: [-118.3267, 34.0928] as [number, number], type: 'local' as const },
-    { name: 'Beverly Hills', coordinates: [-118.4004, 34.0736] as [number, number], type: 'local' as const },
-    { name: 'Santa Monica', coordinates: [-118.4912, 34.0195] as [number, number], type: 'local' as const },
-    { name: 'Venice', coordinates: [-118.4695, 33.9850] as [number, number], type: 'local' as const },
-    { name: 'Pasadena', coordinates: [-118.1445, 34.1478] as [number, number], type: 'local' as const }
+    { 
+      name: 'Downtown LA', 
+      coordinates: { lat: 34.0522, lng: -118.2537 }, 
+      description: 'Downtown LA painting services',
+      responseTime: '15-30 min'
+    },
+    { 
+      name: 'Hollywood', 
+      coordinates: { lat: 34.0928, lng: -118.3267 }, 
+      description: 'Hollywood area painting',
+      responseTime: '20-35 min'
+    },
+    { 
+      name: 'Beverly Hills', 
+      coordinates: { lat: 34.0736, lng: -118.4004 }, 
+      description: 'Beverly Hills painting services',
+      responseTime: '25-40 min'
+    },
+    { 
+      name: 'Santa Monica', 
+      coordinates: { lat: 34.0195, lng: -118.4912 }, 
+      description: 'Santa Monica painting',
+      responseTime: '30-45 min'
+    },
+    { 
+      name: 'Venice', 
+      coordinates: { lat: 33.9850, lng: -118.4695 }, 
+      description: 'Venice area painting services',
+      responseTime: '35-50 min'
+    },
+    { 
+      name: 'Pasadena', 
+      coordinates: { lat: 34.1478, lng: -118.1445 }, 
+      description: 'Pasadena painting services',
+      responseTime: '40-55 min'
+    }
   ];
 
   return (
@@ -81,7 +110,6 @@ const PaintingCity = () => {
             zoom={10}
             locations={localAreas}
             areaName="Los Angeles"
-            areaType="city"
             className="h-[600px] rounded-2xl shadow-2xl"
             theme="painting"
           />

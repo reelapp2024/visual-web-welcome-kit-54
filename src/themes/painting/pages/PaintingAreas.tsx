@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PaintingHeader from '../components/PaintingHeader';
 import PaintingCTA from '../components/PaintingCTA';
@@ -9,10 +8,30 @@ import { MapPin } from 'lucide-react';
 
 const PaintingAreas = () => {
   const localAreas = [
-    { name: 'Downtown District', coordinates: [-118.2537, 34.0522] as [number, number], type: 'local' as const },
-    { name: 'Westside Area', coordinates: [-118.4695, 33.9850] as [number, number], type: 'local' as const },
-    { name: 'North Valley', coordinates: [-118.3267, 34.0928] as [number, number], type: 'local' as const },
-    { name: 'East Side', coordinates: [-118.1445, 34.1478] as [number, number], type: 'local' as const }
+    { 
+      name: 'Downtown District', 
+      coordinates: { lat: 34.0522, lng: -118.2537 }, 
+      description: 'Central business district painting services',
+      responseTime: '15-30 min'
+    },
+    { 
+      name: 'Westside Area', 
+      coordinates: { lat: 33.9850, lng: -118.4695 }, 
+      description: 'Residential and commercial painting',
+      responseTime: '20-35 min'
+    },
+    { 
+      name: 'North Valley', 
+      coordinates: { lat: 34.0928, lng: -118.3267 }, 
+      description: 'Valley area painting specialists',
+      responseTime: '25-40 min'
+    },
+    { 
+      name: 'East Side', 
+      coordinates: { lat: 34.1478, lng: -118.1445 }, 
+      description: 'Eastside painting services',
+      responseTime: '30-45 min'
+    }
   ];
 
   return (
@@ -61,7 +80,6 @@ const PaintingAreas = () => {
             zoom={11}
             locations={localAreas}
             areaName="Local Areas"
-            areaType="local"
             className="h-[600px] rounded-2xl shadow-2xl"
             theme="painting"
           />

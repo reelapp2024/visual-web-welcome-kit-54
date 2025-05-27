@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PaintingHeader from '../components/PaintingHeader';
 import PaintingCTA from '../components/PaintingCTA';
@@ -16,11 +15,36 @@ import { MapPin } from 'lucide-react';
 
 const PaintingState = () => {
   const cityLocations = [
-    { name: 'Los Angeles', coordinates: [-118.2437, 34.0522] as [number, number], type: 'city' as const },
-    { name: 'San Francisco', coordinates: [-122.4194, 37.7749] as [number, number], type: 'city' as const },
-    { name: 'San Diego', coordinates: [-117.1611, 32.7157] as [number, number], type: 'city' as const },
-    { name: 'Sacramento', coordinates: [-121.4687, 38.5767] as [number, number], type: 'city' as const },
-    { name: 'Fresno', coordinates: [-119.7871, 36.7378] as [number, number], type: 'city' as const }
+    { 
+      name: 'Los Angeles', 
+      coordinates: { lat: 34.0522, lng: -118.2437 }, 
+      description: 'Los Angeles painting services',
+      responseTime: '15-30 min'
+    },
+    { 
+      name: 'San Francisco', 
+      coordinates: { lat: 37.7749, lng: -122.4194 }, 
+      description: 'San Francisco painting services',
+      responseTime: '20-35 min'
+    },
+    { 
+      name: 'San Diego', 
+      coordinates: { lat: 32.7157, lng: -117.1611 }, 
+      description: 'San Diego painting services',
+      responseTime: '25-40 min'
+    },
+    { 
+      name: 'Sacramento', 
+      coordinates: { lat: 38.5767, lng: -121.4687 }, 
+      description: 'Sacramento painting services',
+      responseTime: '30-45 min'
+    },
+    { 
+      name: 'Fresno', 
+      coordinates: { lat: 36.7378, lng: -119.7871 }, 
+      description: 'Fresno painting services',
+      responseTime: '35-50 min'
+    }
   ];
 
   return (
@@ -80,7 +104,6 @@ const PaintingState = () => {
             zoom={6}
             locations={cityLocations}
             areaName="California"
-            areaType="state"
             className="h-[600px] rounded-2xl shadow-2xl"
             theme="painting"
           />

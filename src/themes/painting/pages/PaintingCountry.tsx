@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PaintingHeader from '../components/PaintingHeader';
 import PaintingCTA from '../components/PaintingCTA';
@@ -16,11 +15,36 @@ import { Flag } from 'lucide-react';
 
 const PaintingCountry = () => {
   const stateLocations = [
-    { name: 'California', coordinates: [-119.4179, 36.7783] as [number, number], type: 'state' as const },
-    { name: 'Texas', coordinates: [-99.9018, 31.9686] as [number, number], type: 'state' as const },
-    { name: 'Florida', coordinates: [-82.4572, 27.7663] as [number, number], type: 'state' as const },
-    { name: 'New York', coordinates: [-74.0059, 40.7128] as [number, number], type: 'state' as const },
-    { name: 'Illinois', coordinates: [-89.3985, 40.6331] as [number, number], type: 'state' as const }
+    { 
+      name: 'California', 
+      coordinates: { lat: 36.7783, lng: -119.4179 }, 
+      description: 'California statewide painting services',
+      responseTime: '24-48 hours'
+    },
+    { 
+      name: 'Texas', 
+      coordinates: { lat: 31.9686, lng: -99.9018 }, 
+      description: 'Texas painting services',
+      responseTime: '24-48 hours'
+    },
+    { 
+      name: 'Florida', 
+      coordinates: { lat: 27.7663, lng: -82.4572 }, 
+      description: 'Florida painting services',
+      responseTime: '24-48 hours'
+    },
+    { 
+      name: 'New York', 
+      coordinates: { lat: 40.7128, lng: -74.0059 }, 
+      description: 'New York painting services',
+      responseTime: '24-48 hours'
+    },
+    { 
+      name: 'Illinois', 
+      coordinates: { lat: 40.6331, lng: -89.3985 }, 
+      description: 'Illinois painting services',
+      responseTime: '24-48 hours'
+    }
   ];
 
   return (
@@ -79,7 +103,6 @@ const PaintingCountry = () => {
             zoom={4}
             locations={stateLocations}
             areaName="United States"
-            areaType="country"
             className="h-[600px] rounded-2xl shadow-2xl"
             theme="painting"
           />

@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -55,7 +56,7 @@ const MapboxMap = ({ locations, areaName, className = '', theme }: MapboxMapProp
     });
 
     return () => {
-      map.current?.destroy();
+      map.current?.remove();
     };
   }, [locations, theme]);
 
