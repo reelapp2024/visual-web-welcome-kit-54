@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Wrench, Droplets, Hammer, Zap, ShowerHead, Pipe } from 'lucide-react';
+import { Wrench, Droplets, Hammer, Zap, ShowerHead, Settings } from 'lucide-react';
 
 const PlumbingServices = () => {
   const services = [
@@ -21,7 +20,7 @@ const PlumbingServices = () => {
       link: "/plumbing/services/leak-repair"
     },
     {
-      icon: <Pipe className="w-12 h-12" />,
+      icon: <Settings className="w-12 h-12" />,
       title: "Pipe Installation",
       description: "Complete pipe installation and replacement services.",
       features: ["New Installation", "Pipe Replacement", "Repiping"],
