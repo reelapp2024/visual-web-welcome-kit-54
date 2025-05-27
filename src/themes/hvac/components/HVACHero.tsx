@@ -1,107 +1,110 @@
 
 import React from 'react';
-import { Phone, Clock, Thermometer, Wind } from 'lucide-react';
+import { Phone, Clock, Thermometer, Wind, Shield, Award } from 'lucide-react';
 
 const HVACHero = () => {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-orange-600 to-red-600 text-white overflow-hidden min-h-[600px] flex items-center font-poppins">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ 
-          backgroundImage: 'url(https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
-        }}
-      ></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-600/95 to-red-600/95"></div>
+    <section className="relative py-20 bg-gradient-to-br from-orange-600 via-red-600 to-orange-800 text-white overflow-hidden min-h-[700px] flex items-center font-poppins">
+      {/* Geometric Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-white/5 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-white/10 rounded-lg rotate-45 animate-spin" style={{ animationDuration: '20s' }}></div>
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-white/5 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-40 right-10 w-16 h-16 bg-white/10 rounded-lg rotate-12 animate-bounce" style={{ animationDelay: '2s' }}></div>
+      </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="animate-fade-in">
-            <div className="flex items-center mb-6">
-              <div className="bg-white/20 rounded-full p-3 mr-4">
-                <Thermometer className="w-8 h-8 text-white" />
+          {/* Left Content */}
+          <div className="space-y-8">
+            {/* Icon Header */}
+            <div className="flex items-center space-x-4">
+              <div className="bg-white/20 rounded-2xl p-4 backdrop-blur-sm border border-white/30">
+                <Thermometer className="w-8 h-8 text-orange-300" />
               </div>
-              <div className="bg-white/20 rounded-full p-3">
-                <Wind className="w-8 h-8 text-white" />
+              <div className="bg-white/20 rounded-2xl p-4 backdrop-blur-sm border border-white/30">
+                <Wind className="w-8 h-8 text-orange-300" />
               </div>
+              <span className="text-orange-200 font-semibold text-lg">HVAC Experts</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
               Expert HVAC Services
-              <span className="block text-orange-200">You Can Trust</span>
+              <span className="block text-orange-300 mt-2">You Can Trust</span>
             </h1>
             
-            <p className="text-xl text-orange-100 mb-8 leading-relaxed">
+            {/* Description */}
+            <p className="text-xl text-orange-100 leading-relaxed">
               Professional heating, ventilation, and air conditioning services. 
-              24/7 emergency repairs, installations, and maintenance for your home and business.
+              24/7 emergency repairs, installations, and maintenance for your comfort.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <a 
                 href="tel:5551234567"
-                className="group bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl transform hover:scale-105"
+                className="group bg-white text-orange-600 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl transform hover:scale-105"
               >
                 <Phone size={24} className="group-hover:animate-pulse" />
-                <span>Call Now: (555) 123-4567</span>
+                <span>Emergency: (555) 123-4567</span>
               </a>
               
               <a 
                 href="/hvac/services"
-                className="group bg-red-500 hover:bg-red-400 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-xl transform hover:scale-105"
+                className="group bg-red-500/80 backdrop-blur-sm hover:bg-red-400 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 border border-white/30 transform hover:scale-105"
               >
                 <Clock size={24} />
                 <span>View Services</span>
               </a>
             </div>
-
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-3 gap-6 text-center">
-              <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <div className="text-3xl font-bold text-white mb-1">24/7</div>
-                <div className="text-orange-200 text-sm">Emergency Service</div>
-              </div>
-              <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <div className="text-3xl font-bold text-white mb-1">20+</div>
-                <div className="text-orange-200 text-sm">Years Experience</div>
-              </div>
-              <div className="animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                <div className="text-3xl font-bold text-white mb-1">100%</div>
-                <div className="text-orange-200 text-sm">Satisfaction Guaranteed</div>
-              </div>
-            </div>
           </div>
 
-          {/* Image */}
-          <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <img
-              src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-              alt="Professional HVAC technician at work"
-              className="rounded-2xl shadow-2xl w-full h-[500px] object-cover"
-            />
-            
-            {/* Floating Cards */}
-            <div className="absolute -top-6 -left-6 bg-white rounded-xl p-6 shadow-xl animate-scale-in" style={{ animationDelay: '0.8s' }}>
-              <div className="flex items-center space-x-3">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-3">
-                  <Thermometer className="w-6 h-6 text-white" />
+          {/* Right Content - Stats Cards */}
+          <div className="space-y-6">
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <div className="bg-white/20 rounded-2xl p-4 mb-4 mx-auto w-fit">
+                    <Shield className="w-8 h-8 text-orange-300" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-1">24/7</div>
+                  <div className="text-orange-200 text-sm">Emergency Service</div>
                 </div>
-                <div>
-                  <div className="font-bold text-gray-900">Licensed & Insured</div>
-                  <div className="text-gray-600 text-sm">Certified Technicians</div>
+                <div className="text-center">
+                  <div className="bg-white/20 rounded-2xl p-4 mb-4 mx-auto w-fit">
+                    <Award className="w-8 h-8 text-orange-300" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-1">20+</div>
+                  <div className="text-orange-200 text-sm">Years Experience</div>
+                </div>
+                <div className="text-center">
+                  <div className="bg-white/20 rounded-2xl p-4 mb-4 mx-auto w-fit">
+                    <Thermometer className="w-8 h-8 text-orange-300" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-1">100%</div>
+                  <div className="text-orange-200 text-sm">Satisfaction</div>
+                </div>
+                <div className="text-center">
+                  <div className="bg-white/20 rounded-2xl p-4 mb-4 mx-auto w-fit">
+                    <Wind className="w-8 h-8 text-orange-300" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-1">1000+</div>
+                  <div className="text-orange-200 text-sm">Happy Customers</div>
                 </div>
               </div>
             </div>
             
-            <div className="absolute -bottom-6 -right-6 bg-white rounded-xl p-6 shadow-xl animate-scale-in" style={{ animationDelay: '1s' }}>
-              <div className="flex items-center space-x-3">
-                <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-full p-3">
-                  <Clock className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Same Day Service</div>
-                  <div className="text-gray-600 text-sm">Emergency Available</div>
-                </div>
-              </div>
+            {/* Emergency Call Box */}
+            <div className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-6 shadow-2xl border border-white/20">
+              <h3 className="text-xl font-bold mb-4 text-center">Need Emergency HVAC Repair?</h3>
+              <p className="text-orange-100 text-center mb-4">24/7 emergency service available</p>
+              <a 
+                href="tel:5551234567"
+                className="block w-full bg-white text-red-600 text-center py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Call Emergency Line
+              </a>
             </div>
           </div>
         </div>

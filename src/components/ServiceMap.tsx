@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MapboxMap from './MapboxMap';
 
@@ -6,7 +5,7 @@ interface ServiceMapProps {
   theme: 'plumbing' | 'hvac' | 'roofing' | 'painting' | 'cleaning';
 }
 
-const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
+const ServiceMap = ({ theme }: { theme: 'plumbing' | 'hvac' | 'cleaning' | 'painting' | 'roofing' }) => {
   const locations = [
     {
       name: 'Los Angeles',
@@ -84,6 +83,23 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
         return 'bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent';
       default:
         return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
+    }
+  };
+
+  const getThemeColors = (theme: string) => {
+    switch (theme) {
+      case 'plumbing':
+        return { primary: '#3B82F6', secondary: '#1E40AF' };
+      case 'hvac':
+        return { primary: '#EA580C', secondary: '#DC2626' };
+      case 'cleaning':
+        return { primary: '#10B981', secondary: '#059669' };
+      case 'painting':
+        return { primary: '#8B5CF6', secondary: '#EC4899' };
+      case 'roofing':
+        return { primary: '#78716C', secondary: '#57534E' };
+      default:
+        return { primary: '#3B82F6', secondary: '#1E40AF' };
     }
   };
 

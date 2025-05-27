@@ -1,14 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapPin, Phone, Clock } from 'lucide-react';
 
-interface Location {
-  name: string;
-  coordinates: { lat: number; lng: number };
-  description?: string;
-  responseTime?: string;
-}
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
 
 interface MapboxMapProps {
   locations: Array<{
@@ -19,167 +13,70 @@ interface MapboxMapProps {
   }>;
   areaName: string;
   className?: string;
-  theme: 'plumbing' | 'hvac' | 'roofing' | 'painting' | 'cleaning';
+  theme: 'plumbing' | 'hvac' | 'cleaning' | 'painting' | 'roofing';
 }
 
-const MapboxMap: React.FC<MapboxMapProps> = ({
-  locations,
-  areaName,
-  className = '',
-  theme = 'plumbing'
-}) => {
+const MapboxMap = ({ locations, areaName, className = '', theme }: MapboxMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const themeColors = {
-    plumbing: {
-      primary: 'from-blue-600 to-cyan-600',
-      pin: '#2563eb',
-      hover: 'hover:bg-blue-700'
-    },
-    hvac: {
-      primary: 'from-orange-600 to-red-600',
-      pin: '#ea580c',
-      hover: 'hover:bg-orange-700'
-    },
-    roofing: {
-      primary: 'from-slate-600 to-gray-600',
-      pin: '#475569',
-      hover: 'hover:bg-slate-700'
-    },
-    painting: {
-      primary: 'from-purple-600 to-pink-600',
-      pin: '#9333ea',
-      hover: 'hover:bg-purple-700'
-    },
-    cleaning: {
-      primary: 'from-green-600 to-green-600',
-      pin: '#28a745',
-      hover: 'hover:bg-green-700'
-    }
-  };
-
-  const colors = themeColors[theme];
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (map.current) return; // prevent map from initializing more than once
+    if (!mapboxgl.accessToken) return;
 
-    // Set Mapbox access token
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2pibG9nczIwMjMiLCJhIjoiY21iM2ZmNDQ4MDZ5djJwc2F4MXdvejRjZSJ9.DM8BhznWkYNPO_ty6UFtkQ';
-
-    // Initialize map
     map.current = new mapboxgl.Map({
-      container: mapContainer.current,
+      container: mapContainer.current!,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-119.4179, 36.7783], // Center on California
-      zoom: 6
-    });
-
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
-    // Add markers for each location
-    locations.forEach((location) => {
-      // Create marker element
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.backgroundColor = colors.pin;
-      el.style.width = '40px';
-      el.style.height = '40px';
-      el.style.borderRadius = '50%';
-      el.style.cursor = 'pointer';
-      el.style.border = '3px solid white';
-      el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
-      el.style.display = 'flex';
-      el.style.alignItems = 'center';
-      el.style.justifyContent = 'center';
-
-      // Add icon
-      const icon = document.createElement('div');
-      icon.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>`;
-      el.appendChild(icon);
-
-      // Add click event
-      el.addEventListener('click', () => {
-        setSelectedLocation(location);
-      });
-
-      // Create marker
-      new mapboxgl.Marker(el)
-        .setLngLat([location.coordinates.lng, location.coordinates.lat])
-        .addTo(map.current!);
+      center: [locations[0].coordinates.lng, locations[0].coordinates.lat],
+      zoom: 12,
+      scrollZoom: false
     });
 
     map.current.on('load', () => {
-      setIsLoaded(true);
+      locations.forEach((location) => {
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.style.width = '20px';
+        el.style.height = '20px';
+        el.style.borderRadius = '50%';
+        el.style.background = getThemeColors(theme).primary;
+        el.style.cursor = 'pointer';
+
+        new mapboxgl.Marker(el)
+          .setLngLat([location.coordinates.lng, location.coordinates.lat])
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML(
+                `<h4>${location.name}</h4><p>${location.description}</p><p>Response Time: ${location.responseTime}</p>`
+              )
+          )
+          .addTo(map.current!);
+      });
     });
 
-    // Cleanup
     return () => {
-      map.current?.remove();
+      map.current?.destroy();
     };
-  }, [locations, colors.pin]);
+  }, [locations, theme]);
 
-  return (
-    <div className={`relative w-full ${className}`}>
-      <div ref={mapContainer} className="w-full h-full rounded-2xl" />
-      
-      {/* Loading overlay */}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-100 rounded-2xl flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading map...</p>
-          </div>
-        </div>
-      )}
+  const getThemeColors = (theme: string) => {
+    switch (theme) {
+      case 'plumbing':
+        return { primary: '#3B82F6', secondary: '#1E40AF', bg: 'from-blue-500 to-blue-600' };
+      case 'hvac':
+        return { primary: '#EA580C', secondary: '#DC2626', bg: 'from-orange-500 to-red-600' };
+      case 'cleaning':
+        return { primary: '#10B981', secondary: '#059669', bg: 'from-green-500 to-emerald-600' };
+      case 'painting':
+        return { primary: '#8B5CF6', secondary: '#EC4899', bg: 'from-purple-500 to-pink-600' };
+      case 'roofing':
+        return { primary: '#78716C', secondary: '#57534E', bg: 'from-gray-600 to-stone-600' };
+      default:
+        return { primary: '#3B82F6', secondary: '#1E40AF', bg: 'from-blue-500 to-blue-600' };
+    }
+  };
 
-      {/* Map Info Overlay */}
-      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg">
-        <div className={`flex items-center space-x-2 bg-gradient-to-r ${colors.primary} bg-clip-text text-transparent`}>
-          <MapPin className="w-5 h-5 text-gray-600" />
-          <span className="font-semibold text-sm text-gray-800">{areaName} Service Area</span>
-        </div>
-        <div className="text-xs text-gray-600 mt-1">{locations.length} Active Locations</div>
-      </div>
-
-      {/* Selected Location Details */}
-      {selectedLocation && (
-        <div className="absolute bottom-4 right-4 bg-white rounded-xl p-4 shadow-lg max-w-xs">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-bold text-gray-900">{selectedLocation.name}</h3>
-            <button 
-              onClick={() => setSelectedLocation(null)}
-              className="text-gray-400 hover:text-gray-600 text-xl"
-            >
-              ×
-            </button>
-          </div>
-          {selectedLocation.description && (
-            <p className="text-sm text-gray-600 mb-3">{selectedLocation.description}</p>
-          )}
-          {selectedLocation.responseTime && (
-            <div className="flex items-center text-sm text-gray-600 mb-3">
-              <Clock className="w-4 h-4 mr-2" />
-              Response: {selectedLocation.responseTime}
-            </div>
-          )}
-          <a
-            href="tel:5551234567"
-            className={`bg-gradient-to-r ${colors.primary} ${colors.hover} text-white px-4 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center space-x-2 transform hover:scale-105 shadow-lg w-full justify-center`}
-          >
-            <Phone size={16} />
-            <span>Call Now</span>
-          </a>
-        </div>
-      )}
-    </div>
-  );
+  return <div ref={mapContainer} className={`map-container ${className}`} style={{ height: '400px', borderRadius: '1rem' }} />;
 };
 
 export default MapboxMap;
