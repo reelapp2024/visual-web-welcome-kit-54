@@ -10,13 +10,13 @@ import RemodelingProcess from '../components/RemodelingProcess';
 import RemodelingGuarantee from '../components/RemodelingGuarantee';
 import RemodelingTestimonials from '../components/RemodelingTestimonials';
 import RemodelingServiceAreas from '../components/RemodelingServiceAreas';
-import ServiceMap from '../../../components/ServiceMap';
+import RemodelingMapSection from '../components/RemodelingMapSection';
 import RemodelingFAQ from '../components/RemodelingFAQ';
 import RemodelingFooter from '../components/RemodelingFooter';
 
 const RemodelingCountry = () => {
   return (
-    <div className="min-h-screen font-poppins bg-gradient-to-br from-blue-50 to-cyan-50">
+    <div className="min-h-screen font-poppins bg-gradient-to-br from-amber-50 to-orange-50">
       <RemodelingHeader />
       <RemodelingHero />
       <RemodelingAboutUs />
@@ -29,7 +29,7 @@ const RemodelingCountry = () => {
       <RemodelingTestimonials />
       <RemodelingCTA />
       <RemodelingServiceAreas />
-      <ServiceMap theme="remodeling" />
+      <RemodelingMapSection />
       <RemodelingFAQ />
       <RemodelingCTA />
       <RemodelingFooter />

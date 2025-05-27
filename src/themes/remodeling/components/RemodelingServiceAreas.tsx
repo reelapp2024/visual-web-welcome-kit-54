@@ -22,7 +22,7 @@ const RemodelingServiceAreas = () => {
   return (
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent mb-6">
             Service Areas
           </h2>
@@ -36,27 +36,28 @@ const RemodelingServiceAreas = () => {
             <Link 
               key={index} 
               to={area.link}
-              className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group"
+              className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 group animate-fade-in"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
               <div className="flex items-center">
-                <div className="bg-gradient-to-r from-amber-600 to-orange-600 p-2 rounded-full mr-3 group-hover:scale-110 transition-transform duration-300">
+                <div className="bg-gradient-to-r from-amber-600 to-orange-600 p-2 rounded-full mr-3 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                   <MapPin className="text-white" size={20} />
                 </div>
-                <span className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors">{area.name}</span>
+                <span className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors duration-300">{area.name}</span>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-8 rounded-2xl shadow-xl">
+        <div className="text-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-8 rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-300">
             <h3 className="text-2xl font-bold mb-4">Don't See Your Area Listed?</h3>
             <p className="text-amber-100 mb-6">
               We may still serve your location! Give us a call to discuss your remodeling project.
             </p>
             <a 
               href="tel:5551234567"
-              className="bg-white text-amber-600 hover:bg-amber-50 px-8 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center space-x-2 transform hover:scale-105"
+              className="bg-white text-amber-600 hover:bg-amber-50 px-8 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center space-x-2 transform hover:scale-105 hover:shadow-lg"
             >
               <Phone size={20} />
               <span>Call (555) 123-4567</span>
