@@ -1,19 +1,29 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone } from 'lucide-react';
 
 const RemodelingServiceAreas = () => {
   const areas = [
-    "Downtown", "Midtown", "Uptown", "Westside",
-    "Eastside", "Northside", "Southside", "Suburbs",
-    "Metro Area", "Business District", "Historic District", "Residential Areas"
+    { name: "Downtown", link: "/remodeling/areas/downtown" },
+    { name: "Midtown", link: "/remodeling/areas/midtown" },
+    { name: "Uptown", link: "/remodeling/areas/uptown" },
+    { name: "Westside", link: "/remodeling/areas/westside" },
+    { name: "Eastside", link: "/remodeling/areas/eastside" },
+    { name: "Northside", link: "/remodeling/areas/northside" },
+    { name: "Southside", link: "/remodeling/areas/southside" },
+    { name: "Suburbs", link: "/remodeling/areas/suburbs" },
+    { name: "Metro Area", link: "/remodeling/areas/metro-area" },
+    { name: "Business District", link: "/remodeling/areas/business-district" },
+    { name: "Historic District", link: "/remodeling/areas/historic-district" },
+    { name: "Residential Areas", link: "/remodeling/areas/residential-areas" }
   ];
 
   return (
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent mb-6">
             Service Areas
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -23,24 +33,30 @@ const RemodelingServiceAreas = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {areas.map((area, index) => (
-            <div key={index} className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <Link 
+              key={index} 
+              to={area.link}
+              className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group"
+            >
               <div className="flex items-center">
-                <MapPin className="text-blue-600 mr-3" size={24} />
-                <span className="font-semibold text-gray-900">{area}</span>
+                <div className="bg-gradient-to-r from-amber-600 to-orange-600 p-2 rounded-full mr-3 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="text-white" size={20} />
+                </div>
+                <span className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors">{area.name}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
         <div className="text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-8 rounded-2xl shadow-xl">
+          <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white p-8 rounded-2xl shadow-xl">
             <h3 className="text-2xl font-bold mb-4">Don't See Your Area Listed?</h3>
-            <p className="text-blue-100 mb-6">
+            <p className="text-amber-100 mb-6">
               We may still serve your location! Give us a call to discuss your remodeling project.
             </p>
             <a 
               href="tel:5551234567"
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center space-x-2 transform hover:scale-105"
+              className="bg-white text-amber-600 hover:bg-amber-50 px-8 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center space-x-2 transform hover:scale-105"
             >
               <Phone size={20} />
               <span>Call (555) 123-4567</span>

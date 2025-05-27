@@ -14,13 +14,12 @@ import ServiceMap from '../../../components/ServiceMap';
 import RemodelingFAQ from '../components/RemodelingFAQ';
 import RemodelingFooter from '../components/RemodelingFooter';
 
-const RemodelingIndex = () => {
+const RemodelingLocalArea = () => {
   return (
     <div className="min-h-screen font-poppins bg-gradient-to-br from-amber-50 to-orange-50">
       <RemodelingHeader />
       <RemodelingHero />
       <RemodelingAboutUs />
-      <RemodelingCTA />
       <RemodelingServices />
       <RemodelingCTA />
       <RemodelingWhyChooseUs />
@@ -38,4 +37,4 @@ const RemodelingIndex = () => {
   );
 };
 
-export default RemodelingIndex;
+export default RemodelingLocalArea;
