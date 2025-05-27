@@ -1,68 +1,44 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, ArrowRight } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 
-const ElectricalServices = () => {
-  const services = [
+const ElectricalRelatedServices = () => {
+  const relatedServices = [
     {
       title: "Emergency Electrical Repair",
       description: "24/7 emergency electrical services for urgent repairs and power outages.",
-      features: ["Power outage restoration", "Circuit breaker repair", "Emergency wiring fixes"],
       image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       slug: "emergency-electrical-repair"
     },
     {
       title: "Residential Electrical",
       description: "Complete electrical services for homes including installations and upgrades.",
-      features: ["Home rewiring", "Outlet installation", "Lighting upgrades"],
       image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       slug: "residential-electrical"
     },
     {
-      title: "Commercial Electrical",
-      description: "Professional electrical solutions for businesses and commercial properties.",
-      features: ["Office electrical systems", "Retail lighting", "Industrial wiring"],
-      image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      slug: "commercial-electrical"
-    },
-    {
-      title: "Electrical Inspection",
-      description: "Comprehensive electrical safety inspections and code compliance checks.",
-      features: ["Safety inspections", "Code compliance", "Electrical testing"],
-      image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      slug: "electrical-inspection"
-    },
-    {
       title: "Panel Upgrades",
       description: "Electrical panel upgrades and circuit breaker replacements for improved safety.",
-      features: ["Panel replacement", "Circuit additions", "Load calculations"],
       image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
       slug: "panel-upgrades"
-    },
-    {
-      title: "Surge Protection",
-      description: "Whole-house surge protection systems to safeguard your electrical devices.",
-      features: ["Surge protector installation", "Electrical protection", "Device safety"],
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      slug: "surge-protection"
     }
   ];
 
   return (
-    <section className="py-20 bg-gray-50 font-poppins">
+    <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent mb-6">
-            Professional Electrical Services
+            Related Electrical Services
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            From emergency repairs to complete electrical installations, our licensed electricians provide safe, reliable electrical solutions.
+            Explore our other professional electrical services to meet all your electrical needs.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {relatedServices.map((service, index) => (
             <Link
               key={index}
               to={`/electrical/services/${service.slug}`}
@@ -83,18 +59,9 @@ const ElectricalServices = () => {
               </div>
               
               <div className="p-6">
-                <p className="text-gray-600 mb-4 leading-relaxed">
+                <p className="text-gray-600 mb-6 leading-relaxed">
                   {service.description}
                 </p>
-                
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-gray-700">
-                      <div className="w-2 h-2 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full mr-3"></div>
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-amber-600 font-semibold group-hover:text-amber-700 transition-colors">
@@ -129,4 +96,4 @@ const ElectricalServices = () => {
   );
 };
 
-export default ElectricalServices;
+export default ElectricalRelatedServices;

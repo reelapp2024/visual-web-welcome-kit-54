@@ -3,8 +3,8 @@ import React from 'react';
 import ElectricalHeader from '../components/ElectricalHeader';
 import ElectricalHero from '../components/ElectricalHero';
 import ElectricalAboutUs from '../components/ElectricalAboutUs';
-import ElectricalServices from '../components/ElectricalServices';
 import ElectricalCTA from '../components/ElectricalCTA';
+import ElectricalServices from '../components/ElectricalServices';
 import ElectricalWhyChooseUs from '../components/ElectricalWhyChooseUs';
 import ElectricalProcess from '../components/ElectricalProcess';
 import ElectricalGuarantee from '../components/ElectricalGuarantee';
@@ -20,14 +20,14 @@ const ElectricalIndex = () => {
       <ElectricalHeader />
       <ElectricalHero />
       <ElectricalAboutUs />
+      <ElectricalCTA />
       <ElectricalServices />
-      <ElectricalCTA />
       <ElectricalWhyChooseUs />
+      <ElectricalCTA />
       <ElectricalProcess />
-      <ElectricalCTA />
       <ElectricalGuarantee />
-      <ElectricalTestimonials />
       <ElectricalCTA />
+      <ElectricalTestimonials />
       <ElectricalServiceAreas />
       <ServiceMap theme="electrical" />
       <ElectricalFAQ />
