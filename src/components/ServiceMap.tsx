@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { MapPin, Phone, Clock, Star } from 'lucide-react';
 
 interface ServiceMapProps {
-  theme: 'plumbing' | 'electrical' | 'remodeling' | 'roofing';
+  theme: 'plumbing' | 'electrical' | 'remodeling' | 'roofing' | 'hvac';
 }
 
 const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
@@ -31,6 +30,12 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
       secondary: 'from-slate-500 to-gray-500',
       accent: 'text-slate-600',
       bg: 'bg-slate-50'
+    },
+    hvac: {
+      primary: 'from-orange-600 to-red-600',
+      secondary: 'from-orange-500 to-red-500',
+      accent: 'text-orange-600',
+      bg: 'bg-orange-50'
     }
   };
 
