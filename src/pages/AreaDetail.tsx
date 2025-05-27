@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
@@ -190,6 +191,7 @@ const AreaDetail = () => {
               }]}
               areaName={area.name}
               className="h-64 md:h-96 w-full"
+              theme="plumbing"
             />
           </div>
         </div>
