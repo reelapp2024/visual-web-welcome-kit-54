@@ -17,14 +17,23 @@ import PlumbingCountry from "./themes/plumbing/pages/PlumbingCountry";
 import PlumbingState from "./themes/plumbing/pages/PlumbingState";
 import PlumbingCity from "./themes/plumbing/pages/PlumbingCity";
 
-// Tree Removal Theme
-import TreeIndex from "./pages/TreeIndex";
-import TreeAbout from "./themes/tree/pages/TreeAbout";
-import TreeServices from "./themes/tree/pages/TreeServices";
-import TreeContact from "./themes/tree/pages/TreeContact";
-import TreeServiceDetail from "./themes/tree/pages/TreeServiceDetail";
-import TreeAreas from "./themes/tree/pages/TreeAreas";
-import TreeAreaDetail from "./pages/TreeAreaDetail";
+// Electrical Theme (replacing Pet theme)
+import ElectricalIndex from "./themes/electrical/pages/ElectricalIndex";
+import ElectricalAbout from "./themes/electrical/pages/ElectricalAbout";
+import ElectricalServices from "./themes/electrical/pages/ElectricalServices";
+import ElectricalContact from "./themes/electrical/pages/ElectricalContact";
+import ElectricalServiceDetail from "./themes/electrical/pages/ElectricalServiceDetail";
+import ElectricalAreas from "./themes/electrical/pages/ElectricalAreas";
+import ElectricalAreaDetail from "./themes/electrical/pages/ElectricalAreaDetail";
+
+// Remodeling Theme (replacing Tree theme)
+import RemodelingIndex from "./themes/remodeling/pages/RemodelingIndex";
+import RemodelingAbout from "./themes/remodeling/pages/RemodelingAbout";
+import RemodelingServices from "./themes/remodeling/pages/RemodelingServices";
+import RemodelingContact from "./themes/remodeling/pages/RemodelingContact";
+import RemodelingServiceDetail from "./themes/remodeling/pages/RemodelingServiceDetail";
+import RemodelingAreas from "./themes/remodeling/pages/RemodelingAreas";
+import RemodelingAreaDetail from "./themes/remodeling/pages/RemodelingAreaDetail";
 
 // Roofing Services Theme
 import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
@@ -34,15 +43,6 @@ import RoofingContact from "./themes/roofing/pages/RoofingContact";
 import RoofingServiceDetail from "./themes/roofing/pages/RoofingServiceDetail";
 import RoofingAreas from "./themes/roofing/pages/RoofingAreas";
 import RoofingAreaDetail from "./themes/roofing/pages/RoofingAreaDetail";
-
-// Pet Waste Removal Theme
-import PetIndex from "./pages/PetIndex";
-import PetAbout from "./themes/pet/pages/PetAbout";
-import PetServices from "./themes/pet/pages/PetServices";
-import PetContact from "./themes/pet/pages/PetContact";
-import PetServiceDetail from "./themes/pet/pages/PetServiceDetail";
-import PetAreas from "./themes/pet/pages/PetAreas";
-import PetAreaDetail from "./themes/pet/pages/PetAreaDetail";
 
 // Legal Pages
 import Cities from "./pages/Cities";
@@ -77,14 +77,23 @@ const App = () => (
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states/:slug" element={<StateDetail />} />
           
-          {/* Tree Removal Theme */}
-          <Route path="/tree" element={<TreeIndex />} />
-          <Route path="/tree/about" element={<TreeAbout />} />
-          <Route path="/tree/services" element={<TreeServices />} />
-          <Route path="/tree/contact" element={<TreeContact />} />
-          <Route path="/tree/services/:slug" element={<TreeServiceDetail />} />
-          <Route path="/tree/areas" element={<TreeAreas />} />
-          <Route path="/tree/areas/:slug" element={<TreeAreaDetail />} />
+          {/* Electrical Theme (replacing Pet theme) */}
+          <Route path="/electrical" element={<ElectricalIndex />} />
+          <Route path="/electrical/about" element={<ElectricalAbout />} />
+          <Route path="/electrical/services" element={<ElectricalServices />} />
+          <Route path="/electrical/contact" element={<ElectricalContact />} />
+          <Route path="/electrical/services/:slug" element={<ElectricalServiceDetail />} />
+          <Route path="/electrical/areas" element={<ElectricalAreas />} />
+          <Route path="/electrical/areas/:slug" element={<ElectricalAreaDetail />} />
+          
+          {/* Remodeling Theme (replacing Tree theme) */}
+          <Route path="/remodeling" element={<RemodelingIndex />} />
+          <Route path="/remodeling/about" element={<RemodelingAbout />} />
+          <Route path="/remodeling/services" element={<RemodelingServices />} />
+          <Route path="/remodeling/contact" element={<RemodelingContact />} />
+          <Route path="/remodeling/services/:slug" element={<RemodelingServiceDetail />} />
+          <Route path="/remodeling/areas" element={<RemodelingAreas />} />
+          <Route path="/remodeling/areas/:slug" element={<RemodelingAreaDetail />} />
           
           {/* Roofing Services Theme */}
           <Route path="/roofing" element={<RoofingIndex />} />
@@ -94,15 +103,6 @@ const App = () => (
           <Route path="/roofing/services/:slug" element={<RoofingServiceDetail />} />
           <Route path="/roofing/areas" element={<RoofingAreas />} />
           <Route path="/roofing/areas/:slug" element={<RoofingAreaDetail />} />
-          
-          {/* Pet Waste Removal Theme */}
-          <Route path="/pet" element={<PetIndex />} />
-          <Route path="/pet/about" element={<PetAbout />} />
-          <Route path="/pet/services" element={<PetServices />} />
-          <Route path="/pet/contact" element={<PetContact />} />
-          <Route path="/pet/services/:slug" element={<PetServiceDetail />} />
-          <Route path="/pet/areas" element={<PetAreas />} />
-          <Route path="/pet/areas/:slug" element={<PetAreaDetail />} />
           
           {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />
