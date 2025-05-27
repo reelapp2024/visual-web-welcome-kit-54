@@ -52,7 +52,7 @@ const HVACHeader = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-3">
+            <a href="/hvac" className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2">
                 <Thermometer className="w-8 h-8 text-white" />
               </div>
@@ -68,7 +68,7 @@ const HVACHeader = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             <a 
-              href="/" 
+              href="/hvac" 
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               Home
@@ -179,7 +179,7 @@ const HVACHeader = () => {
           <div className="lg:hidden bg-white border-t border-gray-200 py-4 animate-fade-in">
             <div className="space-y-4">
               <a 
-                href="/" 
+                href="/hvac" 
                 className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
