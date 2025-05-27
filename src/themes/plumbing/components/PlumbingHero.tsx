@@ -16,8 +16,8 @@ const PlumbingHero = () => {
       </div>
 
       {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl animate-bounce-slow"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-xl animate-bounce-slow delay-1000"></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl animate-bounce"></div>
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-xl animate-bounce delay-1000"></div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-12">
@@ -101,7 +101,7 @@ const PlumbingHero = () => {
       <div className="fixed bottom-6 right-6 z-50 md:hidden">
         <a 
           href="tel:5551234567"
-          className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white p-4 rounded-full shadow-2xl animate-bounce-slow"
+          className="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white p-4 rounded-full shadow-2xl animate-bounce"
         >
           <Phone size={24} />
         </a>
