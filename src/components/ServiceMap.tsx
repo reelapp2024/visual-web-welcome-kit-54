@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Clock } from 'lucide-react';
 
 interface ServiceMapProps {
-  theme: 'junk' | 'roofing' | 'tree' | 'pet';
+  theme: 'junk' | 'roofing' | 'tree' | 'pet' | 'plumbing';
 }
 
 const ServiceMap = ({ theme }: ServiceMapProps) => {
@@ -29,6 +29,11 @@ const ServiceMap = ({ theme }: ServiceMapProps) => {
       bg: 'bg-gradient-to-br from-pet-600 to-paw-600',
       accent: 'from-pet-400 to-paw-400',
       text: 'text-pet-100'
+    },
+    plumbing: {
+      bg: 'bg-gradient-to-br from-blue-900 to-cyan-900',
+      accent: 'from-blue-500 to-cyan-500',
+      text: 'text-blue-100'
     }
   };
 
