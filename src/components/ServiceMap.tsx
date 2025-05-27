@@ -40,33 +40,28 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Set Mapbox access token
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2pibG9nczIwMjMiLCJhIjoiY21iM2ZmNDQ4MDZ5djJwc2F4MXdvejRjZSJ9.DM8BhznWkYNPO_ty6UFtkQ';
 
     const colors = getThemeColors();
-
-    // Check if mobile device
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v11',
-      center: [-98.5, 39.8], // Center of US
+      center: [-98.5, 39.8],
       zoom: isMobile ? 3 : isTablet ? 3.5 : 4,
       pitch: 0,
       bearing: 0,
-      scrollZoom: false, // Disable scroll zoom to prevent scroll issues
+      scrollZoom: false,
       dragPan: true,
       touchZoomRotate: false
     });
 
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-    // Add custom scroll zoom behavior
     map.current.on('wheel', (e) => {
       if (e.originalEvent.ctrlKey || e.originalEvent.metaKey) {
-        // Only zoom when Ctrl/Cmd key is pressed
         e.preventDefault();
         map.current?.scrollZoom.enable();
         setTimeout(() => {
@@ -78,7 +73,6 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
     map.current.on('load', () => {
       if (!map.current) return;
 
-      // Service areas data with proper coordinate typing
       const serviceAreas: Array<{ name: string; coordinates: [number, number] }> = [
         { name: 'Downtown District', coordinates: [-74.0060, 40.7128] },
         { name: 'Greenwood Heights', coordinates: [-73.9441, 40.7589] },
@@ -90,13 +84,10 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
         { name: 'Valley View', coordinates: [-73.9876, 40.7505] }
       ];
 
-      // Add service area markers
       serviceAreas.forEach((area, index) => {
-        // Responsive marker size
-        const markerSize = isMobile ? 20 : isTablet ? 24 : 28;
+        const markerSize = isMobile ? 16 : isTablet ? 20 : 24;
         const borderWidth = isMobile ? 2 : 3;
 
-        // Create marker element
         const markerElement = document.createElement('div');
         markerElement.className = 'service-marker';
         markerElement.style.cssText = `
@@ -106,13 +97,12 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
           border: ${borderWidth}px solid white;
           border-radius: 50%;
           cursor: pointer;
-          box-shadow: 0 ${isMobile ? '2px' : '4px'} ${isMobile ? '8px' : '12px'} rgba(0,0,0,0.3);
+          box-shadow: 0 ${isMobile ? '2px' : '3px'} ${isMobile ? '6px' : '8px'} rgba(0,0,0,0.25);
           transition: all 0.3s ease;
           position: relative;
           z-index: 1;
         `;
 
-        // Add pulse animation
         const pulseElement = document.createElement('div');
         pulseElement.style.cssText = `
           position: absolute;
@@ -127,40 +117,36 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
         `;
         markerElement.appendChild(pulseElement);
 
-        // Add hover effect
         markerElement.addEventListener('mouseenter', () => {
           const scale = isMobile ? 1.1 : 1.15;
           markerElement.style.transform = `scale(${scale})`;
-          markerElement.style.boxShadow = `0 ${isMobile ? '4px' : '6px'} ${isMobile ? '16px' : '20px'} rgba(0,0,0,0.4)`;
+          markerElement.style.boxShadow = `0 ${isMobile ? '3px' : '4px'} ${isMobile ? '10px' : '12px'} rgba(0,0,0,0.35)`;
           markerElement.style.zIndex = '10';
         });
 
         markerElement.addEventListener('mouseleave', () => {
           markerElement.style.transform = 'scale(1)';
-          markerElement.style.boxShadow = `0 ${isMobile ? '2px' : '4px'} ${isMobile ? '8px' : '12px'} rgba(0,0,0,0.3)`;
+          markerElement.style.boxShadow = `0 ${isMobile ? '2px' : '3px'} ${isMobile ? '6px' : '8px'} rgba(0,0,0,0.25)`;
           markerElement.style.zIndex = '1';
         });
 
-        // Create responsive popup
         const popup = new mapboxgl.Popup({
-          offset: isMobile ? 25 : isTablet ? 30 : 35,
+          offset: isMobile ? 20 : isTablet ? 25 : 30,
           closeButton: false,
           closeOnClick: false,
           className: 'service-popup'
         }).setHTML(`
-          <div style="padding: ${isMobile ? '8px' : '12px'}; text-align: center; min-width: ${isMobile ? '140px' : '160px'};">
-            <h4 style="margin: 0 0 ${isMobile ? '4px' : '6px'} 0; font-weight: bold; color: ${colors.primary}; font-size: ${isMobile ? '13px' : '15px'};">${area.name}</h4>
-            <p style="margin: 0; font-size: ${isMobile ? '11px' : '13px'}; color: #666;">Service Area</p>
+          <div style="padding: ${isMobile ? '6px' : '8px'}; text-align: center; min-width: ${isMobile ? '120px' : '140px'};">
+            <h4 style="margin: 0 0 ${isMobile ? '3px' : '4px'} 0; font-weight: bold; color: ${colors.primary}; font-size: ${isMobile ? '12px' : '14px'};">${area.name}</h4>
+            <p style="margin: 0; font-size: ${isMobile ? '10px' : '12px'}; color: #666;">Service Area</p>
           </div>
         `);
 
-        // Create marker with proper coordinates
         new mapboxgl.Marker(markerElement)
           .setLngLat(area.coordinates)
           .setPopup(popup)
           .addTo(map.current!);
 
-        // Add service radius circle with proper GeoJSON structure
         map.current!.addSource(`service-radius-${index}`, {
           type: 'geojson',
           data: {
@@ -181,24 +167,23 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
             'circle-radius': {
               stops: [
                 [0, 0],
-                [20, isMobile ? 30 : isTablet ? 40 : 45]
+                [20, isMobile ? 25 : isTablet ? 35 : 40]
               ],
               base: 2
             },
             'circle-color': colors.primary,
-            'circle-opacity': 0.08,
+            'circle-opacity': 0.06,
             'circle-stroke-color': colors.primary,
             'circle-stroke-width': isMobile ? 1 : 2,
-            'circle-stroke-opacity': 0.25
+            'circle-stroke-opacity': 0.2
           }
         });
       });
 
-      // Fit map to show all service areas with proper bounds
       const bounds = new mapboxgl.LngLatBounds();
       serviceAreas.forEach(area => bounds.extend(area.coordinates));
       map.current!.fitBounds(bounds, { 
-        padding: isMobile ? 30 : isTablet ? 40 : 60 
+        padding: isMobile ? 25 : isTablet ? 35 : 50 
       });
     });
 
@@ -209,12 +194,10 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
 
   return (
     <div className={`w-full relative ${className}`}>
-      {/* Responsive height classes */}
-      <div className="h-64 sm:h-80 md:h-96 lg:h-[450px] xl:h-[500px] relative overflow-hidden">
-        <div ref={mapContainer} className="w-full h-full rounded-xl shadow-xl border border-gray-200" />
+      <div className="h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[400px] relative overflow-hidden">
+        <div ref={mapContainer} className="w-full h-full rounded-lg shadow-lg border border-gray-200" />
         
-        {/* Custom CSS for animations */}
-        <style jsx>{`
+        <style>{`
           @keyframes pulse {
             0% {
               transform: scale(1);
@@ -231,8 +214,8 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
           }
           
           .service-popup .mapboxgl-popup-content {
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             border: none;
           }
           
@@ -242,13 +225,12 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
         `}</style>
       </div>
       
-      {/* Responsive overlay info */}
-      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-white/95 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-lg border border-gray-200 max-w-[180px] sm:max-w-none">
-        <h3 className="font-bold text-gray-900 mb-1 text-xs sm:text-sm lg:text-base">Service Areas</h3>
-        <p className="text-xs sm:text-sm text-gray-600">
-          <span className="hidden sm:inline">Click markers for details • </span>
-          <span className="sm:hidden">Tap markers • </span>
-          <kbd className="px-1 py-0.5 text-xs bg-gray-100 rounded">Ctrl+Scroll</kbd> to zoom
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-white/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-md border border-gray-200 max-w-[160px] sm:max-w-none">
+        <h3 className="font-bold text-gray-900 mb-1 text-xs sm:text-sm">Service Areas</h3>
+        <p className="text-xs text-gray-600">
+          <span className="hidden sm:inline">Click markers • </span>
+          <span className="sm:hidden">Tap • </span>
+          <kbd className="px-1 py-0.5 text-xs bg-gray-100 rounded">Ctrl+Scroll</kbd> zoom
         </p>
       </div>
     </div>
