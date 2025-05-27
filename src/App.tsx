@@ -4,16 +4,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TreeAreaDetail from "./pages/TreeAreaDetail";
 
-// Junk Removal Theme (original theme)
-import JunkIndex from "./themes/junk/pages/JunkIndex";
-import JunkAbout from "./themes/junk/pages/JunkAbout";
-import JunkServices from "./themes/junk/pages/JunkServices";
-import JunkContact from "./themes/junk/pages/JunkContact";
-import JunkServiceDetail from "./themes/junk/pages/JunkServiceDetail";
-import JunkAreas from "./themes/junk/pages/JunkAreas";
-import JunkAreaDetail from "./themes/junk/pages/JunkAreaDetail";
+// Plumbing Theme (Main theme)
+import PlumbingIndex from "./themes/plumbing/pages/PlumbingIndex";
+import PlumbingAbout from "./themes/plumbing/pages/PlumbingAbout";
+import PlumbingServices from "./themes/plumbing/pages/PlumbingServices";
+import PlumbingContact from "./themes/plumbing/pages/PlumbingContact";
+import PlumbingServiceDetail from "./themes/plumbing/pages/PlumbingServiceDetail";
+import PlumbingAreas from "./themes/plumbing/pages/PlumbingAreas";
+import PlumbingAreaDetail from "./themes/plumbing/pages/PlumbingAreaDetail";
 
 // Tree Removal Theme
 import TreeIndex from "./pages/TreeIndex";
@@ -22,6 +21,7 @@ import TreeServices from "./themes/tree/pages/TreeServices";
 import TreeContact from "./themes/tree/pages/TreeContact";
 import TreeServiceDetail from "./themes/tree/pages/TreeServiceDetail";
 import TreeAreas from "./themes/tree/pages/TreeAreas";
+import TreeAreaDetail from "./pages/TreeAreaDetail";
 
 // Roofing Services Theme
 import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
@@ -60,14 +60,14 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Junk Removal Theme (Original) */}
-          <Route path="/" element={<JunkIndex />} />
-          <Route path="/about" element={<JunkAbout />} />
-          <Route path="/services" element={<JunkServices />} />
-          <Route path="/contact" element={<JunkContact />} />
-          <Route path="/services/:slug" element={<JunkServiceDetail />} />
-          <Route path="/areas" element={<JunkAreas />} />
-          <Route path="/areas/:slug" element={<JunkAreaDetail />} />
+          {/* Plumbing Theme (Main theme) */}
+          <Route path="/" element={<PlumbingIndex />} />
+          <Route path="/about" element={<PlumbingAbout />} />
+          <Route path="/services" element={<PlumbingServices />} />
+          <Route path="/contact" element={<PlumbingContact />} />
+          <Route path="/services/:slug" element={<PlumbingServiceDetail />} />
+          <Route path="/areas" element={<PlumbingAreas />} />
+          <Route path="/areas/:slug" element={<PlumbingAreaDetail />} />
           <Route path="/cities" element={<Cities />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states" element={<States />} />
