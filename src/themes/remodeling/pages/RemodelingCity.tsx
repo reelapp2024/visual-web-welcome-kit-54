@@ -16,7 +16,7 @@ import RemodelingFooter from '../components/RemodelingFooter';
 
 const RemodelingCity = () => {
   return (
-    <div className="min-h-screen font-poppins bg-gradient-to-br from-violet-50 to-purple-50">
+    <div className="min-h-screen font-poppins bg-gradient-to-br from-blue-50 to-cyan-50">
       <RemodelingHeader />
       <RemodelingHero />
       <RemodelingAboutUs />

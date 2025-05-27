@@ -9,7 +9,7 @@ const RemodelingFooter = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent mb-6">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-6">
               Kitchen & Bathroom Remodeling
             </h3>
             <p className="text-gray-300 mb-6">
@@ -28,23 +28,23 @@ const RemodelingFooter = () => {
           <div>
             <h4 className="text-lg font-semibold mb-6">Services</h4>
             <ul className="space-y-3 text-gray-300">
-              <li><Link to="/remodeling/services/kitchen-remodeling" className="hover:text-violet-400 transition-colors">Kitchen Remodeling</Link></li>
-              <li><Link to="/remodeling/services/bathroom-remodeling" className="hover:text-violet-400 transition-colors">Bathroom Remodeling</Link></li>
-              <li><Link to="/remodeling/services/custom-cabinets" className="hover:text-violet-400 transition-colors">Custom Cabinets</Link></li>
-              <li><Link to="/remodeling/services/countertops" className="hover:text-violet-400 transition-colors">Countertops</Link></li>
-              <li><Link to="/remodeling/services/design-consultation" className="hover:text-violet-400 transition-colors">Design Consultation</Link></li>
+              <li><Link to="/remodeling/services/kitchen-remodeling" className="hover:text-blue-400 transition-colors">Kitchen Remodeling</Link></li>
+              <li><Link to="/remodeling/services/bathroom-remodeling" className="hover:text-blue-400 transition-colors">Bathroom Remodeling</Link></li>
+              <li><Link to="/remodeling/services/custom-cabinets" className="hover:text-blue-400 transition-colors">Custom Cabinets</Link></li>
+              <li><Link to="/remodeling/services/countertops" className="hover:text-blue-400 transition-colors">Countertops</Link></li>
+              <li><Link to="/remodeling/services/design-consultation" className="hover:text-blue-400 transition-colors">Design Consultation</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-lg font-semibold mb-6">Company</h4>
             <ul className="space-y-3 text-gray-300">
-              <li><Link to="/remodeling/about" className="hover:text-violet-400 transition-colors">About Us</Link></li>
-              <li><Link to="/remodeling/areas" className="hover:text-violet-400 transition-colors">Service Areas</Link></li>
-              <li><Link to="/remodeling/contact" className="hover:text-violet-400 transition-colors">Contact</Link></li>
-              <li><Link to="/terms-conditions" className="hover:text-violet-400 transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/privacy-policy" className="hover:text-violet-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/disclaimer" className="hover:text-violet-400 transition-colors">Disclaimer</Link></li>
+              <li><Link to="/remodeling/about" className="hover:text-blue-400 transition-colors">About Us</Link></li>
+              <li><Link to="/remodeling/areas" className="hover:text-blue-400 transition-colors">Service Areas</Link></li>
+              <li><Link to="/remodeling/contact" className="hover:text-blue-400 transition-colors">Contact</Link></li>
+              <li><Link to="/terms-conditions" className="hover:text-blue-400 transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/disclaimer" className="hover:text-blue-400 transition-colors">Disclaimer</Link></li>
             </ul>
           </div>
 

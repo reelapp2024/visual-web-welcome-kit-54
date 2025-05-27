@@ -31,10 +31,10 @@ const RemodelingFAQ = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-violet-50 to-purple-50 font-poppins">
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-cyan-50 font-poppins">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
             Frequently Asked Questions
           </h2>
           <p className="text-xl text-gray-600">
@@ -45,8 +45,8 @@ const RemodelingFAQ = () => {
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border border-violet-100 rounded-lg">
-                <AccordionTrigger className="text-left px-6 py-4 hover:bg-violet-50 rounded-lg font-semibold text-gray-900">
+              <AccordionItem key={index} value={`item-${index}`} className="border border-blue-100 rounded-lg">
+                <AccordionTrigger className="text-left px-6 py-4 hover:bg-blue-50 rounded-lg font-semibold text-gray-900">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-4 text-gray-600">

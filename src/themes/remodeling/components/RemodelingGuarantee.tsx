@@ -30,7 +30,7 @@ const RemodelingGuarantee = () => {
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
             Our Guarantee to You
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -40,8 +40,8 @@ const RemodelingGuarantee = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {guarantees.map((guarantee, index) => (
-            <div key={index} className="text-center bg-gradient-to-br from-violet-50 to-purple-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="text-violet-600 mb-6 flex justify-center">
+            <div key={index} className="text-center bg-gradient-to-br from-blue-50 to-cyan-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="text-blue-600 mb-6 flex justify-center">
                 {guarantee.icon}
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">{guarantee.title}</h3>
