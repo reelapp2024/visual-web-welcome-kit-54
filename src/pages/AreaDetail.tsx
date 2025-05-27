@@ -182,7 +182,12 @@ const AreaDetail = () => {
           
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-4">
             <MapboxMap 
-              coordinates={area.coordinates}
+              locations={[{
+                name: area.name,
+                coordinates: area.coordinates,
+                description: area.description,
+                responseTime: '15-30 min'
+              }]}
               areaName={area.name}
               className="h-64 md:h-96 w-full"
             />

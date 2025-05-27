@@ -3,7 +3,7 @@ import React from 'react';
 import MapboxMap from './MapboxMap';
 
 interface ServiceMapProps {
-  theme: 'plumbing' | 'hvac';
+  theme: 'plumbing' | 'hvac' | 'electrical' | 'roofing' | 'remodeling';
 }
 
 const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
@@ -50,6 +50,21 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
       title: 'HVAC Service Areas',
       subtitle: 'Expert heating, ventilation, and air conditioning services throughout California with 24/7 emergency support.',
       areaName: 'California'
+    },
+    electrical: {
+      title: 'Electrical Service Areas',
+      subtitle: 'Licensed electrical services across California with 24/7 emergency response and certified electricians.',
+      areaName: 'California'
+    },
+    roofing: {
+      title: 'Roofing Service Areas',
+      subtitle: 'Professional roofing services throughout California with expert installation and repair teams.',
+      areaName: 'California'
+    },
+    remodeling: {
+      title: 'Remodeling Service Areas',
+      subtitle: 'Complete home remodeling services across California with experienced contractors and designers.',
+      areaName: 'California'
     }
   };
 
@@ -61,6 +76,12 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
         return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
       case 'hvac':
         return 'bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent';
+      case 'electrical':
+        return 'bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent';
+      case 'roofing':
+        return 'bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent';
+      case 'remodeling':
+        return 'bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent';
       default:
         return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
     }
