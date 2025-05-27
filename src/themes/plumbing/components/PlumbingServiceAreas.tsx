@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MapPin, Clock, Phone } from 'lucide-react';
 import InteractiveMap from '../../../components/InteractiveMap';
@@ -80,8 +79,7 @@ const PlumbingServiceAreas = () => {
             zoom={10}
             locations={serviceAreas.map(area => ({
               name: area.name,
-              coordinates: area.coordinates,
-              type: area.type,
+              coordinates: { lat: area.coordinates[1], lng: area.coordinates[0] },
               description: area.description,
               responseTime: area.response
             }))}
