@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { MapPin, Clock, Phone } from 'lucide-react';
+import InteractiveMap from '../../../components/InteractiveMap';
 
 const PlumbingServiceAreas = () => {
   const serviceAreas = [
@@ -9,42 +10,54 @@ const PlumbingServiceAreas = () => {
       description: "Emergency and residential plumbing services",
       response: "15-30 min",
       services: ["Emergency Repairs", "Water Heaters", "Drain Cleaning"],
-      link: "/areas/downtown-metro"
+      link: "/areas/downtown-metro",
+      coordinates: [-118.2537, 34.0522] as [number, number],
+      type: 'local' as const
     },
     {
       name: "North Hills",
       description: "Commercial and residential plumbing solutions",
-      response: "20-35 min",
+      response: "20-35 min", 
       services: ["Pipe Installation", "Bathroom Plumbing", "General Repairs"],
-      link: "/areas/north-hills"
+      link: "/areas/north-hills",
+      coordinates: [-118.3267, 34.0928] as [number, number],
+      type: 'local' as const
     },
     {
-      name: "Westside District",
+      name: "Westside District", 
       description: "Full-service plumbing for homes and businesses",
       response: "25-40 min",
       services: ["Water Heater Service", "Emergency Plumbing", "Repiping"],
-      link: "/areas/westside-district"
+      link: "/areas/westside-district",
+      coordinates: [-118.4695, 33.9850] as [number, number],
+      type: 'local' as const
     },
     {
       name: "East Valley",
-      description: "Trusted plumbing services in East Valley",
+      description: "Trusted plumbing services in East Valley", 
       response: "30-45 min",
       services: ["Drain Cleaning", "Fixture Installation", "Leak Repair"],
-      link: "/areas/east-valley"
+      link: "/areas/east-valley",
+      coordinates: [-118.1445, 34.1478] as [number, number],
+      type: 'local' as const
     },
     {
       name: "South Bay Area",
       description: "Professional plumbing throughout South Bay",
       response: "35-50 min",
       services: ["Emergency Service", "Bathroom Remodel", "Pipe Repair"],
-      link: "/areas/south-bay-area"
+      link: "/areas/south-bay-area", 
+      coordinates: [-118.3948, 33.9425] as [number, number],
+      type: 'local' as const
     },
     {
       name: "Central District",
       description: "Comprehensive plumbing services downtown",
       response: "20-30 min",
       services: ["Water Heaters", "Commercial Plumbing", "Drain Service"],
-      link: "/areas/central-district"
+      link: "/areas/central-district",
+      coordinates: [-118.2437, 34.0522] as [number, number],
+      type: 'local' as const
     }
   ];
 
@@ -58,6 +71,25 @@ const PlumbingServiceAreas = () => {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We proudly serve communities throughout the metropolitan area with fast, reliable plumbing services.
           </p>
+        </div>
+
+        {/* Interactive Map */}
+        <div className="mb-16">
+          <InteractiveMap
+            centerCoordinates={[-118.2437, 34.0522]}
+            zoom={10}
+            locations={serviceAreas.map(area => ({
+              name: area.name,
+              coordinates: area.coordinates,
+              type: area.type,
+              description: area.description,
+              responseTime: area.response
+            }))}
+            areaName="Los Angeles"
+            areaType="city"
+            className="h-96 rounded-2xl shadow-2xl"
+            theme="plumbing"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

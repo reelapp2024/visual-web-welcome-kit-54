@@ -81,69 +81,71 @@ const HVACHeader = () => {
             </a>
             
             {/* Services Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setOpenDropdown('services')}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <button className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center">
+            <div className="relative group">
+              <button 
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center"
+                onMouseEnter={() => setOpenDropdown('services')}
+              >
                 Services
                 <ChevronDown className="w-4 h-4 ml-1" />
               </button>
-              {openDropdown === 'services' && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
-                  {services.map((service) => (
-                    <a
-                      key={service.slug}
-                      href={`/hvac/services/${service.slug}`}
-                      className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
-                    >
-                      {service.name}
-                    </a>
-                  ))}
-                  <div className="border-t border-gray-100 mt-2 pt-2">
-                    <a
-                      href="/hvac/services"
-                      className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
-                    >
-                      View All Services
-                    </a>
-                  </div>
+              <div 
+                className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                onMouseEnter={() => setOpenDropdown('services')}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                {services.map((service) => (
+                  <a
+                    key={service.slug}
+                    href={`/hvac/services/${service.slug}`}
+                    className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
+                  >
+                    {service.name}
+                  </a>
+                ))}
+                <div className="border-t border-gray-100 mt-2 pt-2">
+                  <a
+                    href="/hvac/services"
+                    className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
+                  >
+                    View All Services
+                  </a>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* Areas Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setOpenDropdown('areas')}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <button className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center">
+            <div className="relative group">
+              <button 
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center"
+                onMouseEnter={() => setOpenDropdown('areas')}
+              >
                 Areas We Serve
                 <ChevronDown className="w-4 h-4 ml-1" />
               </button>
-              {openDropdown === 'areas' && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
-                  {areas.map((area) => (
-                    <a
-                      key={area.slug}
-                      href={`/hvac/${area.slug}`}
-                      className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
-                    >
-                      {area.name}
-                    </a>
-                  ))}
-                  <div className="border-t border-gray-100 mt-2 pt-2">
-                    <a
-                      href="/hvac/areas"
-                      className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
-                    >
-                      View All Areas
-                    </a>
-                  </div>
+              <div 
+                className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                onMouseEnter={() => setOpenDropdown('areas')}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                {areas.map((area) => (
+                  <a
+                    key={area.slug}
+                    href={`/hvac/${area.slug}`}
+                    className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
+                  >
+                    {area.name}
+                  </a>
+                ))}
+                <div className="border-t border-gray-100 mt-2 pt-2">
+                  <a
+                    href="/hvac/areas"
+                    className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
+                  >
+                    View All Areas
+                  </a>
                 </div>
-              )}
+              </div>
             </div>
 
             <a 
