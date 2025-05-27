@@ -18,7 +18,6 @@ const PlumbingAbout = () => {
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
       <PlumbingHero />
-      <PlumbingCTA />
       <PlumbingAboutUs />
       <PlumbingWhyChooseUs />
       <PlumbingProcess />

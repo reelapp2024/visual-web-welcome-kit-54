@@ -40,7 +40,6 @@ const PlumbingServicesPage = () => {
         </div>
       </section>
       
-      <PlumbingCTA />
       <PlumbingServices />
       <PlumbingWhyChooseUs />
       <PlumbingCTA />

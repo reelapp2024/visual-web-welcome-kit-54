@@ -19,7 +19,6 @@ const PlumbingIndex = () => {
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
       <PlumbingHero />
-      <PlumbingCTA />
       <PlumbingAboutUs />
       <PlumbingServices />
       <PlumbingCTA />

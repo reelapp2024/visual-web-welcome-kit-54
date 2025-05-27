@@ -51,7 +51,6 @@ const PlumbingCountry = () => {
         </div>
       </section>
 
-      <PlumbingCTA />
       <PlumbingAboutUs />
       <PlumbingServices />
       <PlumbingCTA />

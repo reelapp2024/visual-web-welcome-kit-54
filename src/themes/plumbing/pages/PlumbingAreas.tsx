@@ -42,7 +42,6 @@ const PlumbingAreas = () => {
         </div>
       </section>
 
-      <PlumbingCTA />
       <PlumbingServiceAreas />
       
       {/* Map Section */}
