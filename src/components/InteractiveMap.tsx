@@ -17,7 +17,7 @@ interface InteractiveMapProps {
   areaName: string;
   areaType: 'country' | 'state' | 'city' | 'local';
   className?: string;
-  theme?: 'plumbing' | 'hvac';
+  theme?: 'plumbing' | 'hvac' | 'roofing';
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -42,6 +42,11 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       primary: 'from-orange-600 to-red-600',
       pin: 'bg-orange-600',
       hover: 'hover:bg-orange-700'
+    },
+    roofing: {
+      primary: 'from-slate-600 to-gray-600',
+      pin: 'bg-slate-600',
+      hover: 'hover:bg-slate-700'
     }
   };
 
