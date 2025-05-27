@@ -3,7 +3,7 @@ import React from 'react';
 import InteractiveMap from './InteractiveMap';
 
 interface ServiceMapProps {
-  theme: 'plumbing' | 'hvac';
+  theme: 'plumbing' | 'hvac' | 'electrical' | 'roofing' | 'remodeling';
 }
 
 const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
@@ -57,20 +57,51 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
       subtitle: 'Expert heating, ventilation, and air conditioning services throughout California with 24/7 emergency support.',
       areaName: 'California', 
       areaType: 'state' as const
+    },
+    electrical: {
+      title: 'Electrical Service Areas',
+      subtitle: 'Professional electrical services across California with licensed electricians and emergency response teams.',
+      areaName: 'California',
+      areaType: 'state' as const
+    },
+    roofing: {
+      title: 'Roofing Service Areas',
+      subtitle: 'Expert roofing services throughout California with certified professionals and emergency storm response.',
+      areaName: 'California',
+      areaType: 'state' as const
+    },
+    remodeling: {
+      title: 'Remodeling Service Areas',
+      subtitle: 'Professional kitchen and bathroom remodeling services across California with expert contractors.',
+      areaName: 'California',
+      areaType: 'state' as const
     }
   };
 
   const config = themeConfig[theme];
 
+  const getThemeGradient = () => {
+    switch (theme) {
+      case 'plumbing':
+        return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
+      case 'hvac':
+        return 'bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent';
+      case 'electrical':
+        return 'bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent';
+      case 'roofing':
+        return 'bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent';
+      case 'remodeling':
+        return 'bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent';
+      default:
+        return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
+    }
+  };
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${
-            theme === 'plumbing' 
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent'
-              : 'bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent'
-          }`}>
+          <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${getThemeGradient()}`}>
             {config.title}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
