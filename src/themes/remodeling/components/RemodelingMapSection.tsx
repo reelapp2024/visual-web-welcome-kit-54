@@ -13,14 +13,14 @@ const RemodelingMapSection = () => {
   }, []);
 
   const serviceLocations = [
-    { name: "Downtown", coords: [40.7589, -73.9851], projects: 45 },
-    { name: "Midtown", coords: [40.7505, -73.9934], projects: 38 },
-    { name: "Uptown", coords: [40.7831, -73.9712], projects: 29 },
-    { name: "Westside", coords: [40.7505, -74.0134], projects: 52 },
-    { name: "Eastside", coords: [40.7505, -73.9634], projects: 41 },
-    { name: "Brooklyn Heights", coords: [40.6962, -73.9942], projects: 33 },
-    { name: "Queens", coords: [40.7282, -73.7949], projects: 27 },
-    { name: "Bronx", coords: [40.8448, -73.8648], projects: 19 }
+    { name: "Downtown LA", coords: [34.0522, -118.2437], projects: 45 },
+    { name: "Beverly Hills", coords: [34.0736, -118.4004], projects: 38 },
+    { name: "Santa Monica", coords: [34.0195, -118.4912], projects: 29 },
+    { name: "Hollywood", coords: [34.0928, -118.3267], projects: 52 },
+    { name: "Pasadena", coords: [34.1478, -118.1445], projects: 41 },
+    { name: "Long Beach", coords: [33.7701, -118.1937], projects: 33 },
+    { name: "Glendale", coords: [34.1425, -118.2551], projects: 27 },
+    { name: "Burbank", coords: [34.1808, -118.3090], projects: 19 }
   ];
 
   return (
@@ -112,40 +112,33 @@ const RemodelingMapSection = () => {
                 {serviceLocations.map((location, index) => (
                   <div 
                     key={index} 
-                    className="flex justify-between items-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300 transform hover:translate-x-1 animate-fade-in"
-                    style={{ animationDelay: `${index * 0.05}s` }}
+                    className="flex justify-between items-center p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
                   >
-                    <div className="flex items-center space-x-3">
-                      <MapPin className="w-4 h-4" />
-                      <span className="font-medium">{location.name}</span>
+                    <div>
+                      <div className="font-semibold">{location.name}</div>
+                      <div className="text-xs text-orange-100">{location.projects} completed projects</div>
                     </div>
-                    <div className="text-sm bg-white/20 px-2 py-1 rounded">
-                      {location.projects} projects
-                    </div>
+                    <MapPin className="w-5 h-5 text-orange-200" />
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-white/20 pt-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Clock className="w-5 h-5" />
-                  <span className="font-semibold">Service Hours</span>
-                </div>
-                <div className="text-amber-100 text-sm space-y-1">
-                  <div>Monday - Friday: 7:00 AM - 6:00 PM</div>
-                  <div>Saturday: 8:00 AM - 4:00 PM</div>
-                  <div>Sunday: Emergency Only</div>
+              <div className="space-y-4">
+                <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/20">
+                  <div className="flex items-center mb-2">
+                    <Clock className="w-5 h-5 mr-2 text-orange-200" />
+                    <span className="font-semibold">Response Time</span>
+                  </div>
+                  <p className="text-orange-100 text-sm">Average 30-45 minutes across all areas</p>
                 </div>
 
-                <div className="mt-6">
-                  <a
-                    href="tel:5551234567"
-                    className="bg-white text-amber-600 hover:bg-amber-50 px-6 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center space-x-2 transform hover:scale-105 hover:shadow-lg w-full justify-center"
-                  >
-                    <Phone size={20} />
-                    <span>Call (555) 123-4567</span>
-                  </a>
-                </div>
+                <a 
+                  href="tel:5551234567"
+                  className="block w-full bg-white text-amber-600 px-6 py-4 rounded-lg font-bold text-center transition-all duration-300 hover:scale-105 shadow-lg"
+                >
+                  <Phone className="inline w-5 h-5 mr-2" />
+                  Call Now: (555) 123-4567
+                </a>
               </div>
             </div>
           </div>
