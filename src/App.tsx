@@ -13,6 +13,9 @@ import PlumbingContact from "./themes/plumbing/pages/PlumbingContact";
 import PlumbingServiceDetail from "./themes/plumbing/pages/PlumbingServiceDetail";
 import PlumbingAreas from "./themes/plumbing/pages/PlumbingAreas";
 import PlumbingAreaDetail from "./themes/plumbing/pages/PlumbingAreaDetail";
+import PlumbingCountry from "./themes/plumbing/pages/PlumbingCountry";
+import PlumbingState from "./themes/plumbing/pages/PlumbingState";
+import PlumbingCity from "./themes/plumbing/pages/PlumbingCity";
 
 // Tree Removal Theme
 import TreeIndex from "./pages/TreeIndex";
@@ -68,9 +71,10 @@ const App = () => (
           <Route path="/services/:slug" element={<PlumbingServiceDetail />} />
           <Route path="/areas" element={<PlumbingAreas />} />
           <Route path="/areas/:slug" element={<PlumbingAreaDetail />} />
-          <Route path="/cities" element={<Cities />} />
+          <Route path="/country" element={<PlumbingCountry />} />
+          <Route path="/states" element={<PlumbingState />} />
+          <Route path="/cities" element={<PlumbingCity />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
-          <Route path="/states" element={<States />} />
           <Route path="/states/:slug" element={<StateDetail />} />
           
           {/* Tree Removal Theme */}

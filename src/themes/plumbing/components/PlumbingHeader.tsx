@@ -20,12 +20,11 @@ const PlumbingHeader = () => {
     { name: 'Bathroom Plumbing', slug: 'bathroom-plumbing' }
   ];
 
-  const areas = [
-    { name: 'Downtown Metro', slug: 'downtown-metro' },
-    { name: 'North Hills', slug: 'north-hills' },
-    { name: 'Westside District', slug: 'westside-district' },
-    { name: 'East Valley', slug: 'east-valley' },
-    { name: 'South Bay Area', slug: 'south-bay-area' }
+  const areasWeServe = [
+    { name: 'Country', slug: 'country', type: 'country' },
+    { name: 'States', slug: 'states', type: 'state' },
+    { name: 'Cities', slug: 'cities', type: 'city' },
+    { name: 'Local Areas', slug: 'areas', type: 'local' }
   ];
 
   return (
@@ -109,24 +108,16 @@ const PlumbingHeader = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] p-2 font-poppins">
-                {areas.map((area) => (
+                {areasWeServe.map((area) => (
                   <DropdownMenuItem key={area.slug} className="p-0">
                     <a 
-                      href={`/areas/${area.slug}`} 
+                      href={`/${area.slug}`} 
                       className="w-full px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium block"
                     >
                       {area.name}
                     </a>
                   </DropdownMenuItem>
                 ))}
-                <DropdownMenuItem className="p-0 border-t border-gray-100 mt-2 pt-2">
-                  <a 
-                    href="/areas" 
-                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 block"
-                  >
-                    View All Areas
-                  </a>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -178,12 +169,11 @@ const PlumbingHeader = () => {
               <div className="px-3 py-2">
                 <div className="text-gray-700 font-semibold mb-3 text-base">Areas We Serve</div>
                 <div className="pl-4 space-y-2">
-                  {areas.map((area) => (
-                    <a key={area.slug} href={`/areas/${area.slug}`} className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                  {areasWeServe.map((area) => (
+                    <a key={area.slug} href={`/${area.slug}`} className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
                       {area.name}
                     </a>
                   ))}
-                  <a href="/areas" className="block py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">View All Areas</a>
                 </div>
               </div>
 
