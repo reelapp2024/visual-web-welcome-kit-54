@@ -1,0 +1,31 @@
+
+import React from 'react';
+import RemodelingHeader from '../components/RemodelingHeader';
+import RemodelingServiceAreas from '../components/RemodelingServiceAreas';
+import RemodelingCTA from '../components/RemodelingCTA';
+import RemodelingFooter from '../components/RemodelingFooter';
+
+const RemodelingAreas = () => {
+  return (
+    <div className="min-h-screen font-poppins">
+      <RemodelingHeader />
+      
+      <section className="py-20 bg-gradient-to-r from-violet-600 to-purple-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Remodeling Service Areas
+          </h1>
+          <p className="text-xl md:text-2xl text-violet-100 max-w-3xl mx-auto">
+            Professional remodeling services throughout the metropolitan area
+          </p>
+        </div>
+      </section>
+
+      <RemodelingServiceAreas />
+      <RemodelingCTA />
+      <RemodelingFooter />
+    </div>
+  );
+};
+
+export default RemodelingAreas;
