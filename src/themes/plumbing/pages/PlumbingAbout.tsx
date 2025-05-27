@@ -4,14 +4,11 @@ import PlumbingHeader from '../components/PlumbingHeader';
 import PlumbingHero from '../components/PlumbingHero';
 import PlumbingCTA from '../components/PlumbingCTA';
 import PlumbingAboutUs from '../components/PlumbingAboutUs';
-import PlumbingWhyChooseUs from '../components/PlumbingWhyChooseUs';
-import PlumbingProcess from '../components/PlumbingProcess';
-import PlumbingGuarantee from '../components/PlumbingGuarantee';
 import PlumbingTestimonials from '../components/PlumbingTestimonials';
-import PlumbingServiceAreas from '../components/PlumbingServiceAreas';
-import ServiceMap from '../../../components/ServiceMap';
-import PlumbingFAQ from '../components/PlumbingFAQ';
 import PlumbingFooter from '../components/PlumbingFooter';
+import PlumbingMissionVision from '../components/PlumbingMissionVision';
+import PlumbingValues from '../components/PlumbingValues';
+import PlumbingUSP from '../components/PlumbingUSP';
 
 const PlumbingAbout = () => {
   return (
@@ -19,16 +16,14 @@ const PlumbingAbout = () => {
       <PlumbingHeader />
       <PlumbingHero />
       <PlumbingAboutUs />
-      <PlumbingWhyChooseUs />
-      <PlumbingProcess />
       <PlumbingCTA />
-      <PlumbingGuarantee />
+      <PlumbingMissionVision />
+      <PlumbingCTA />
+      <PlumbingValues />
+      <PlumbingCTA />
+      <PlumbingUSP />
+      <PlumbingCTA />
       <PlumbingTestimonials />
-      <PlumbingCTA />
-      <PlumbingServiceAreas />
-      <ServiceMap theme="plumbing" />
-      <PlumbingFAQ />
-      <PlumbingCTA />
       <PlumbingFooter />
     </div>
   );

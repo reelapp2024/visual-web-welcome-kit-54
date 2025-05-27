@@ -1,123 +1,168 @@
 
-import React, { useState } from 'react';
-import { MapPin, Phone, Clock } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface ServiceMapProps {
-  theme: 'junk' | 'roofing' | 'tree' | 'pet' | 'plumbing';
+  theme?: 'plumbing' | 'tree' | 'pet';
+  className?: string;
 }
 
-const ServiceMap = ({ theme }: ServiceMapProps) => {
-  const [mapboxToken, setMapboxToken] = useState('');
+const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className = '' }) => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
 
-  const themeStyles = {
-    junk: {
-      bg: 'bg-gradient-to-br from-brand-900 to-electric-900',
-      accent: 'from-lime-500 to-lime-600',
-      text: 'text-brand-100'
-    },
-    roofing: {
-      bg: 'bg-gradient-to-br from-slate-900 to-gray-900',
-      accent: 'from-orange-500 to-orange-600',
-      text: 'text-slate-100'
-    },
-    tree: {
-      bg: 'bg-gradient-to-br from-forest-900 to-nature-900',
-      accent: 'from-nature-400 to-nature-500',
-      text: 'text-nature-100'
-    },
-    pet: {
-      bg: 'bg-gradient-to-br from-pet-600 to-paw-600',
-      accent: 'from-pet-400 to-paw-400',
-      text: 'text-pet-100'
-    },
-    plumbing: {
-      bg: 'bg-gradient-to-br from-blue-900 to-cyan-900',
-      accent: 'from-blue-500 to-cyan-500',
-      text: 'text-blue-100'
+  const getThemeColors = () => {
+    switch (theme) {
+      case 'tree':
+        return {
+          primary: '#059669', // forest-600
+          secondary: '#10b981', // nature-500
+        };
+      case 'pet':
+        return {
+          primary: '#7c3aed', // pet-600
+          secondary: '#a855f7', // paw-500
+        };
+      default:
+        return {
+          primary: '#2563eb', // blue-600
+          secondary: '#06b6d4', // cyan-500
+        };
     }
   };
 
-  const currentTheme = themeStyles[theme];
+  useEffect(() => {
+    if (!mapContainer.current) return;
 
-  const serviceAreas = [
-    { name: 'Downtown Metro', lat: 40.7128, lng: -74.0060 },
-    { name: 'North Hills', lat: 40.7589, lng: -73.9851 },
-    { name: 'Westside District', lat: 40.7505, lng: -73.9934 },
-    { name: 'East Valley', lat: 40.7282, lng: -73.7949 },
-    { name: 'South Bay Area', lat: 40.6892, lng: -74.0445 }
-  ];
+    // Set Mapbox access token
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2pibG9nczIwMjMiLCJhIjoiY21iM2ZmNDQ4MDZ5djJwc2F4MXdvejRjZSJ9.DM8BhznWkYNPO_ty6UFtkQ';
+
+    const colors = getThemeColors();
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [-98.5, 39.8], // Center of US
+      zoom: 4,
+      pitch: 0,
+      bearing: 0
+    });
+
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    map.current.on('load', () => {
+      if (!map.current) return;
+
+      // Service areas data
+      const serviceAreas = [
+        { name: 'Downtown District', coordinates: [-74.0060, 40.7128] },
+        { name: 'Greenwood Heights', coordinates: [-73.9441, 40.7589] },
+        { name: 'Oak Valley', coordinates: [-73.9442, 40.6782] },
+        { name: 'Pine Ridge', coordinates: [-73.9482, 40.8176] },
+        { name: 'Maple Grove', coordinates: [-73.7949, 40.7282] },
+        { name: 'Riverside District', coordinates: [-74.0445, 40.7282] },
+        { name: 'Highland Park', coordinates: [-73.8648, 40.7023] },
+        { name: 'Valley View', coordinates: [-73.9876, 40.7505] }
+      ];
+
+      // Add service area markers
+      serviceAreas.forEach((area, index) => {
+        // Create marker element
+        const markerElement = document.createElement('div');
+        markerElement.className = 'service-marker';
+        markerElement.style.cssText = `
+          width: 30px;
+          height: 30px;
+          background: linear-gradient(135deg, ${colors.primary}, ${colors.secondary});
+          border: 3px solid white;
+          border-radius: 50%;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          transition: all 0.3s ease;
+        `;
+
+        // Add hover effect
+        markerElement.addEventListener('mouseenter', () => {
+          markerElement.style.transform = 'scale(1.2)';
+          markerElement.style.boxShadow = '0 6px 20px rgba(0,0,0,0.4)';
+        });
+
+        markerElement.addEventListener('mouseleave', () => {
+          markerElement.style.transform = 'scale(1)';
+          markerElement.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+        });
+
+        // Create popup
+        const popup = new mapboxgl.Popup({
+          offset: 35,
+          closeButton: false,
+          closeOnClick: false
+        }).setHTML(`
+          <div style="padding: 8px; text-align: center;">
+            <h4 style="margin: 0 0 4px 0; font-weight: bold; color: ${colors.primary};">${area.name}</h4>
+            <p style="margin: 0; font-size: 12px; color: #666;">Service Area</p>
+          </div>
+        `);
+
+        // Create marker
+        new mapboxgl.Marker(markerElement)
+          .setLngLat(area.coordinates)
+          .setPopup(popup)
+          .addTo(map.current!);
+
+        // Add service radius circle
+        map.current!.addSource(`service-radius-${index}`, {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: area.coordinates
+            }
+          }
+        });
+
+        map.current!.addLayer({
+          id: `service-radius-${index}`,
+          type: 'circle',
+          source: `service-radius-${index}`,
+          paint: {
+            'circle-radius': {
+              stops: [
+                [0, 0],
+                [20, 50]
+              ],
+              base: 2
+            },
+            'circle-color': colors.primary,
+            'circle-opacity': 0.1,
+            'circle-stroke-color': colors.primary,
+            'circle-stroke-width': 2,
+            'circle-stroke-opacity': 0.3
+          }
+        });
+      });
+
+      // Fit map to show all service areas
+      const bounds = new mapboxgl.LngLatBounds();
+      serviceAreas.forEach(area => bounds.extend(area.coordinates));
+      map.current!.fitBounds(bounds, { padding: 50 });
+    });
+
+    return () => {
+      map.current?.remove();
+    };
+  }, [theme]);
 
   return (
-    <section className={`py-20 ${currentTheme.bg} text-white font-poppins`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Service Areas Map
-          </h2>
-          <p className={`text-xl ${currentTheme.text} max-w-3xl mx-auto`}>
-            We proudly serve communities throughout the metropolitan area
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Map Container */}
-          <div className="relative">
-            <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
-              {!mapboxToken ? (
-                <div className="text-center p-8">
-                  <MapPin className="mx-auto mb-4 text-gray-500" size={48} />
-                  <p className="text-gray-600 mb-4">Interactive map coming soon</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Mapbox token for live map"
-                    value={mapboxToken}
-                    onChange={(e) => setMapboxToken(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg border text-gray-800"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Get your token at mapbox.com
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center text-gray-600">
-                  <p>Map integration ready!</p>
-                  <p className="text-sm">Token: {mapboxToken.substring(0, 20)}...</p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Service Areas List */}
-          <div>
-            <h3 className="text-2xl font-bold mb-6">Areas We Serve</h3>
-            <div className="space-y-4">
-              {serviceAreas.map((area, index) => (
-                <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center justify-between hover:bg-white/20 transition-all duration-300">
-                  <div className="flex items-center">
-                    <MapPin className="text-white mr-3" size={20} />
-                    <span className="font-semibold">{area.name}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock size={16} className="text-white/70" />
-                    <span className="text-sm text-white/70">Same-day service</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-8">
-              <a
-                href="tel:5551234567"
-                className={`bg-gradient-to-r ${currentTheme.accent} hover:scale-105 text-white px-6 py-3 rounded-full font-bold transition-all duration-300 inline-flex items-center`}
-              >
-                <Phone size={20} className="mr-2" />
-                Call Now: (555) 123-4567
-              </a>
-            </div>
-          </div>
-        </div>
+    <div className={`w-full h-96 relative ${className}`}>
+      <div ref={mapContainer} className="w-full h-full rounded-lg shadow-lg" />
+      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
+        <h3 className="font-bold text-gray-900 mb-1">Service Areas</h3>
+        <p className="text-sm text-gray-600">Click markers for details</p>
       </div>
-    </section>
+    </div>
   );
 };
 
