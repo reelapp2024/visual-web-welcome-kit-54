@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -60,6 +59,17 @@ import TermsConditions from "./pages/TermsConditions";
 import Disclaimer from "./pages/Disclaimer";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
+
+// HVAC Theme Imports
+import HVACIndex from './themes/hvac/pages/HVACIndex';
+import HVACAbout from './themes/hvac/pages/HVACAbout';
+import HVACServices from './themes/hvac/pages/HVACServices';
+import HVACServiceDetail from './themes/hvac/pages/HVACServiceDetail';
+import HVACContact from './themes/hvac/pages/HVACContact';
+import HVACAreas from './themes/hvac/pages/HVACAreas';
+import HVACCountry from './themes/hvac/pages/HVACCountry';
+import HVACState from './themes/hvac/pages/HVACState';
+import HVACCity from './themes/hvac/pages/HVACCity';
 
 const queryClient = new QueryClient();
 
@@ -124,6 +134,18 @@ const App = () => (
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          
+          {/* HVAC Theme Routes */}
+          <Route path="/hvac" element={<HVACIndex />} />
+          <Route path="/hvac/about" element={<HVACAbout />} />
+          <Route path="/hvac/services" element={<HVACServices />} />
+          <Route path="/hvac/services/:slug" element={<HVACServiceDetail />} />
+          <Route path="/hvac/contact" element={<HVACContact />} />
+          <Route path="/hvac/areas" element={<HVACAreas />} />
+          <Route path="/hvac/areas/:slug" element={<HVACAreas />} />
+          <Route path="/hvac/country" element={<HVACCountry />} />
+          <Route path="/hvac/state" element={<HVACState />} />
+          <Route path="/hvac/city" element={<HVACCity />} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
