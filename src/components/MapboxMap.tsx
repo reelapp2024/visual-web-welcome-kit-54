@@ -2,18 +2,47 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapPin, Navigation, ZoomIn, ZoomOut } from 'lucide-react';
+import { MapPin, Phone, Clock } from 'lucide-react';
 
-interface MapboxMapProps {
+interface Location {
+  name: string;
   coordinates: { lat: number; lng: number };
-  areaName: string;
-  className?: string;
+  description?: string;
+  responseTime?: string;
 }
 
-const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className = '' }) => {
+interface MapboxMapProps {
+  locations: Location[];
+  areaName: string;
+  className?: string;
+  theme?: 'plumbing' | 'hvac';
+}
+
+const MapboxMap: React.FC<MapboxMapProps> = ({
+  locations,
+  areaName,
+  className = '',
+  theme = 'plumbing'
+}) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const themeColors = {
+    plumbing: {
+      primary: 'from-blue-600 to-cyan-600',
+      pin: '#2563eb',
+      hover: 'hover:bg-blue-700'
+    },
+    hvac: {
+      primary: 'from-orange-600 to-red-600',
+      pin: '#ea580c',
+      hover: 'hover:bg-orange-700'
+    }
+  };
+
+  const colors = themeColors[theme];
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -25,171 +54,111 @@ const MapboxMap: React.FC<MapboxMapProps> = ({ coordinates, areaName, className 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [coordinates.lng, coordinates.lat],
-      zoom: 13,
-      pitch: 45,
-      bearing: -17.6
+      center: [-119.4179, 36.7783], // Center on California
+      zoom: 6
     });
 
     // Add navigation controls
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-    // Add fullscreen control
-    map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+    // Add markers for each location
+    locations.forEach((location) => {
+      // Create marker element
+      const el = document.createElement('div');
+      el.className = 'marker';
+      el.style.backgroundColor = colors.pin;
+      el.style.width = '40px';
+      el.style.height = '40px';
+      el.style.borderRadius = '50%';
+      el.style.cursor = 'pointer';
+      el.style.border = '3px solid white';
+      el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+      el.style.display = 'flex';
+      el.style.alignItems = 'center';
+      el.style.justifyContent = 'center';
 
-    // Create custom marker
-    const el = document.createElement('div');
-    el.className = 'custom-marker';
-    el.style.backgroundImage = 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzMjc4RkYiLz4KPHN2ZyB4PSIxMiIgeT0iMTIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0zIDExIDMtM20wIDAgMy4wMDEtM00xNSAyMWwtMy0zbTAgMC0zIDNtMTIuMDAxLTE0djZtMCAwdjZtMCAwLTYtNm02IDZ2Nm0wIDBoNm0tNiAwaDYiLz4KPC9zdmc+Cjwvc3ZnPgo=)';
-    el.style.width = '40px';
-    el.style.height = '40px';
-    el.style.backgroundSize = 'cover';
-    el.style.borderRadius = '50%';
-    el.style.cursor = 'pointer';
-    el.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+      // Add icon
+      const icon = document.createElement('div');
+      icon.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>`;
+      el.appendChild(icon);
 
-    // Add marker to map
-    new mapboxgl.Marker(el)
-      .setLngLat([coordinates.lng, coordinates.lat])
-      .addTo(map.current);
+      // Add click event
+      el.addEventListener('click', () => {
+        setSelectedLocation(location);
+      });
 
-    // Add popup
-    const popup = new mapboxgl.Popup({ offset: 25 })
-      .setLngLat([coordinates.lng, coordinates.lat])
-      .setHTML(`
-        <div style="padding: 10px; text-align: center;">
-          <h3 style="margin: 0 0 8px 0; color: #3278FF; font-weight: bold;">${areaName}</h3>
-          <p style="margin: 0; color: #666; font-size: 14px;">JunkPro Hauling Service Area</p>
-          <div style="margin-top: 8px;">
-            <span style="color: #10B981; font-weight: bold;">✓ Same-Day Service Available</span>
-          </div>
-        </div>
-      `);
-
-    // Add click event to marker
-    el.addEventListener('click', () => {
-      popup.addTo(map.current!);
+      // Create marker
+      new mapboxgl.Marker(el)
+        .setLngLat([location.coordinates.lng, location.coordinates.lat])
+        .addTo(map.current!);
     });
 
     map.current.on('load', () => {
       setIsLoaded(true);
-      
-      // Add service area circle with proper GeoJSON structure
-      map.current?.addSource('service-area', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: [coordinates.lng, coordinates.lat]
-          }
-        }
-      });
-
-      map.current?.addLayer({
-        id: 'service-area-circle',
-        type: 'circle',
-        source: 'service-area',
-        paint: {
-          'circle-radius': {
-            stops: [
-              [10, 100],
-              [16, 200]
-            ]
-          },
-          'circle-color': '#3278FF',
-          'circle-opacity': 0.1,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#3278FF',
-          'circle-stroke-opacity': 0.5
-        }
-      });
     });
 
     // Cleanup
     return () => {
       map.current?.remove();
     };
-  }, [coordinates, areaName]);
-
-  const zoomIn = () => {
-    map.current?.zoomIn();
-  };
-
-  const zoomOut = () => {
-    map.current?.zoomOut();
-  };
-
-  const openGoogleMaps = () => {
-    const url = `https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15`;
-    window.open(url, '_blank');
-  };
-
-  const getDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`;
-    window.open(url, '_blank');
-  };
+  }, [locations, colors.pin]);
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative w-full ${className}`}>
       <div ref={mapContainer} className="w-full h-full rounded-2xl" />
       
       {/* Loading overlay */}
       {!isLoaded && (
         <div className="absolute inset-0 bg-gray-100 rounded-2xl flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading interactive map...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading map...</p>
           </div>
         </div>
       )}
 
-      {/* Custom controls */}
-      <div className="absolute top-4 left-4 flex flex-col gap-2">
-        <button
-          onClick={zoomIn}
-          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
-          title="Zoom In"
-        >
-          <ZoomIn size={16} />
-        </button>
-        <button
-          onClick={zoomOut}
-          className="bg-white hover:bg-gray-50 text-gray-700 p-2 rounded-lg shadow-md transition-all duration-200 border"
-          title="Zoom Out"
-        >
-          <ZoomOut size={16} />
-        </button>
-      </div>
-
-      {/* Action buttons */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-        <button
-          onClick={openGoogleMaps}
-          className="bg-white hover:bg-gray-50 text-gray-700 px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium border"
-        >
-          <MapPin size={16} className="mr-1" />
-          View Larger
-        </button>
-        <button
-          onClick={getDirections}
-          className="bg-brand-500 hover:bg-brand-600 text-white px-3 py-2 rounded-lg shadow-md transition-all duration-200 flex items-center text-sm font-medium"
-        >
-          <Navigation size={16} className="mr-1" />
-          Directions
-        </button>
-      </div>
-
-      {/* Area info card */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-lg p-3 shadow-lg max-w-xs border">
-        <h3 className="font-bold text-gray-800 mb-1 text-sm">{areaName}</h3>
-        <p className="text-gray-600 text-xs mb-2">Service Area Coverage</p>
-        <div className="flex items-center text-xs text-green-600">
-          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-          Active Service Zone
+      {/* Map Info Overlay */}
+      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-lg">
+        <div className={`flex items-center space-x-2 bg-gradient-to-r ${colors.primary} bg-clip-text text-transparent`}>
+          <MapPin className="w-5 h-5 text-gray-600" />
+          <span className="font-semibold text-sm text-gray-800">{areaName} Service Area</span>
         </div>
+        <div className="text-xs text-gray-600 mt-1">{locations.length} Active Locations</div>
       </div>
+
+      {/* Selected Location Details */}
+      {selectedLocation && (
+        <div className="absolute bottom-4 right-4 bg-white rounded-xl p-4 shadow-lg max-w-xs">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-bold text-gray-900">{selectedLocation.name}</h3>
+            <button 
+              onClick={() => setSelectedLocation(null)}
+              className="text-gray-400 hover:text-gray-600 text-xl"
+            >
+              ×
+            </button>
+          </div>
+          {selectedLocation.description && (
+            <p className="text-sm text-gray-600 mb-3">{selectedLocation.description}</p>
+          )}
+          {selectedLocation.responseTime && (
+            <div className="flex items-center text-sm text-gray-600 mb-3">
+              <Clock className="w-4 h-4 mr-2" />
+              Response: {selectedLocation.responseTime}
+            </div>
+          )}
+          <a
+            href="tel:5551234567"
+            className={`bg-gradient-to-r ${colors.primary} ${colors.hover} text-white px-4 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center space-x-2 transform hover:scale-105 shadow-lg w-full justify-center`}
+          >
+            <Phone size={16} />
+            <span>Call Now</span>
+          </a>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import InteractiveMap from './InteractiveMap';
+import MapboxMap from './MapboxMap';
 
 interface Location {
   name: string;
@@ -25,13 +25,18 @@ const PlumbingAreaMap: React.FC<PlumbingAreaMapProps> = ({
   areaType,
   className = ''
 }) => {
+  // Convert locations to the format expected by MapboxMap
+  const mapboxLocations = locations.map(location => ({
+    name: location.name,
+    coordinates: { lat: location.coordinates[1], lng: location.coordinates[0] },
+    description: `${areaType} service location`,
+    responseTime: '15-45 min'
+  }));
+
   return (
-    <InteractiveMap
-      centerCoordinates={centerCoordinates}
-      zoom={zoom}
-      locations={locations}
+    <MapboxMap
+      locations={mapboxLocations}
       areaName={areaName}
-      areaType={areaType}
       className={className}
       theme="plumbing"
     />
