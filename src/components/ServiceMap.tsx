@@ -3,7 +3,7 @@ import React from 'react';
 import MapboxMap from './MapboxMap';
 
 interface ServiceMapProps {
-  theme: 'plumbing' | 'hvac' | 'roofing' | 'painting';
+  theme: 'plumbing' | 'hvac' | 'roofing' | 'painting' | 'cleaning';
 }
 
 const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
@@ -60,6 +60,11 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
       title: 'Painting Service Areas',
       subtitle: 'Professional interior and exterior painting services throughout California with expert painters and quality finishes.',
       areaName: 'California'
+    },
+    cleaning: {
+      title: 'Cleaning Service Areas',
+      subtitle: 'Professional residential and commercial cleaning services throughout California with eco-friendly products and same-day booking.',
+      areaName: 'California'
     }
   };
 
@@ -75,6 +80,8 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme }) => {
         return 'bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent';
       case 'painting':
         return 'bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent';
+      case 'cleaning':
+        return 'bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent';
       default:
         return 'bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent';
     }

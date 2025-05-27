@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -12,10 +11,15 @@ interface Location {
 }
 
 interface MapboxMapProps {
-  locations: Location[];
+  locations: Array<{
+    name: string;
+    coordinates: { lat: number; lng: number };
+    description: string;
+    responseTime: string;
+  }>;
   areaName: string;
   className?: string;
-  theme?: 'plumbing' | 'hvac' | 'roofing' | 'painting';
+  theme: 'plumbing' | 'hvac' | 'roofing' | 'painting' | 'cleaning';
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({
@@ -49,6 +53,11 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       primary: 'from-purple-600 to-pink-600',
       pin: '#9333ea',
       hover: 'hover:bg-purple-700'
+    },
+    cleaning: {
+      primary: 'from-green-600 to-green-600',
+      pin: '#28a745',
+      hover: 'hover:bg-green-700'
     }
   };
 

@@ -51,6 +51,18 @@ import PaintingCountry from './themes/painting/pages/PaintingCountry';
 import PaintingState from './themes/painting/pages/PaintingState';
 import PaintingCity from './themes/painting/pages/PaintingCity';
 
+// Cleaning Theme Imports
+import CleaningIndex from './themes/cleaning/pages/CleaningIndex';
+import CleaningAbout from './themes/cleaning/pages/CleaningAbout';
+import CleaningServicesPage from './themes/cleaning/pages/CleaningServices';
+import CleaningContact from './themes/cleaning/pages/CleaningContact';
+import CleaningServiceDetail from './themes/cleaning/pages/CleaningServiceDetail';
+import CleaningAreas from './themes/cleaning/pages/CleaningAreas';
+import CleaningAreaDetail from './themes/cleaning/pages/CleaningAreaDetail';
+import CleaningCountry from './themes/cleaning/pages/CleaningCountry';
+import CleaningState from './themes/cleaning/pages/CleaningState';
+import CleaningCity from './themes/cleaning/pages/CleaningCity';
+
 // Legal Pages
 import StateDetail from "./pages/StateDetail";
 import CityDetail from "./pages/CityDetail";
@@ -117,6 +129,18 @@ const App = () => (
           <Route path="/painting/country" element={<PaintingCountry />} />
           <Route path="/painting/states" element={<PaintingState />} />
           <Route path="/painting/cities" element={<PaintingCity />} />
+          
+          {/* Cleaning Theme Routes */}
+          <Route path="/cleaning" element={<CleaningIndex />} />
+          <Route path="/cleaning/about" element={<CleaningAbout />} />
+          <Route path="/cleaning/services" element={<CleaningServicesPage />} />
+          <Route path="/cleaning/contact" element={<CleaningContact />} />
+          <Route path="/cleaning/services/:slug" element={<CleaningServiceDetail />} />
+          <Route path="/cleaning/areas" element={<CleaningAreas />} />
+          <Route path="/cleaning/areas/:slug" element={<CleaningAreaDetail />} />
+          <Route path="/cleaning/country" element={<CleaningCountry />} />
+          <Route path="/cleaning/states" element={<CleaningState />} />
+          <Route path="/cleaning/cities" element={<CleaningCity />} />
           
           {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />
