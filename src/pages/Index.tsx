@@ -1,33 +1,39 @@
 
 import React from 'react';
-import JunkHeader from '../themes/junk/components/JunkHeader';
-import JunkHero from '../themes/junk/components/JunkHero';
-import AboutUs from '../components/AboutUs';
-import Services from '../components/Services';
-import JunkGuarantee from '../components/JunkGuarantee';
-import Process from '../components/Process';
-import WhyChooseUs from '../components/WhyChooseUs';
-import Testimonials from '../components/Testimonials';
-import ServiceAreas from '../components/ServiceAreas';
+import PlumbingHeader from '../themes/plumbing/components/PlumbingHeader';
+import PlumbingHero from '../themes/plumbing/components/PlumbingHero';
+import PlumbingAboutUs from '../themes/plumbing/components/PlumbingAboutUs';
+import PlumbingServices from '../themes/plumbing/components/PlumbingServices';
+import PlumbingWhyChooseUs from '../themes/plumbing/components/PlumbingWhyChooseUs';
+import PlumbingProcess from '../themes/plumbing/components/PlumbingProcess';
+import PlumbingGuarantee from '../themes/plumbing/components/PlumbingGuarantee';
+import PlumbingTestimonials from '../themes/plumbing/components/PlumbingTestimonials';
+import PlumbingServiceAreas from '../themes/plumbing/components/PlumbingServiceAreas';
 import ServiceMap from '../components/ServiceMap';
-import FAQ from '../components/FAQ';
-import Footer from '../components/Footer';
+import PlumbingFAQ from '../themes/plumbing/components/PlumbingFAQ';
+import PlumbingFooter from '../themes/plumbing/components/PlumbingFooter';
+import PlumbingCTA from '../themes/plumbing/components/PlumbingCTA';
 
 const Index = () => {
   return (
     <div className="min-h-screen font-poppins">
-      <JunkHeader />
-      <JunkHero />
-      <AboutUs />
-      <Services />
-      <JunkGuarantee />
-      <Process />
-      <WhyChooseUs />
-      <Testimonials />
-      <ServiceAreas />
-      <ServiceMap theme="junk" />
-      <FAQ />
-      <Footer />
+      <PlumbingHeader />
+      <PlumbingHero />
+      <PlumbingCTA />
+      <PlumbingAboutUs />
+      <PlumbingServices />
+      <PlumbingCTA />
+      <PlumbingWhyChooseUs />
+      <PlumbingProcess />
+      <PlumbingCTA />
+      <PlumbingGuarantee />
+      <PlumbingTestimonials />
+      <PlumbingCTA />
+      <PlumbingServiceAreas />
+      <ServiceMap theme="plumbing" />
+      <PlumbingFAQ />
+      <PlumbingCTA />
+      <PlumbingFooter />
     </div>
   );
 };
