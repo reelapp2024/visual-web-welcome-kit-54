@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface ServiceMapProps {
-  theme?: 'plumbing' | 'tree' | 'pet';
+  theme?: 'plumbing' | 'tree' | 'pet' | 'roofing';
   className?: string;
 }
 
@@ -23,6 +23,11 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
         return {
           primary: '#7c3aed', // pet-600
           secondary: '#a855f7', // paw-500
+        };
+      case 'roofing':
+        return {
+          primary: '#475569', // slate-600
+          secondary: '#64748b', // slate-500
         };
       default:
         return {
@@ -54,8 +59,8 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
     map.current.on('load', () => {
       if (!map.current) return;
 
-      // Service areas data
-      const serviceAreas = [
+      // Service areas data with proper coordinate typing
+      const serviceAreas: Array<{ name: string; coordinates: [number, number] }> = [
         { name: 'Downtown District', coordinates: [-74.0060, 40.7128] },
         { name: 'Greenwood Heights', coordinates: [-73.9441, 40.7589] },
         { name: 'Oak Valley', coordinates: [-73.9442, 40.6782] },
@@ -105,17 +110,18 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
           </div>
         `);
 
-        // Create marker
+        // Create marker with proper coordinates
         new mapboxgl.Marker(markerElement)
           .setLngLat(area.coordinates)
           .setPopup(popup)
           .addTo(map.current!);
 
-        // Add service radius circle
+        // Add service radius circle with proper GeoJSON structure
         map.current!.addSource(`service-radius-${index}`, {
           type: 'geojson',
           data: {
             type: 'Feature',
+            properties: {},
             geometry: {
               type: 'Point',
               coordinates: area.coordinates
@@ -144,7 +150,7 @@ const ServiceMap: React.FC<ServiceMapProps> = ({ theme = 'plumbing', className =
         });
       });
 
-      // Fit map to show all service areas
+      // Fit map to show all service areas with proper bounds
       const bounds = new mapboxgl.LngLatBounds();
       serviceAreas.forEach(area => bounds.extend(area.coordinates));
       map.current!.fitBounds(bounds, { padding: 50 });
