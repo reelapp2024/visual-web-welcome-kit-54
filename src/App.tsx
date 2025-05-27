@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,30 +16,6 @@ import PlumbingAreaDetail from "./themes/plumbing/pages/PlumbingAreaDetail";
 import PlumbingCountry from "./themes/plumbing/pages/PlumbingCountry";
 import PlumbingState from "./themes/plumbing/pages/PlumbingState";
 import PlumbingCity from "./themes/plumbing/pages/PlumbingCity";
-
-// Electrical Theme
-import ElectricalIndex from "./themes/electrical/pages/ElectricalIndex";
-import ElectricalAbout from "./themes/electrical/pages/ElectricalAbout";
-import ElectricalServices from "./themes/electrical/pages/ElectricalServices";
-import ElectricalContact from "./themes/electrical/pages/ElectricalContact";
-import ElectricalServiceDetail from "./themes/electrical/pages/ElectricalServiceDetail";
-import ElectricalAreas from "./themes/electrical/pages/ElectricalAreas";
-import ElectricalAreaDetail from "./themes/electrical/pages/ElectricalAreaDetail";
-import ElectricalCountry from "./themes/electrical/pages/ElectricalCountry";
-import ElectricalState from "./themes/electrical/pages/ElectricalState";
-import ElectricalCity from "./themes/electrical/pages/ElectricalCity";
-
-// Remodeling Theme
-import RemodelingIndex from "./themes/remodeling/pages/RemodelingIndex";
-import RemodelingAbout from "./themes/remodeling/pages/RemodelingAbout";
-import RemodelingServices from "./themes/remodeling/pages/RemodelingServices";
-import RemodelingContact from "./themes/remodeling/pages/RemodelingContact";
-import RemodelingServiceDetail from "./themes/remodeling/pages/RemodelingServiceDetail";
-import RemodelingAreas from "./themes/remodeling/pages/RemodelingAreas";
-import RemodelingAreaDetail from "./themes/remodeling/pages/RemodelingAreaDetail";
-import RemodelingCountry from "./themes/remodeling/pages/RemodelingCountry";
-import RemodelingState from "./themes/remodeling/pages/RemodelingState";
-import RemodelingCity from "./themes/remodeling/pages/RemodelingCity";
 
 // Roofing Services Theme
 import RoofingIndex from "./themes/roofing/pages/RoofingIndex";
@@ -93,30 +70,6 @@ const App = () => (
           <Route path="/cities" element={<PlumbingCity />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states/:slug" element={<StateDetail />} />
-          
-          {/* Electrical Theme */}
-          <Route path="/electrical" element={<ElectricalIndex />} />
-          <Route path="/electrical/about" element={<ElectricalAbout />} />
-          <Route path="/electrical/services" element={<ElectricalServices />} />
-          <Route path="/electrical/contact" element={<ElectricalContact />} />
-          <Route path="/electrical/services/:slug" element={<ElectricalServiceDetail />} />
-          <Route path="/electrical/areas" element={<ElectricalAreas />} />
-          <Route path="/electrical/areas/:slug" element={<ElectricalAreaDetail />} />
-          <Route path="/electrical/country" element={<ElectricalCountry />} />
-          <Route path="/electrical/states" element={<ElectricalState />} />
-          <Route path="/electrical/cities" element={<ElectricalCity />} />
-          
-          {/* Remodeling Theme */}
-          <Route path="/remodeling" element={<RemodelingIndex />} />
-          <Route path="/remodeling/about" element={<RemodelingAbout />} />
-          <Route path="/remodeling/services" element={<RemodelingServices />} />
-          <Route path="/remodeling/contact" element={<RemodelingContact />} />
-          <Route path="/remodeling/services/:slug" element={<RemodelingServiceDetail />} />
-          <Route path="/remodeling/areas" element={<RemodelingAreas />} />
-          <Route path="/remodeling/areas/:slug" element={<RemodelingAreaDetail />} />
-          <Route path="/remodeling/country" element={<RemodelingCountry />} />
-          <Route path="/remodeling/states" element={<RemodelingState />} />
-          <Route path="/remodeling/cities" element={<RemodelingCity />} />
           
           {/* Roofing Services Theme */}
           <Route path="/roofing" element={<RoofingIndex />} />
