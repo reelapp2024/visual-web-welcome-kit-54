@@ -51,7 +51,9 @@ const HVACFooter = () => {
               <li><a href="/hvac/services" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Services</a></li>
               <li><a href="/hvac/areas" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Service Areas</a></li>
               <li><a href="/hvac/contact" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Contact</a></li>
+              <li><a href="/terms-conditions" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Terms & Conditions</a></li>
               <li><a href="/privacy-policy" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Privacy Policy</a></li>
+              <li><a href="/disclaimer" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Disclaimer</a></li>
             </ul>
           </div>
 
