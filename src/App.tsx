@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import PlumbingContact from "./themes/plumbing/pages/PlumbingContact";
 import PlumbingServiceDetail from "./themes/plumbing/pages/PlumbingServiceDetail";
 import PlumbingAreas from "./themes/plumbing/pages/PlumbingAreas";
 import PlumbingAreaDetail from "./themes/plumbing/pages/PlumbingAreaDetail";
+import PlumbingMaps from "./themes/plumbing/pages/PlumbingMaps";
 import PlumbingCountry from "./themes/plumbing/pages/PlumbingCountry";
 import PlumbingState from "./themes/plumbing/pages/PlumbingState";
 import PlumbingCity from "./themes/plumbing/pages/PlumbingCity";
@@ -88,6 +90,7 @@ const App = () => (
           <Route path="/services/:slug" element={<PlumbingServiceDetail />} />
           <Route path="/areas" element={<PlumbingAreas />} />
           <Route path="/areas/:slug" element={<PlumbingAreaDetail />} />
+          <Route path="/maps" element={<PlumbingMaps />} />
           <Route path="/country" element={<PlumbingCountry />} />
           <Route path="/states" element={<PlumbingState />} />
           <Route path="/cities" element={<PlumbingCity />} />

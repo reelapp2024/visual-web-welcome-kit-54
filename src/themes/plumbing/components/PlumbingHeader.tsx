@@ -7,6 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 const PlumbingHeader = () => {
@@ -118,6 +119,15 @@ const PlumbingHeader = () => {
                     </a>
                   </DropdownMenuItem>
                 ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="p-0">
+                  <a 
+                    href="/maps" 
+                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 block"
+                  >
+                    Maps
+                  </a>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -174,6 +184,7 @@ const PlumbingHeader = () => {
                       {area.name}
                     </a>
                   ))}
+                  <a href="/maps" className="block py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">Maps</a>
                 </div>
               </div>
 
