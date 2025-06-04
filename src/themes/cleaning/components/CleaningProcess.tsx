@@ -1,8 +1,40 @@
 
-import React from 'react';
+import React ,{useEffect, useState} from 'react';
+import { httpFile } from "../../../config.js";
 import { Phone, Calendar, Sparkles, CheckCircle } from 'lucide-react';
 
 const CleaningProcess = () => {
+
+
+    const [projectOurProcess, setprojectOurProcess] = useState([]);
+  
+   const savedSiteId = localStorage.getItem("currentSiteId");
+    const projectId = savedSiteId || "683da559d48d4721c48972d5";
+    console.log(projectId, "This is project id in services section");
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await httpFile.post("/webapp/v1/my_site", {
+              projectId,
+              pageType: "home",
+            });
+    
+            if (data.projectInfo ) {
+            
+              setprojectOurProcess(data.projectInfo.ourProcessSection);
+             
+            }
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData();
+      }, [projectId]);
+
+
+
   const steps = [
     {
       icon: <Phone className="w-10 h-10" />,
@@ -31,6 +63,24 @@ const CleaningProcess = () => {
       description: "We inspect every detail to ensure you're completely satisfied.",
       gradient: "from-emerald-600 to-green-600",
       number: "04"
+    },
+
+    {
+      icon: <CheckCircle className="w-10 h-10" />,
+      title: "Quality Check 1",
+      description: "We inspect every detail to ensure you're completely satisfied.",
+      gradient: "from-emerald-600 to-green-600",
+      number: "05"
+    }
+
+    ,
+
+    {
+      icon: <CheckCircle className="w-10 h-10" />,
+      title: "Quality Check 2",
+      description: "We inspect every detail to ensure you're completely satisfied.",
+      gradient: "from-emerald-600 to-green-600",
+      number: "06"
     }
   ];
 
@@ -47,11 +97,11 @@ const CleaningProcess = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {steps.map((step, index) => (
+          {projectOurProcess.map((step, index) => (
             <div key={index} className="text-center relative group">
               {/* Step Number */}
               <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-xl z-10 shadow-xl group-hover:scale-110 transition-all duration-300">
-                {step.number}
+                {index + 1 }
               </div>
               
               {/* Card */}

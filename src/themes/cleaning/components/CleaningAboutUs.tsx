@@ -1,8 +1,15 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { httpFile } from "../../../config.js";
 import { Award, Users, Clock, Shield } from 'lucide-react';
 
 const CleaningAboutUs = () => {
+  const [aboutImage, setaboutImage] = useState("");
+  const [projectCategory, setProjectCategory] = useState("");
+
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
   const stats = [
     {
       icon: <Award className="w-8 h-8" />,
@@ -30,6 +37,31 @@ const CleaningAboutUs = () => {
     }
   ];
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+
+          setaboutImage(data.projectInfo.images[0].url)
+
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+
   return (
     <section className="py-20 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,19 +69,19 @@ const CleaningAboutUs = () => {
           {/* Content */}
           <div>
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              Professional Cleaning Solutions You Can Trust
+              Professional {projectCategory} Solutions You Can Trust
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              With over 10 years of experience serving our community, SparkleClean Pro has built a reputation 
-              for excellence in residential and commercial cleaning services. Our team of trained, insured 
+              With over 10 years of experience serving our community, SparkleClean Pro has built a reputation
+              for excellence in residential and commercial cleaning services. Our team of trained, insured
               professionals is committed to providing spotless results for all your cleaning needs.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              From weekly house cleanings to deep commercial sanitization, we use eco-friendly products and 
-              proven techniques to ensure your space is not just clean, but healthy. Our same-day booking 
+              From weekly house cleanings to deep commercial sanitization, we use eco-friendly products and
+              proven techniques to ensure your space is not just clean, but healthy. Our same-day booking
               and satisfaction guarantee mean you can trust us with your most important spaces.
             </p>
-            
+
             <div className="grid grid-cols-2 gap-6">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
@@ -66,7 +98,7 @@ const CleaningAboutUs = () => {
           {/* Image */}
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+              src={aboutImage}
               alt="Professional cleaners at work"
               className="rounded-2xl shadow-2xl w-full h-[500px] object-cover"
             />

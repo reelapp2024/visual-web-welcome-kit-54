@@ -1,9 +1,37 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { httpFile } from "../../../config.js";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const CleaningFAQ = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+ const [projectFaqs, setprojectFaqs] = useState([]);
+
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+  console.log(projectId, "This is project id in services section");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_faq_reviews", {
+          projectId,
+        });
+
+        if (data) {
+          console.log(data, "data");
+          setprojectFaqs(data.faqs || []);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+  console.log(projectFaqs,"projectFaqs")
 
   const faqs = [
     {
@@ -37,7 +65,7 @@ const CleaningFAQ = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            Frequently Asked Questions
+            Frequently Asked Questionss
           </h2>
           <p className="text-xl text-gray-600">
             Got questions? We've got answers. Here are the most common questions about our cleaning services.
@@ -45,7 +73,7 @@ const CleaningFAQ = () => {
         </div>
 
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
+          {projectFaqs.map((faq, index) => (
             <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
               <button
                 className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"

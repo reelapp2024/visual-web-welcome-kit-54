@@ -1,8 +1,53 @@
-
-import React from 'react';
-import { Phone, Star, Sparkles, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Phone, Star, Sparkles, CheckCircle } from "lucide-react";
+import { httpFile } from "../../../config.js";
 
 const CleaningHero = () => {
+  const [projectCategory, setProjectCategory] = useState("");
+  const [welcomeLine, setWelcomeLine] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  // 1) Read the query-param once:
+  const urlParams = new URLSearchParams(window.location.search);
+  const site = urlParams.get("siteId");
+
+  // 2) Only overwrite localStorage if `site` is a non-null string:
+  if (site) {
+    const currentSiteId = localStorage.getItem("currentSiteId");
+    if (currentSiteId !== site) {
+      console.log("Updating site ID:", site);
+      localStorage.setItem("currentSiteId", site);
+    }
+  }
+  // If `site` is null, do not touch localStorage at all.
+
+  // 3) Now read back from localStorage (or fall back to default):
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setWelcomeLine(data.projectInfo.welcomeLine);
+          setPhoneNumber(data.aboutUs.phone);
+         
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
   return (
     <section className="relative py-20 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 text-white overflow-hidden min-h-[700px] flex items-center">
       {/* Animated Background Pattern */}
@@ -13,71 +58,80 @@ const CleaningHero = () => {
               key={i}
               className="absolute bg-white rounded-full animate-pulse"
               style={{
-                width: Math.random() * 8 + 4 + 'px',
-                height: Math.random() * 8 + 4 + 'px',
-                top: Math.random() * 100 + '%',
-                left: Math.random() * 100 + '%',
-                animationDelay: Math.random() * 3 + 's',
-                animationDuration: (Math.random() * 4 + 2) + 's'
+                width: Math.random() * 8 + 4 + "px",
+                height: Math.random() * 8 + 4 + "px",
+                top: Math.random() * 100 + "%",
+                left: Math.random() * 100 + "%",
+                animationDelay: Math.random() * 3 + "s",
+                animationDuration: Math.random() * 4 + 2 + "s",
               }}
             />
           ))}
         </div>
       </div>
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="text-center">
           {/* Badge */}
           <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/30">
             <Sparkles className="w-5 h-5 text-emerald-300 mr-2" />
-            <span className="text-emerald-100 font-semibold">Professional Cleaning Services</span>
+            <span className="text-emerald-100 font-semibold">
+              Professional {projectCategory}
+            </span>
           </div>
-          
+
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-white to-emerald-200 bg-clip-text text-transparent">
-              Sparkling Clean
+              Sparkling {projectCategory}
             </span>
             <br />
             <span className="text-emerald-300">Every Time</span>
           </h1>
-          
+
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-green-100 mb-12 leading-relaxed max-w-4xl mx-auto">
-            Professional residential and commercial cleaning services with eco-friendly products. 
-            Same-day bookings available with 100% satisfaction guaranteed.
+            {welcomeLine}
           </p>
-          
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <a 
-              href="tel:5551234567"
+            <a
+              href={`tel:${phoneNumber}`}
               className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-2xl transform hover:scale-105 hover:shadow-3xl"
             >
               <Phone size={24} className="group-hover:animate-bounce" />
-              <span>Call Now: (555) 123-4567</span>
+              <span>Call Now: {phoneNumber}</span>
             </a>
-            
-            <a 
+
+            <a
               href="/cleaning/contact"
               className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 border border-white/30 transform hover:scale-105"
             >
-              <Sparkles size={24} className="group-hover:rotate-12 transition-transform" />
+              <Sparkles
+                size={24}
+                className="group-hover:rotate-12 transition-transform"
+              />
               <span>Free Quote</span>
             </a>
           </div>
-          
+
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <CheckCircle className="w-8 h-8 text-emerald-300 mx-auto mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">Eco-Friendly</h3>
-              <p className="text-green-100 text-sm">Safe, green cleaning products</p>
+              <p className="text-green-100 text-sm">
+                Safe, green cleaning products
+              </p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <div className="flex justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  <Star
+                    key={i}
+                    className="w-5 h-5 text-yellow-400 fill-current"
+                  />
                 ))}
               </div>
               <h3 className="text-lg font-bold text-white mb-2">5-Star Rated</h3>
