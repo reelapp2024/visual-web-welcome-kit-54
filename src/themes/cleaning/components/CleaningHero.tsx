@@ -1,8 +1,11 @@
+
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Phone, Star, Sparkles, CheckCircle } from "lucide-react";
 import { httpFile } from "../../../config.js";
 
 const CleaningHero = () => {
+  const navigate = useNavigate();
   const [projectCategory, setProjectCategory] = useState("");
   const [welcomeLine, setWelcomeLine] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -104,8 +107,8 @@ const CleaningHero = () => {
               <span>Call Now: {phoneNumber}</span>
             </a>
 
-            <a
-              href="/cleaning/contact"
+            <button
+              onClick={() => navigate('/contact')}
               className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center space-x-3 border border-white/30 transform hover:scale-105"
             >
               <Sparkles
@@ -113,7 +116,7 @@ const CleaningHero = () => {
                 className="group-hover:rotate-12 transition-transform"
               />
               <span>Free Quote</span>
-            </a>
+            </button>
           </div>
 
           {/* Features Grid */}

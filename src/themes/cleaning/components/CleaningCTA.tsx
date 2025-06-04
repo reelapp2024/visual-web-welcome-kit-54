@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import { Phone, Sparkles } from 'lucide-react';
 import { httpFile } from "../../../config.js";
 
 const CleaningCTA = () => {
+  const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [CTA, setCTA] = useState("");
   const [projectCategory, setProjectCategory] = useState("");
@@ -47,20 +48,20 @@ const CleaningCTA = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a 
-            href="tel:5551234567"
+            href={`tel:${phoneNumber}`}
             className="group bg-white text-green-600 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-xl transform hover:scale-105"
           >
             <Phone size={24} className="group-hover:animate-pulse" />
             <span>Call Now: {phoneNumber}</span>
           </a>
           
-          <a 
-            href="/cleaning/contact"
+          <button 
+            onClick={() => navigate('/contact')}
             className="group bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-xl transform hover:scale-105"
           >
             <Sparkles size={24} />
             <span>Book Services of {projectCategory}</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>

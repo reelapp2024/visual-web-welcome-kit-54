@@ -1,77 +1,64 @@
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { httpFile } from "../../../config.js";
 import { MapPin, Clock, Shield } from 'lucide-react';
 
 const CleaningServiceAreas = () => {
+  const navigate = useNavigate();
 
+  const [projectCategory, setProjectCategory] = useState("");
+  const [welcomeLine, setWelcomeLine] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+const [UpcomingPage, setUpcomingPage]= useState("");
+const [locations, setLocations] = useState([]);
 
+  // 1) Read the query-param once:
+  const urlParams = new URLSearchParams(window.location.search);
+  const site = urlParams.get("siteId");
 
-
-
-
-    const [projectCategory, setProjectCategory] = useState("");
-    const [welcomeLine, setWelcomeLine] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-  const [UpcomingPage, setUpcomingPage]= useState("");
-  const [locations, setLocations] = useState([]);
-  
-    // 1) Read the query-param once:
-    const urlParams = new URLSearchParams(window.location.search);
-    const site = urlParams.get("siteId");
-  
-    // 2) Only overwrite localStorage if `site` is a non-null string:
-    if (site) {
-      const currentSiteId = localStorage.getItem("currentSiteId");
-      if (currentSiteId !== site) {
-        console.log("Updating site ID:", site);
-        localStorage.setItem("currentSiteId", site);
-      }
+  // 2) Only overwrite localStorage if `site` is a non-null string:
+  if (site) {
+    const currentSiteId = localStorage.getItem("currentSiteId");
+    if (currentSiteId !== site) {
+      console.log("Updating site ID:", site);
+      localStorage.setItem("currentSiteId", site);
     }
-    // If `site` is null, do not touch localStorage at all.
-  
-    // 3) Now read back from localStorage (or fall back to default):
-    const savedSiteId = localStorage.getItem("currentSiteId");
-    const projectId = savedSiteId || "683da559d48d4721c48972d5";
-  
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const { data } = await httpFile.post("/webapp/v1/my_site", {
-            projectId,
-            pageType: "home",
-          });
-  
-          if (data.projectInfo && data.projectInfo.serviceType) {
-            setProjectCategory(data.projectInfo.serviceType);
-            setWelcomeLine(data.projectInfo.welcomeLine);
-            setPhoneNumber(data.aboutUs.phone);
-          setUpcomingPage(data.upcomingPage);
+  }
+  // If `site` is null, do not touch localStorage at all.
 
-              setLocations(data.locations);
+  // 3) Now read back from localStorage (or fall back to default):
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setWelcomeLine(data.projectInfo.welcomeLine);
+          setPhoneNumber(data.aboutUs.phone);
+        setUpcomingPage(data.upcomingPage);
+
+            setLocations(data.locations);
+       
          
-           
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error);
         }
-      };
-  
-      fetchData();
-    }, [projectId]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    console.log(locations,"--=locaitns=---")
+    fetchData();
+  }, [projectId]);
 
-
-  const areas = [
-    { name: 'Downtown Los Angeles', responseTime: '15-30 min', services: 25 },
-    { name: 'Hollywood', responseTime: '20-35 min', services: 18 },
-    { name: 'Beverly Hills', responseTime: '25-40 min', services: 22 },
-    { name: 'Santa Monica', responseTime: '30-45 min', services: 20 },
-    { name: 'Pasadena', responseTime: '35-50 min', services: 15 },
-    { name: 'West Hollywood', responseTime: '20-35 min', services: 17 }
-  ];
+  console.log(locations,"--=locaitns=---")
 
   return (
     <section className="py-20 bg-gray-50 font-poppins">
@@ -106,7 +93,10 @@ const CleaningServiceAreas = () => {
                 </div>
               </div>
               
-              <button className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300">
+              <button 
+                onClick={() => navigate('/areas')}
+                className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+              >
                 See Areas
               </button>
             </div>
