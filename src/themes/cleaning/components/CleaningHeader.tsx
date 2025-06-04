@@ -1,18 +1,25 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phone, Menu, X, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 const CleaningHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navigationItems = [
-    { name: 'Home', href: '/cleaning' },
-    { name: 'About', href: '/cleaning/about' },
-    { name: 'Services', href: '/cleaning/services' },
-    { name: 'Areas', href: '/cleaning/areas' },
-    { name: 'Contact', href: '/cleaning/contact' }
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Areas', href: '/areas' },
+    { name: 'Contact', href: '/contact' }
   ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50 font-poppins">
@@ -23,24 +30,24 @@ const CleaningHeader = () => {
             <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-2 rounded-lg mr-3">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
-            <div>
+            <button onClick={() => handleNavigation('/')}>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                 SparkleClean Pro
               </h1>
               <p className="text-sm text-gray-600">Professional Residential & Commercial Cleaning</p>
-            </div>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <a
+              <button
                 key={item.name}
-                href={item.href}
+                onClick={() => handleNavigation(item.href)}
                 className="text-gray-700 hover:text-green-600 font-medium transition-colors duration-200"
               >
                 {item.name}
-              </a>
+              </button>
             ))}
           </nav>
 
@@ -69,13 +76,13 @@ const CleaningHeader = () => {
           <div className="md:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-4">
               {navigationItems.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-green-600 font-medium transition-colors duration-200"
+                  onClick={() => handleNavigation(item.href)}
+                  className="text-gray-700 hover:text-green-600 font-medium transition-colors duration-200 text-left"
                 >
                   {item.name}
-                </a>
+                </button>
               ))}
               <a
                 href="tel:5551234567"

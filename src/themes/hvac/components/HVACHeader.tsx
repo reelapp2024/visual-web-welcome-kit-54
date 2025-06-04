@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, X, Phone, Clock, ChevronDown, Thermometer } from 'lucide-react';
 
 const HVACHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const services = [
     { name: 'Air Conditioning Repair', slug: 'ac-repair' },
@@ -21,6 +23,11 @@ const HVACHeader = () => {
     { name: 'Los Angeles', slug: 'city' },
     { name: 'Downtown LA', slug: 'local-area' }
   ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50 font-poppins">
@@ -52,7 +59,7 @@ const HVACHeader = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/hvac" className="flex items-center space-x-3">
+            <button onClick={() => handleNavigation('/')} className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2">
                 <Thermometer className="w-8 h-8 text-white" />
               </div>
@@ -62,23 +69,23 @@ const HVACHeader = () => {
                 </div>
                 <div className="text-xs text-gray-500">HVAC Experts</div>
               </div>
-            </a>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            <a 
-              href="/hvac" 
+            <button 
+              onClick={() => handleNavigation('/')}
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               Home
-            </a>
-            <a 
-              href="/hvac/about" 
+            </button>
+            <button 
+              onClick={() => handleNavigation('/about')}
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               About
-            </a>
+            </button>
             
             {/* Services Dropdown */}
             <div className="relative group">
@@ -95,21 +102,21 @@ const HVACHeader = () => {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 {services.map((service) => (
-                  <a
+                  <button
                     key={service.slug}
-                    href={`/hvac/services/${service.slug}`}
-                    className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
+                    onClick={() => handleNavigation(`/services/${service.slug}`)}
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
                   >
                     {service.name}
-                  </a>
+                  </button>
                 ))}
                 <div className="border-t border-gray-100 mt-2 pt-2">
-                  <a
-                    href="/hvac/services"
-                    className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
+                  <button
+                    onClick={() => handleNavigation('/services')}
+                    className="block w-full text-left px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
                   >
                     View All Services
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -129,31 +136,31 @@ const HVACHeader = () => {
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 {areas.map((area) => (
-                  <a
+                  <button
                     key={area.slug}
-                    href={`/hvac/${area.slug}`}
-                    className="block px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
+                    onClick={() => handleNavigation(`/${area.slug}`)}
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
                   >
                     {area.name}
-                  </a>
+                  </button>
                 ))}
                 <div className="border-t border-gray-100 mt-2 pt-2">
-                  <a
-                    href="/hvac/areas"
-                    className="block px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
+                  <button
+                    onClick={() => handleNavigation('/areas')}
+                    className="block w-full text-left px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
                   >
                     View All Areas
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <a 
-              href="/hvac/contact" 
+            <button 
+              onClick={() => handleNavigation('/contact')}
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               Contact
-            </a>
+            </button>
 
             {/* CTA Button */}
             <a 
@@ -180,45 +187,39 @@ const HVACHeader = () => {
         {isMenuOpen && (
           <div className="lg:hidden bg-white border-t border-gray-200 py-4 animate-fade-in">
             <div className="space-y-4">
-              <a 
-                href="/hvac" 
-                className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              <button 
+                onClick={() => handleNavigation('/')}
+                className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 Home
-              </a>
-              <a 
-                href="/hvac/about" 
-                className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              </button>
+              <button 
+                onClick={() => handleNavigation('/about')}
+                className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 About
-              </a>
-              <a 
-                href="/hvac/services" 
-                className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              </button>
+              <button 
+                onClick={() => handleNavigation('/services')}
+                className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 Services
-              </a>
-              <a 
-                href="/hvac/areas" 
-                className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              </button>
+              <button 
+                onClick={() => handleNavigation('/areas')}
+                className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 Areas We Serve
-              </a>
-              <a 
-                href="/hvac/contact" 
-                className="block text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
+              </button>
+              <button 
+                onClick={() => handleNavigation('/contact')}
+                className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
               >
                 Contact
-              </a>
+              </button>
               <a 
                 href="tel:5551234567"
                 className="block bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-full font-bold text-center transition-all duration-300"
-                onClick={() => setIsMenuOpen(false)}
               >
                 Call Now: (555) 123-4567
               </a>

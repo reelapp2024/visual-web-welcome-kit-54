@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, X, Phone, MapPin, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import {
@@ -12,6 +13,7 @@ import {
 
 const PlumbingHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const services = [
     { name: 'Emergency Plumbing', slug: 'emergency-plumbing' },
@@ -27,6 +29,11 @@ const PlumbingHeader = () => {
     { name: 'Cities', slug: 'cities', type: 'city' },
     { name: 'Local Areas', slug: 'areas', type: 'local' }
   ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 font-poppins">
@@ -56,21 +63,21 @@ const PlumbingHeader = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+            <button onClick={() => handleNavigation('/')} className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
               ProFlow Plumbing
-            </a>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6 lg:space-x-8">
-            <a href="/" className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
+            <button onClick={() => handleNavigation('/')} className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-            <a href="/about" className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
+            </button>
+            <button onClick={() => handleNavigation('/about')} className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
               About
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            </button>
             
             {/* Services Dropdown */}
             <DropdownMenu>
@@ -82,21 +89,21 @@ const PlumbingHeader = () => {
               <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[250px] p-2 font-poppins">
                 {services.map((service) => (
                   <DropdownMenuItem key={service.slug} className="p-0">
-                    <a 
-                      href={`/services/${service.slug}`} 
-                      className="w-full px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium block"
+                    <button 
+                      onClick={() => handleNavigation(`/services/${service.slug}`)}
+                      className="w-full px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium text-left"
                     >
                       {service.name}
-                    </a>
+                    </button>
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuItem className="p-0 border-t border-gray-100 mt-2 pt-2">
-                  <a 
-                    href="/services" 
-                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 block"
+                  <button 
+                    onClick={() => handleNavigation('/services')}
+                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 text-left"
                   >
                     View All Services
-                  </a>
+                  </button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -111,30 +118,30 @@ const PlumbingHeader = () => {
               <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] p-2 font-poppins">
                 {areasWeServe.map((area) => (
                   <DropdownMenuItem key={area.slug} className="p-0">
-                    <a 
-                      href={`/${area.slug}`} 
-                      className="w-full px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium block"
+                    <button 
+                      onClick={() => handleNavigation(`/${area.slug}`)}
+                      className="w-full px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-all duration-200 font-medium text-left"
                     >
                       {area.name}
-                    </a>
+                    </button>
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="p-0">
-                  <a 
-                    href="/maps" 
-                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 block"
+                  <button 
+                    onClick={() => handleNavigation('/maps')}
+                    className="w-full px-4 py-3 text-blue-600 font-semibold hover:bg-blue-50 rounded-md transition-all duration-200 text-left"
                   >
                     Maps
-                  </a>
+                  </button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <a href="/contact" className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
+            <button onClick={() => handleNavigation('/contact')} className="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium relative group">
               Contact
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            </button>
           </nav>
 
           {/* CTA Button */}
@@ -159,19 +166,19 @@ const PlumbingHeader = () => {
         {isMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white shadow-lg">
             <div className="px-2 pt-2 pb-3 space-y-1 max-h-96 overflow-y-auto">
-              <a href="/" className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Home</a>
-              <a href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">About</a>
+              <button onClick={() => handleNavigation('/')} className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Home</button>
+              <button onClick={() => handleNavigation('/about')} className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">About</button>
               
               {/* Mobile Services */}
               <div className="px-3 py-2">
                 <div className="text-gray-700 font-semibold mb-3 text-base">Services</div>
                 <div className="pl-4 space-y-2">
                   {services.map((service) => (
-                    <a key={service.slug} href={`/services/${service.slug}`} className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                    <button key={service.slug} onClick={() => handleNavigation(`/services/${service.slug}`)} className="block w-full text-left py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
                       {service.name}
-                    </a>
+                    </button>
                   ))}
-                  <a href="/services" className="block py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">View All Services</a>
+                  <button onClick={() => handleNavigation('/services')} className="block w-full text-left py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">View All Services</button>
                 </div>
               </div>
 
@@ -180,15 +187,15 @@ const PlumbingHeader = () => {
                 <div className="text-gray-700 font-semibold mb-3 text-base">Areas We Serve</div>
                 <div className="pl-4 space-y-2">
                   {areasWeServe.map((area) => (
-                    <a key={area.slug} href={`/${area.slug}`} className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
+                    <button key={area.slug} onClick={() => handleNavigation(`/${area.slug}`)} className="block w-full text-left py-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">
                       {area.name}
-                    </a>
+                    </button>
                   ))}
-                  <a href="/maps" className="block py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">Maps</a>
+                  <button onClick={() => handleNavigation('/maps')} className="block w-full text-left py-2 text-sm text-blue-600 font-semibold border-t border-gray-100 pt-3 mt-2">Maps</button>
                 </div>
               </div>
 
-              <a href="/contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Contact</a>
+              <button onClick={() => handleNavigation('/contact')} className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium transition-all duration-200">Contact</button>
               <div className="px-3 py-2">
                 <a href="tel:5551234567" className="block w-full bg-gradient-to-r from-cyan-500 to-cyan-600 text-white px-4 py-3 rounded-full font-bold text-sm text-center transition-all duration-300 transform hover:scale-105">
                   CALL NOW: (555) 123-4567
