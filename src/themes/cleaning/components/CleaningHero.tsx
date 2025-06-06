@@ -18,7 +18,7 @@ const CleaningHero = () => {
   if (site) {
     const currentSiteId = localStorage.getItem("currentSiteId");
     if (currentSiteId !== site) {
-      console.log("Updating site ID:", site);
+  
       localStorage.setItem("currentSiteId", site);
     }
   }

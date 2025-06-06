@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { httpFile } from "../../../config.js";
 import { MapPin, Clock, Shield } from 'lucide-react';
+import { slugify } from "../../../extras/slug";
 
 const CleaningServiceAreas = () => {
   const navigate = useNavigate();
@@ -10,8 +11,8 @@ const CleaningServiceAreas = () => {
   const [projectCategory, setProjectCategory] = useState("");
   const [welcomeLine, setWelcomeLine] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-const [UpcomingPage, setUpcomingPage]= useState("");
-const [locations, setLocations] = useState([]);
+  const [UpcomingPage, setUpcomingPage] = useState("");
+  const [locations, setLocations] = useState([]);
 
   // 1) Read the query-param once:
   const urlParams = new URLSearchParams(window.location.search);
@@ -21,7 +22,7 @@ const [locations, setLocations] = useState([]);
   if (site) {
     const currentSiteId = localStorage.getItem("currentSiteId");
     if (currentSiteId !== site) {
-      console.log("Updating site ID:", site);
+   
       localStorage.setItem("currentSiteId", site);
     }
   }
@@ -44,11 +45,11 @@ const [locations, setLocations] = useState([]);
           setProjectCategory(data.projectInfo.serviceType);
           setWelcomeLine(data.projectInfo.welcomeLine);
           setPhoneNumber(data.aboutUs.phone);
-        setUpcomingPage(data.upcomingPage);
+          setUpcomingPage(data.upcomingPage);
 
-            setLocations(data.locations);
-       
-         
+          setLocations(data.locations);
+
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -58,7 +59,52 @@ const [locations, setLocations] = useState([]);
     fetchData();
   }, [projectId]);
 
-  console.log(locations,"--=locaitns=---")
+
+
+
+   const handleLocationClick = (locationName, id, _id) => {
+
+
+ 
+
+
+    let nextPage=''
+
+    if(UpcomingPage=='country'){
+
+      nextPage='States'
+    }
+    else if(UpcomingPage=='state'){
+
+      nextPage='Cities'
+    }
+
+     if(UpcomingPage=='city'){
+
+      nextPage='Local Areas'
+    }
+
+     if(UpcomingPage=='local'){
+
+      nextPage='whole areas'
+    }
+ 
+    navigate(`/${slugify(locationName)}`, {
+      state: {
+        id,
+        projectId,
+        UpcomingPage,
+        nextPage,
+        locationName,
+        // oldPage,
+        _id
+      }
+    });
+    
+  
+    // log the startFrom value
+
+  };
 
   return (
     <section className="py-20 bg-gray-50 font-poppins">
@@ -81,7 +127,7 @@ const [locations, setLocations] = useState([]);
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">{area.name}</h3>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center text-gray-600">
                   <Clock className="w-5 h-5 text-green-500 mr-3" />
@@ -92,9 +138,9 @@ const [locations, setLocations] = useState([]);
                   <span>100% Original services</span>
                 </div>
               </div>
-              
-              <button 
-                onClick={() => navigate('/areas')}
+
+              <button
+                onClick={() => handleLocationClick(area.name, area.location_id,  area._id)}
                 className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
               >
                 See Areas

@@ -9,7 +9,7 @@ const CleaningFAQ = () => {
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "683da559d48d4721c48972d5";
-  console.log(projectId, "This is project id in services section");
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,8 +19,8 @@ const CleaningFAQ = () => {
         });
 
         if (data) {
-          console.log(data, "data");
-          setprojectFaqs(data.faqs || []);
+  
+          setprojectFaqs(data.faq || []);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -31,7 +31,7 @@ const CleaningFAQ = () => {
   }, [projectId]);
 
 
-  console.log(projectFaqs,"projectFaqs")
+
 
   const faqs = [
     {

@@ -25,6 +25,9 @@ import Disclaimer from "./pages/Disclaimer";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 
+import PlumbingMaps from "./themes/plumbing/pages/PlumbingMaps";
+
+
 const queryClient = new QueryClient();
 
 // Dynamic theme configuration - define the type properly
@@ -46,11 +49,17 @@ const App = () => (
           <Route path="/services/:slug" element={<ThemeServiceDetail />} />
           <Route path="/areas" element={<ThemeAreas />} />
           <Route path="/areas/:slug" element={<ThemeAreaDetail />} />
-          <Route path="/country" element={<ThemeCountry />} />
+          <Route path="/:slug" element={<ThemeCountry />} />
+          <Route path="/country/:countryname" element={<ThemeCountry />} />
+          <Route path="/:countryname" element={<ThemeCountry />} />
+          <Route path="/:countryname/:statename" element={<ThemeState />} />
+          <Route path="/:countryname/:statename/:cityname" element={<ThemeCity />} />
+          <Route path="/:countryname/:statename/:cityname/:localareaname" element={<ThemeCountry />} />
           <Route path="/states" element={<ThemeState />} />
           <Route path="/cities" element={<ThemeCity />} />
           <Route path="/cities/:slug" element={<CityDetail />} />
           <Route path="/states/:slug" element={<StateDetail />} />
+          <Route path="/maps" element={<PlumbingMaps />} />
           
           {/* Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />

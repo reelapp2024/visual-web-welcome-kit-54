@@ -10,7 +10,7 @@ const CleaningProcess = () => {
   
    const savedSiteId = localStorage.getItem("currentSiteId");
     const projectId = savedSiteId || "683da559d48d4721c48972d5";
-    console.log(projectId, "This is project id in services section");
+
 
       useEffect(() => {
         const fetchData = async () => {
