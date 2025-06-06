@@ -6,6 +6,7 @@ import { Award, Users, Clock, Shield } from 'lucide-react';
 const CleaningAboutUs = () => {
   const [aboutImage, setaboutImage] = useState("");
   const [projectCategory, setProjectCategory] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "683da559d48d4721c48972d5";
@@ -48,7 +49,7 @@ const CleaningAboutUs = () => {
 
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
-
+          setProjectDescription(data.projectInfo.description)
           setaboutImage(data.projectInfo.images[0].url)
 
         }
@@ -72,14 +73,10 @@ const CleaningAboutUs = () => {
               Professional {projectCategory} Solutions You Can Trust
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              With over 10 years of experience serving our community, SparkleClean Pro has built a reputation
-              for excellence in residential and commercial cleaning services. Our team of trained, insured
-              professionals is committed to providing spotless results for all your cleaning needs.
+            {projectDescription}
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              From weekly house cleanings to deep commercial sanitization, we use eco-friendly products and
-              proven techniques to ensure your space is not just clean, but healthy. Our same-day booking
-              and satisfaction guarantee mean you can trust us with your most important spaces.
+            
             </p>
 
             <div className="grid grid-cols-2 gap-6">

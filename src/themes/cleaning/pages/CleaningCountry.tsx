@@ -31,6 +31,7 @@ import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import { Flag } from 'lucide-react';
 import { slugify } from "../../../extras/slug";
+import CleaningLoader from '../components/CleaningLoader';
 
 
 const CleaningCountry = () => {
@@ -47,6 +48,7 @@ const CleaningCountry = () => {
 
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   let projectId = savedSiteId || "683da559d48d4721c48972d5";
@@ -128,7 +130,10 @@ const CleaningCountry = () => {
  
           setprojectFaqs(data.faq || []);
 
-          setPageLocation(data.RefLocation)
+          setPageLocation(data.RefLocation);
+
+      setIsLoading(false);
+
 
        
 
@@ -146,6 +151,10 @@ const CleaningCountry = () => {
 
 
   console.log(openFAQ, "openFAQ",projectFaqs,"projectFaqs")
+
+    if (isLoading) {
+      return <CleaningLoader />;
+    }
 
   return (
     <div className="min-h-screen font-poppins">
@@ -219,11 +228,11 @@ const CleaningCountry = () => {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <img
+                    {/* <img
                       src={testimonial.customer_image}
                       alt=""
                       className="w-12 h-12 rounded-full object-cover"
-                    />
+                    /> */}
                     <div>
                       <h4 className="font-bold text-gray-900">
                         {testimonial.customer_name}

@@ -29,6 +29,8 @@ import CleaningServiceAreas from '../components/CleaningServiceAreas';
 import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
+import CleaningLoader from '../components/CleaningLoader';
+
 const CleaningState = () => {
 
 
@@ -55,6 +57,7 @@ const CleaningState = () => {
 
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   let projectId = savedSiteId || "683da559d48d4721c48972d5";
@@ -137,6 +140,7 @@ const CleaningState = () => {
           setprojectFaqs(data.faq || []);
 
           setPageLocation(data.RefLocation)
+      setIsLoading(false);
 
 
         }
@@ -157,6 +161,9 @@ const CleaningState = () => {
 
 
 
+    if (isLoading) {
+      return <CleaningLoader />;
+    }
 
 
 
@@ -233,11 +240,11 @@ const CleaningState = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <img
+                      {/* <img
                         src={testimonial.customer_image}
                         alt=""
                         className="w-12 h-12 rounded-full object-cover"
-                      />
+                      /> */}
                       <div>
                         <h4 className="font-bold text-gray-900">
                           {testimonial.customer_name}

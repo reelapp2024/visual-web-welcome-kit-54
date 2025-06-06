@@ -1,15 +1,50 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Phone, Star, Sparkles, CheckCircle } from "lucide-react";
 import { httpFile } from "../../../config.js";
+import CleaningLoader from '../components/CleaningLoader';
+import { Phone, Star, Sparkles, CheckCircle } from "lucide-react";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import * as Icons from 'lucide-react';
+
+function DynamicIcon({ iconName, ...props }) {
+  const IconComponent = Icons[iconName];
+
+  // If the icon name is not found, you can return null or a default icon
+  if (!IconComponent) {
+    return null; // or return <Icons.Star {...props} /> as fallback
+  }
+
+  return <IconComponent {...props} />;
+}
+
+// Usage example:
+// Suppose your backend sends "Star" or "Quote" as iconName
+
+
+
 
 const CleaningHero = () => {
   const navigate = useNavigate();
   const [projectCategory, setProjectCategory] = useState("");
   const [welcomeLine, setWelcomeLine] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const iconFromApi='Star'
   // 1) Read the query-param once:
   const urlParams = new URLSearchParams(window.location.search);
   const site = urlParams.get("siteId");
@@ -41,6 +76,7 @@ const CleaningHero = () => {
           setProjectCategory(data.projectInfo.serviceType);
           setWelcomeLine(data.projectInfo.welcomeLine);
           setPhoneNumber(data.aboutUs.phone);
+      setIsLoading(false);
          
         }
       } catch (error) {
@@ -51,11 +87,19 @@ const CleaningHero = () => {
     fetchData();
   }, [projectId]);
 
+   if (isLoading) {
+      return <CleaningLoader />;
+    }
+
   return (
+
+    
     <section className="relative py-20 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 text-white overflow-hidden min-h-[700px] flex items-center">
       {/* Animated Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
+
+      
           {[...Array(30)].map((_, i) => (
             <div
               key={i}

@@ -73,11 +73,11 @@ const CleaningTestimonials: React.FC = () => {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <img
+                    {/* <img
                       src={testimonial.customer_image}
                       alt=""
                       className="w-12 h-12 rounded-full object-cover"
-                    />
+                    /> */}
                     <div>
                       <h4 className="font-bold text-gray-900">
                         {testimonial.customer_name}

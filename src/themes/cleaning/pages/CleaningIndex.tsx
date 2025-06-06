@@ -16,21 +16,7 @@ import CleaningFooter from '../components/CleaningFooter';
 import CleaningLoader from '../components/CleaningLoader';
 
 const CleaningIndex = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate API loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <CleaningLoader />;
-  }
-
+ 
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
@@ -45,7 +31,7 @@ const CleaningIndex = () => {
       <CleaningTestimonials />
       <CleaningCTA />
       <CleaningServiceAreas />
-      <ServiceMap theme="cleaning" />
+      {/* <ServiceMap theme="cleaning" /> */}
       <CleaningFAQ />
       <CleaningCTA />
       <CleaningFooter />

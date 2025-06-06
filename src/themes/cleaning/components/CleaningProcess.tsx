@@ -10,7 +10,7 @@ const CleaningProcess = () => {
   
    const savedSiteId = localStorage.getItem("currentSiteId");
     const projectId = savedSiteId || "683da559d48d4721c48972d5";
-
+    console.log(projectId, "This is project id in services section");
 
       useEffect(() => {
         const fetchData = async () => {
@@ -106,9 +106,14 @@ const CleaningProcess = () => {
               
               {/* Card */}
               <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 p-8 border border-gray-100">
-                <div className={`bg-gradient-to-br ${step.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
+                {/* <div className={`bg-gradient-to-br ${step.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
                   {step.icon}
-                </div>
+                </div> */}
+
+                <div className={`bg-gradient-to-br ${step.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
+  <span className="text-4xl">⭐</span>
+</div>
+
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{step.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{step.description}</p>
               </div>

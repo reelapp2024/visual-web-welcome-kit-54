@@ -31,6 +31,7 @@ import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import { Building } from 'lucide-react';
+import CleaningLoader from '../components/CleaningLoader';
 
 const CleaningCity = () => {
 
@@ -64,6 +65,7 @@ const CleaningCity = () => {
   let projectId = savedSiteId || "683da559d48d4721c48972d5";
   const [locations, setLocations] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
 
   let { id,
 
@@ -143,6 +145,7 @@ const CleaningCity = () => {
           setLocations(data.locations);
 
           setPageLocation(data.RefLocation)
+      setIsLoading(false);
 
 
         }
@@ -160,6 +163,9 @@ const CleaningCity = () => {
   console.log(pageLocation, "pageLocation")
 
 
+    if (isLoading) {
+      return <CleaningLoader />;
+    }
 
   return (
     <div className="min-h-screen font-poppins">
@@ -233,11 +239,11 @@ const CleaningCity = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <img
+                      {/* <img
                         src={testimonial.customer_image}
                         alt=""
                         className="w-12 h-12 rounded-full object-cover"
-                      />
+                      /> */}
                       <div>
                         <h4 className="font-bold text-gray-900">
                           {testimonial.customer_name}
