@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CleaningHeader from '../components/CleaningHeader';
 import CleaningHero from '../components/CleaningHero';
 import CleaningCTA from '../components/CleaningCTA';
@@ -13,8 +13,24 @@ import CleaningServiceAreas from '../components/CleaningServiceAreas';
 import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
+import CleaningLoader from '../components/CleaningLoader';
 
 const CleaningIndex = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate API loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <CleaningLoader />;
+  }
+
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />

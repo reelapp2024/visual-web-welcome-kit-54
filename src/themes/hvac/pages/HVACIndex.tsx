@@ -1,10 +1,10 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import HVACHeader from '../components/HVACHeader';
 import HVACHero from '../components/HVACHero';
+import HVACCTA from '../components/HVACCTA';
 import HVACAboutUs from '../components/HVACAboutUs';
 import HVACServices from '../components/HVACServices';
-import HVACCTA from '../components/HVACCTA';
 import HVACWhyChooseUs from '../components/HVACWhyChooseUs';
 import HVACProcess from '../components/HVACProcess';
 import HVACGuarantee from '../components/HVACGuarantee';
@@ -13,8 +13,24 @@ import HVACServiceAreas from '../components/HVACServiceAreas';
 import ServiceMap from '../../../components/ServiceMap';
 import HVACFAQ from '../components/HVACFAQ';
 import HVACFooter from '../components/HVACFooter';
+import HVACLoader from '../components/HVACLoader';
 
 const HVACIndex = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate API loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <HVACLoader />;
+  }
+
   return (
     <div className="min-h-screen font-poppins">
       <HVACHeader />

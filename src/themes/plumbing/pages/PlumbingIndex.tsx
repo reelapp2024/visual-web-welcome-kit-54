@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PlumbingHeader from '../components/PlumbingHeader';
 import PlumbingHero from '../components/PlumbingHero';
 import PlumbingCTA from '../components/PlumbingCTA';
@@ -13,8 +13,24 @@ import PlumbingServiceAreas from '../components/PlumbingServiceAreas';
 import ServiceMap from '../../../components/ServiceMap';
 import PlumbingFAQ from '../components/PlumbingFAQ';
 import PlumbingFooter from '../components/PlumbingFooter';
+import PlumbingLoader from '../components/PlumbingLoader';
 
 const PlumbingIndex = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate API loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <PlumbingLoader />;
+  }
+
   return (
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
