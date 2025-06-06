@@ -25,8 +25,19 @@ import Disclaimer from "./pages/Disclaimer";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 
-import PlumbingMaps from "./themes/plumbing/pages/PlumbingMaps";
+// Theme-specific legal pages
+import CleaningTermsConditions from "./themes/cleaning/pages/CleaningTermsConditions";
+import CleaningPrivacyPolicy from "./themes/cleaning/pages/CleaningPrivacyPolicy";
+import PlumbingTermsConditions from "./themes/plumbing/pages/PlumbingTermsConditions";
+import PlumbingPrivacyPolicy from "./themes/plumbing/pages/PlumbingPrivacyPolicy";
+import HVACTermsConditions from "./themes/hvac/pages/HVACTermsConditions";
+import HVACPrivacyPolicy from "./themes/hvac/pages/HVACPrivacyPolicy";
+import RoofingTermsConditions from "./themes/roofing/pages/RoofingTermsConditions";
+import RoofingPrivacyPolicy from "./themes/roofing/pages/RoofingPrivacyPolicy";
+import PaintingTermsConditions from "./themes/painting/pages/PaintingTermsConditions";
+import PaintingPrivacyPolicy from "./themes/painting/pages/PaintingPrivacyPolicy";
 
+import PlumbingMaps from "./themes/plumbing/pages/PlumbingMaps";
 
 const queryClient = new QueryClient();
 
@@ -61,7 +72,19 @@ const App = () => (
           <Route path="/states/:slug" element={<StateDetail />} />
           <Route path="/maps" element={<PlumbingMaps />} />
           
-          {/* Legal Pages */}
+          {/* Theme-specific Legal Pages */}
+          <Route path="/cleaning/terms-conditions" element={<CleaningTermsConditions />} />
+          <Route path="/cleaning/privacy-policy" element={<CleaningPrivacyPolicy />} />
+          <Route path="/plumbing/terms-conditions" element={<PlumbingTermsConditions />} />
+          <Route path="/plumbing/privacy-policy" element={<PlumbingPrivacyPolicy />} />
+          <Route path="/hvac/terms-conditions" element={<HVACTermsConditions />} />
+          <Route path="/hvac/privacy-policy" element={<HVACPrivacyPolicy />} />
+          <Route path="/roofing/terms-conditions" element={<RoofingTermsConditions />} />
+          <Route path="/roofing/privacy-policy" element={<RoofingPrivacyPolicy />} />
+          <Route path="/painting/terms-conditions" element={<PaintingTermsConditions />} />
+          <Route path="/painting/privacy-policy" element={<PaintingPrivacyPolicy />} />
+          
+          {/* General Legal Pages */}
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

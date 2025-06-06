@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Sparkles, Facebook, Twitter, Instagram } from 'lucide-react';
 
 const CleaningFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-gray-900 text-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -32,11 +35,11 @@ const CleaningFooter = () => {
           <div>
             <h4 className="text-lg font-bold mb-6">Our Services</h4>
             <ul className="space-y-3">
-              <li><a href="/cleaning/services/residential" className="text-gray-300 hover:text-green-500 transition-colors">Residential Cleaning</a></li>
-              <li><a href="/cleaning/services/commercial" className="text-gray-300 hover:text-green-500 transition-colors">Commercial Cleaning</a></li>
-              <li><a href="/cleaning/services/deep-cleaning" className="text-gray-300 hover:text-green-500 transition-colors">Deep Cleaning</a></li>
-              <li><a href="/cleaning/services/upholstery" className="text-gray-300 hover:text-green-500 transition-colors">Upholstery Cleaning</a></li>
-              <li><a href="/cleaning/services/laundry" className="text-gray-300 hover:text-green-500 transition-colors">Laundry Services</a></li>
+              <li><button onClick={() => navigate('/services/residential')} className="text-gray-300 hover:text-green-500 transition-colors">Residential Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/commercial')} className="text-gray-300 hover:text-green-500 transition-colors">Commercial Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/deep-cleaning')} className="text-gray-300 hover:text-green-500 transition-colors">Deep Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/upholstery')} className="text-gray-300 hover:text-green-500 transition-colors">Upholstery Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/laundry')} className="text-gray-300 hover:text-green-500 transition-colors">Laundry Services</button></li>
             </ul>
           </div>
 
@@ -44,11 +47,11 @@ const CleaningFooter = () => {
           <div>
             <h4 className="text-lg font-bold mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="/cleaning/about" className="text-gray-300 hover:text-green-500 transition-colors">About Us</a></li>
-              <li><a href="/cleaning/areas" className="text-gray-300 hover:text-green-500 transition-colors">Service Areas</a></li>
-              <li><a href="/cleaning/contact" className="text-gray-300 hover:text-green-500 transition-colors">Contact Us</a></li>
-              <li><a href="/terms-conditions" className="text-gray-300 hover:text-green-500 transition-colors">Terms & Conditions</a></li>
-              <li><a href="/privacy-policy" className="text-gray-300 hover:text-green-500 transition-colors">Privacy Policy</a></li>
+              <li><button onClick={() => navigate('/about')} className="text-gray-300 hover:text-green-500 transition-colors">About Us</button></li>
+              <li><button onClick={() => navigate('/areas')} className="text-gray-300 hover:text-green-500 transition-colors">Service Areas</button></li>
+              <li><button onClick={() => navigate('/contact')} className="text-gray-300 hover:text-green-500 transition-colors">Contact Us</button></li>
+              <li><button onClick={() => navigate('/cleaning/terms-conditions')} className="text-gray-300 hover:text-green-500 transition-colors">Terms & Conditions</button></li>
+              <li><button onClick={() => navigate('/cleaning/privacy-policy')} className="text-gray-300 hover:text-green-500 transition-colors">Privacy Policy</button></li>
             </ul>
           </div>
 
@@ -82,9 +85,9 @@ const CleaningFooter = () => {
               © 2024 SparkleClean Pro. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/terms-conditions" className="text-gray-400 hover:text-green-500 text-sm transition-colors">Terms</a>
-              <a href="/privacy-policy" className="text-gray-400 hover:text-green-500 text-sm transition-colors">Privacy</a>
-              <a href="/disclaimer" className="text-gray-400 hover:text-green-500 text-sm transition-colors">Disclaimer</a>
+              <button onClick={() => navigate('/cleaning/terms-conditions')} className="text-gray-400 hover:text-green-500 text-sm transition-colors">Terms</button>
+              <button onClick={() => navigate('/cleaning/privacy-policy')} className="text-gray-400 hover:text-green-500 text-sm transition-colors">Privacy</button>
+              <button onClick={() => navigate('/disclaimer')} className="text-gray-400 hover:text-green-500 text-sm transition-colors">Disclaimer</button>
             </div>
           </div>
         </div>

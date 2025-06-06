@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const PaintingFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-purple-900 text-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -15,18 +18,18 @@ const PaintingFooter = () => {
               and satisfaction guaranteed on all projects.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
+              <button className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
                 <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
+              </button>
+              <button className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
                 <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
+              </button>
+              <button className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
+              </button>
+              <button className="text-gray-400 hover:text-purple-400 transition-colors duration-200">
                 <Linkedin size={20} />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -34,11 +37,11 @@ const PaintingFooter = () => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-6">Our Services</h4>
             <ul className="space-y-3">
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Interior Painting</a></li>
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Exterior Painting</a></li>
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Cabinet Painting</a></li>
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Color Consultation</a></li>
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Specialty Finishes</a></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Interior Painting</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Exterior Painting</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Cabinet Painting</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Color Consultation</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Specialty Finishes</button></li>
             </ul>
           </div>
 
@@ -46,11 +49,11 @@ const PaintingFooter = () => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="/painting" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Home</a></li>
-              <li><a href="/painting/about" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">About Us</a></li>
-              <li><a href="/painting/services" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Services</a></li>
-              <li><a href="/painting/areas" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Service Areas</a></li>
-              <li><a href="/painting/contact" className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Contact</a></li>
+              <li><button onClick={() => navigate('/')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Home</button></li>
+              <li><button onClick={() => navigate('/about')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">About Us</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Services</button></li>
+              <li><button onClick={() => navigate('/areas')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Service Areas</button></li>
+              <li><button onClick={() => navigate('/contact')} className="text-gray-300 hover:text-purple-400 transition-colors duration-200">Contact</button></li>
             </ul>
           </div>
 
@@ -85,15 +88,15 @@ const PaintingFooter = () => {
               © 2024 ColorPro Painting. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/privacy-policy" className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
+              <button onClick={() => navigate('/painting/privacy-policy')} className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
                 Privacy Policy
-              </a>
-              <a href="/terms-conditions" className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/painting/terms-conditions')} className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
                 Terms of Service
-              </a>
-              <a href="/disclaimer" className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/disclaimer')} className="text-gray-400 hover:text-purple-400 text-sm transition-colors duration-200">
                 Disclaimer
-              </a>
+              </button>
             </div>
           </div>
         </div>

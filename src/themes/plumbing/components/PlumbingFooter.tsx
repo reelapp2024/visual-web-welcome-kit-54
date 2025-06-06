@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const PlumbingFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-blue-900 text-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -14,18 +17,18 @@ const PlumbingFooter = () => {
               Professional plumbing services you can trust. Available 24/7 for all your emergency and routine plumbing needs.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
                 <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
                 <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
                 <Linkedin className="w-5 h-5" />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -33,12 +36,12 @@ const PlumbingFooter = () => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-6">Our Services</h4>
             <ul className="space-y-3">
-              <li><a href="/services/emergency-plumbing" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Emergency Plumbing</a></li>
-              <li><a href="/services/drain-cleaning" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Drain Cleaning</a></li>
-              <li><a href="/services/water-heater-repair" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Water Heater Services</a></li>
-              <li><a href="/services/pipe-installation" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Pipe Installation</a></li>
-              <li><a href="/services/bathroom-plumbing" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Bathroom Plumbing</a></li>
-              <li><a href="/services/general-repairs" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">General Repairs</a></li>
+              <li><button onClick={() => navigate('/services/emergency-plumbing')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Emergency Plumbing</button></li>
+              <li><button onClick={() => navigate('/services/drain-cleaning')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Drain Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/water-heater-repair')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Water Heater Services</button></li>
+              <li><button onClick={() => navigate('/services/pipe-installation')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Pipe Installation</button></li>
+              <li><button onClick={() => navigate('/services/bathroom-plumbing')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Bathroom Plumbing</button></li>
+              <li><button onClick={() => navigate('/services/general-repairs')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">General Repairs</button></li>
             </ul>
           </div>
 
@@ -46,12 +49,12 @@ const PlumbingFooter = () => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="/" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Home</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">About Us</a></li>
-              <li><a href="/services" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Services</a></li>
-              <li><a href="/areas" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Service Areas</a></li>
-              <li><a href="/contact" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Contact</a></li>
-              <li><a href="/privacy-policy" className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Privacy Policy</a></li>
+              <li><button onClick={() => navigate('/')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Home</button></li>
+              <li><button onClick={() => navigate('/about')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">About Us</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Services</button></li>
+              <li><button onClick={() => navigate('/areas')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Service Areas</button></li>
+              <li><button onClick={() => navigate('/contact')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Contact</button></li>
+              <li><button onClick={() => navigate('/plumbing/privacy-policy')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Privacy Policy</button></li>
             </ul>
           </div>
 
@@ -95,15 +98,15 @@ const PlumbingFooter = () => {
               © 2024 ProFlow Plumbing. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/terms-conditions" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
+              <button onClick={() => navigate('/plumbing/terms-conditions')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
                 Terms & Conditions
-              </a>
-              <a href="/privacy-policy" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/plumbing/privacy-policy')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
                 Privacy Policy
-              </a>
-              <a href="/disclaimer" className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/disclaimer')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
                 Disclaimer
-              </a>
+              </button>
             </div>
           </div>
         </div>

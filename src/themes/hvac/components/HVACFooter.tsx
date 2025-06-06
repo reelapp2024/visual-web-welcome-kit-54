@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const HVACFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-orange-900 text-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -14,18 +17,18 @@ const HVACFooter = () => {
               Professional HVAC services you can trust. Available 24/7 for all your emergency and routine heating and cooling needs.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
+              <button className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
                 <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
                 <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
+              </button>
+              <button className="bg-white/10 hover:bg-orange-600 p-2 rounded-full transition-all duration-300">
                 <Linkedin className="w-5 h-5" />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -33,12 +36,12 @@ const HVACFooter = () => {
           <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <h4 className="text-lg font-semibold text-white mb-6">Our Services</h4>
             <ul className="space-y-3">
-              <li><a href="/hvac/services/emergency-hvac" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Emergency HVAC</a></li>
-              <li><a href="/hvac/services/ac-repair" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Air Conditioning</a></li>
-              <li><a href="/hvac/services/heating-repair" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Heating Systems</a></li>
-              <li><a href="/hvac/services/hvac-installation" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">HVAC Installation</a></li>
-              <li><a href="/hvac/services/duct-cleaning" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Duct Cleaning</a></li>
-              <li><a href="/hvac/services/thermostat-services" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Thermostat Services</a></li>
+              <li><button onClick={() => navigate('/services/emergency-hvac')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Emergency HVAC</button></li>
+              <li><button onClick={() => navigate('/services/ac-repair')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Air Conditioning</button></li>
+              <li><button onClick={() => navigate('/services/heating-repair')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Heating Systems</button></li>
+              <li><button onClick={() => navigate('/services/hvac-installation')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">HVAC Installation</button></li>
+              <li><button onClick={() => navigate('/services/duct-cleaning')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Duct Cleaning</button></li>
+              <li><button onClick={() => navigate('/services/thermostat-services')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Thermostat Services</button></li>
             </ul>
           </div>
 
@@ -46,12 +49,12 @@ const HVACFooter = () => {
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><a href="/hvac" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Home</a></li>
-              <li><a href="/hvac/about" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">About Us</a></li>
-              <li><a href="/hvac/services" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Services</a></li>
-              <li><a href="/hvac/areas" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Service Areas</a></li>
-              <li><a href="/hvac/contact" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Contact</a></li>
-              <li><a href="/privacy-policy" className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Privacy Policy</a></li>
+              <li><button onClick={() => navigate('/')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Home</button></li>
+              <li><button onClick={() => navigate('/about')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">About Us</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Services</button></li>
+              <li><button onClick={() => navigate('/areas')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Service Areas</button></li>
+              <li><button onClick={() => navigate('/contact')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Contact</button></li>
+              <li><button onClick={() => navigate('/hvac/privacy-policy')} className="text-gray-300 hover:text-orange-400 transition-colors duration-200">Privacy Policy</button></li>
             </ul>
           </div>
 
@@ -89,9 +92,22 @@ const HVACFooter = () => {
         </div>
 
         <div className="border-t border-gray-700 mt-12 pt-8 text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <p className="text-gray-400">
-            © 2024 CoolHeat Pro. All rights reserved. | Licensed & Insured HVAC Contractors
-          </p>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400">
+              © 2024 CoolHeat Pro. All rights reserved. | Licensed & Insured HVAC Contractors
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <button onClick={() => navigate('/hvac/terms-conditions')} className="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
+                Terms & Conditions
+              </button>
+              <button onClick={() => navigate('/hvac/privacy-policy')} className="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
+                Privacy Policy
+              </button>
+              <button onClick={() => navigate('/disclaimer')} className="text-gray-400 hover:text-orange-400 text-sm transition-colors duration-200">
+                Disclaimer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

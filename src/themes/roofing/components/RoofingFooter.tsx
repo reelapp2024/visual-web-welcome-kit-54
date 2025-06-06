@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 
 const RoofingFooter = () => {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-slate-900 text-white font-poppins">
       {/* Main Footer Content */}
@@ -10,24 +13,24 @@ const RoofingFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-4">
-            <a href="/roofing" className="text-2xl font-bold hover:text-orange-300 transition-colors">Elite Roofing Pro</a>
+            <button onClick={() => navigate('/')} className="text-2xl font-bold hover:text-orange-300 transition-colors">Elite Roofing Pro</button>
             <p className="text-slate-100 leading-relaxed">
               Professional roofing installation, repair, and maintenance services for residential and commercial properties. 
               Licensed contractors providing quality workmanship with premium materials and reliable service.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-200">
+              <button className="text-slate-400 hover:text-white transition-colors duration-200">
                 <Facebook size={20} />
-              </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-200">
+              </button>
+              <button className="text-slate-400 hover:text-white transition-colors duration-200">
                 <Twitter size={20} />
-              </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-200">
+              </button>
+              <button className="text-slate-400 hover:text-white transition-colors duration-200">
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-200">
+              </button>
+              <button className="text-slate-400 hover:text-white transition-colors duration-200">
                 <Linkedin size={20} />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -35,11 +38,11 @@ const RoofingFooter = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Our Services</h4>
             <ul className="space-y-2">
-              <li><a href="/roofing/services/roof-installation" className="text-slate-100 hover:text-white transition-colors duration-200">Roof Installation</a></li>
-              <li><a href="/roofing/services/roof-repair" className="text-slate-100 hover:text-white transition-colors duration-200">Roof Repair</a></li>
-              <li><a href="/roofing/services/roof-replacement" className="text-slate-100 hover:text-white transition-colors duration-200">Roof Replacement</a></li>
-              <li><a href="/roofing/services/emergency-roof-service" className="text-slate-100 hover:text-white transition-colors duration-200">Emergency Service</a></li>
-              <li><a href="/roofing/services/roof-inspection" className="text-slate-100 hover:text-white transition-colors duration-200">Roof Inspection</a></li>
+              <li><button onClick={() => navigate('/services/roof-installation')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Installation</button></li>
+              <li><button onClick={() => navigate('/services/roof-repair')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Repair</button></li>
+              <li><button onClick={() => navigate('/services/roof-replacement')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Replacement</button></li>
+              <li><button onClick={() => navigate('/services/emergency-roof-service')} className="text-slate-100 hover:text-white transition-colors duration-200">Emergency Service</button></li>
+              <li><button onClick={() => navigate('/services/roof-inspection')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Inspection</button></li>
             </ul>
           </div>
 
@@ -47,11 +50,11 @@ const RoofingFooter = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Areas We Serve</h4>
             <ul className="space-y-2">
-              <li><a href="/roofing/areas/central-business-district" className="text-slate-100 hover:text-white transition-colors duration-200">Central Business District</a></li>
-              <li><a href="/roofing/areas/highland-park" className="text-slate-100 hover:text-white transition-colors duration-200">Highland Park</a></li>
-              <li><a href="/roofing/areas/riverside-commons" className="text-slate-100 hover:text-white transition-colors duration-200">Riverside Commons</a></li>
-              <li><a href="/roofing/areas/summit-ridge" className="text-slate-100 hover:text-white transition-colors duration-200">Summit Ridge</a></li>
-              <li><a href="/roofing/areas/valley-view" className="text-slate-100 hover:text-white transition-colors duration-200">Valley View</a></li>
+              <li><button onClick={() => navigate('/areas/central-business-district')} className="text-slate-100 hover:text-white transition-colors duration-200">Central Business District</button></li>
+              <li><button onClick={() => navigate('/areas/highland-park')} className="text-slate-100 hover:text-white transition-colors duration-200">Highland Park</button></li>
+              <li><button onClick={() => navigate('/areas/riverside-commons')} className="text-slate-100 hover:text-white transition-colors duration-200">Riverside Commons</button></li>
+              <li><button onClick={() => navigate('/areas/summit-ridge')} className="text-slate-100 hover:text-white transition-colors duration-200">Summit Ridge</button></li>
+              <li><button onClick={() => navigate('/areas/valley-view')} className="text-slate-100 hover:text-white transition-colors duration-200">Valley View</button></li>
             </ul>
           </div>
 
@@ -59,11 +62,11 @@ const RoofingFooter = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Contact & Links</h4>
             <ul className="space-y-2">
-              <li><a href="/roofing" className="text-slate-100 hover:text-white transition-colors duration-200">Home</a></li>
-              <li><a href="/roofing/about" className="text-slate-100 hover:text-white transition-colors duration-200">About Us</a></li>
-              <li><a href="/roofing/services" className="text-slate-100 hover:text-white transition-colors duration-200">All Services</a></li>
-              <li><a href="/roofing/areas" className="text-slate-100 hover:text-white transition-colors duration-200">Service Areas</a></li>
-              <li><a href="/roofing/contact" className="text-slate-100 hover:text-white transition-colors duration-200">Contact</a></li>
+              <li><button onClick={() => navigate('/')} className="text-slate-100 hover:text-white transition-colors duration-200">Home</button></li>
+              <li><button onClick={() => navigate('/about')} className="text-slate-100 hover:text-white transition-colors duration-200">About Us</button></li>
+              <li><button onClick={() => navigate('/services')} className="text-slate-100 hover:text-white transition-colors duration-200">All Services</button></li>
+              <li><button onClick={() => navigate('/areas')} className="text-slate-100 hover:text-white transition-colors duration-200">Service Areas</button></li>
+              <li><button onClick={() => navigate('/contact')} className="text-slate-100 hover:text-white transition-colors duration-200">Contact</button></li>
             </ul>
             
             <div className="space-y-3 pt-4">
@@ -107,15 +110,15 @@ const RoofingFooter = () => {
               © 2024 Elite Roofing Pro. All rights reserved. Licensed & Bonded Roofing Services.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/privacy-policy" className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
+              <button onClick={() => navigate('/roofing/privacy-policy')} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                 Privacy Policy
-              </a>
-              <a href="/terms-conditions" className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/roofing/terms-conditions')} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                 Terms & Conditions
-              </a>
-              <a href="/disclaimer" className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
+              </button>
+              <button onClick={() => navigate('/disclaimer')} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                 Disclaimer
-              </a>
+              </button>
             </div>
           </div>
         </div>
