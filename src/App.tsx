@@ -35,7 +35,7 @@ import HVACPrivacyPolicy from "./themes/hvac/pages/HVACPrivacyPolicy";
 import RoofingTermsConditions from "./themes/roofing/pages/RoofingTermsConditions";
 import RoofingPrivacyPolicy from "./themes/roofing/pages/RoofingPrivacyPolicy";
 import PaintingTermsConditions from "./themes/painting/pages/PaintingTermsConditions";
-import PaintingPrivacyPolicy from "./themes/painting/pages/PaintingPrivacyPrivacyPolicy";
+import PaintingPrivacyPolicy from "./themes/painting/pages/PaintingPrivacyPolicy";
 
 import PlumbingMaps from "./themes/plumbing/pages/PlumbingMaps";
 
