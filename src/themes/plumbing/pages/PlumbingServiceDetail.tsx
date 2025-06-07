@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PlumbingHeader from '../components/PlumbingHeader';
 import PlumbingCTA from '../components/PlumbingCTA';
 import PlumbingAboutUs from '../components/PlumbingAboutUs';
@@ -11,8 +12,23 @@ import PlumbingRelatedServices from '../components/PlumbingRelatedServices';
 import PlumbingServiceAreas from '../components/PlumbingServiceAreas';
 import PlumbingFooter from '../components/PlumbingFooter';
 import { Wrench, Phone } from 'lucide-react';
+import { humanizeSlug } from '../../../extras/slug';
 
-const PlumbingServiceDetail = () => {
+interface PlumbingServiceDetailProps {
+  location?: string;
+  serviceName?: string;
+}
+
+const PlumbingServiceDetail: React.FC<PlumbingServiceDetailProps> = ({ location, serviceName }) => {
+  const { slug } = useParams();
+  
+  const displayServiceName = serviceName ? humanizeSlug(serviceName) : (slug ? humanizeSlug(slug) : 'Emergency Plumbing');
+  const displayLocation = location ? humanizeSlug(location) : '';
+  
+  const pageTitle = displayLocation 
+    ? `Professional ${displayServiceName} Services in ${displayLocation}`
+    : `Professional ${displayServiceName} Services`;
+
   return (
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
@@ -34,11 +50,13 @@ const PlumbingServiceDetail = () => {
             <div>
               <div className="flex items-center mb-4">
                 <Wrench className="w-8 h-8 text-cyan-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">Emergency Plumbing</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{pageTitle}</h1>
               </div>
               <p className="text-xl text-blue-100 mb-8">
-                24/7 emergency plumbing services for burst pipes, severe leaks, and urgent repairs. 
-                Fast response times guaranteed with expert technicians.
+                {displayLocation 
+                  ? `24/7 ${displayServiceName.toLowerCase()} services in ${displayLocation} for burst pipes, severe leaks, and urgent repairs. Fast response times guaranteed with expert technicians.`
+                  : `24/7 ${displayServiceName.toLowerCase()} services for burst pipes, severe leaks, and urgent repairs. Fast response times guaranteed with expert technicians.`
+                }
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-cyan-400" />
@@ -48,7 +66,7 @@ const PlumbingServiceDetail = () => {
             <div>
               <img
                 src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Emergency plumbing services"
+                alt={pageTitle}
                 className="rounded-2xl shadow-2xl"
               />
             </div>

@@ -1,162 +1,125 @@
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
-import { Home, Building, Sparkles, Car, Sofa, Shirt } from 'lucide-react';
+import { Sparkles, Home, Building, Car, Sofa, Utensils, Trash } from 'lucide-react';
+import { slugify } from "../../../extras/slug";
 
 const CleaningServices = () => {
-
-  const [projectServices, setprojectServices] = useState([]);
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [services, setServices] = useState([]);
   const [projectCategory, setProjectCategory] = useState("");
+  const [isFromLocationPage, setIsFromLocationPage] = useState(false);
+  const [currentLocationName, setCurrentLocationName] = useState("");
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "683da559d48d4721c48972d5";
 
-  const services = [
-    {
-      icon: <Home className="w-12 h-12" />,
-      title: "Residential Cleaningx",
-      description: "Complete home cleaning services including kitchens, bathrooms, bedrooms, and living areas.",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Deep cleaning", "Regular maintenance", "Move-in/out cleaning"],
-      gradient: "from-green-500 to-green-600"
-    },
-    {
-      icon: <Building className="w-12 h-12" />,
-      title: "Commercial Cleaning",
-      description: "Professional office and commercial space cleaning with flexible scheduling options.",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Office cleaning", "Retail spaces", "Medical facilities"],
-      gradient: "from-emerald-500 to-emerald-600"
-    },
-    {
-      icon: <Sparkles className="w-12 h-12" />,
-      title: "Deep Cleaning",
-      description: "Thorough deep cleaning service for homes and businesses that need extra attention.",
-      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Spring cleaning", "Post-construction", "Move-in ready"],
-      gradient: "from-green-600 to-emerald-500"
-    },
-    {
-      icon: <Car className="w-12 h-12" />,
-      title: "Garage Cleaning",
-      description: "Complete garage organization and cleaning services to maximize your storage space.",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Organization", "Floor cleaning", "Storage solutions"],
-      gradient: "from-emerald-600 to-green-600"
-    },
-    {
-      icon: <Sofa className="w-12 h-12" />,
-      title: "Upholstery Cleaning",
-      description: "Professional furniture and upholstery cleaning to restore your favorite pieces.",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Fabric protection", "Stain removal", "Odor elimination"],
-      gradient: "from-green-500 to-emerald-600"
-    },
-    {
-      icon: <Shirt className="w-12 h-12" />,
-      title: "Laundry Services",
-      description: "Professional laundry and dry cleaning services with pickup and delivery options.",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Wash & fold", "Dry cleaning", "Pickup & delivery"],
-      gradient: "from-emerald-500 to-green-500"
+  useEffect(() => {
+    // Check if we're on a location page by examining the pathname
+    const pathSegments = location.pathname.split('/').filter(Boolean);
+    const isLocationPage = pathSegments.length > 1 && 
+      !['services', 'about', 'contact', 'areas'].includes(pathSegments[0]);
+    
+    setIsFromLocationPage(isLocationPage);
+    
+    if (isLocationPage) {
+      // Extract location name from URL
+      const locationName = pathSegments[pathSegments.length - 1];
+      setCurrentLocationName(locationName.replace(/-/g, ' '));
     }
-  ];
 
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+        });
 
-   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const { data } = await httpFile.post("/webapp/v1/fetch_services", {
-            projectId,
-            
-          });
-  
-          if (data) {
-            setprojectServices(data.services || []);
-  
-            
-  
-          
-          }
-        } catch (error) {
-          console.error("Error fetching data:", error);
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setServices(data.services || []);
         }
-      };
-  
-      fetchData();
-    }, [projectId]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
+    fetchData();
+  }, [projectId, location.pathname]);
 
-       useEffect(() => {
-          const fetchData = async () => {
-            try {
-              const { data } = await httpFile.post("/webapp/v1/my_site", {
-                projectId,
-                pageType: "home",
-              });
-      
-              if (data.projectInfo && data.projectInfo.serviceType) {
-           
-               
-              setProjectCategory(data.projectInfo.serviceType);
-               
-              }
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-          };
-      
-          fetchData();
-        }, [projectId]);
+  const handleServiceClick = (serviceName) => {
+    if (isFromLocationPage) {
+      // Navigate to location-based service URL
+      const pathSegments = location.pathname.split('/').filter(Boolean);
+      const serviceSlug = slugify(serviceName);
+      const newPath = `/${pathSegments.join('/')}/${serviceSlug}`;
+      navigate(newPath);
+    } else {
+      // Navigate to regular service URL
+      navigate(`/services/${slugify(serviceName)}`);
+    }
+  };
 
+  const getServiceIcon = (index) => {
+    const icons = [Sparkles, Home, Building, Car, Sofa, Utensils, Trash];
+    const IconComponent = icons[index % icons.length];
+    return <IconComponent className="w-8 h-8" />;
+  };
 
-   // 1) The most common:
-
-
-
+  const getServiceTitle = (serviceName) => {
+    if (isFromLocationPage && currentLocationName) {
+      return `${serviceName} in ${currentLocationName.charAt(0).toUpperCase() + currentLocationName.slice(1)}`;
+    }
+    return serviceName;
+  };
 
   return (
-    <section className="py-20 bg-white font-poppins">
+    <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
             Our {projectCategory} Services
+            {isFromLocationPage && currentLocationName && (
+              <span className="block text-3xl md:text-4xl mt-2">
+                in {currentLocationName.charAt(0).toUpperCase() + currentLocationName.slice(1)}
+              </span>
+            )}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive {projectCategory} solutions for you and we make sure for professional results.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Professional {projectCategory?.toLowerCase()} solutions for every need, 
+            {isFromLocationPage && currentLocationName 
+              ? ` serving ${currentLocationName} with eco-friendly products and expert staff.`
+              : ' with eco-friendly products and expert staff.'
+            }
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projectServices.map((service, index) => (
-            <div key={index} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100">
-             
-                 
-             
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"}
-
-                  alt={service.service_name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className={`absolute top-4 left-4 bg-gradient-to-r ${service.gradient} rounded-full p-3 text-white shadow-lg`}>
-                 <i className={service.fas_fa_icon} />
-                 
-                </div>
+          {services.map((service, index) => (
+            <div
+              key={index}
+              onClick={() => handleServiceClick(service.name)}
+              className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 cursor-pointer transform hover:-translate-y-2"
+            >
+              <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl w-16 h-16 flex items-center justify-center mb-6 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                {getServiceIcon(index)}
               </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
-                <ul className="space-y-2">
-                  {/* {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-gray-600">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                      {feature}
-                    </li>
-                  ))} */}
-                </ul>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
+                {getServiceTitle(service.name)}
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                {service.description}
+              </p>
+              <div className="flex justify-between items-center">
+                <span className="text-green-600 font-bold group-hover:text-green-700">
+                  Learn More →
+                </span>
+                <div className="flex items-center text-sm text-gray-500">
+                  <span>Same-day available</span>
+                </div>
               </div>
             </div>
           ))}

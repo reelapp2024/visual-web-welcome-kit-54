@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { currentTheme } from '../App';
 
 // Cleaning Theme
@@ -18,19 +19,46 @@ import HVACServiceDetail from '../themes/hvac/pages/HVACServiceDetail';
 import PaintingServiceDetail from '../themes/painting/pages/PaintingServiceDetail';
 
 const ThemeServiceDetail = () => {
+  const params = useParams();
+  
+  // Determine location and service from URL params
+  let location = '';
+  let serviceName = '';
+  
+  if (params.countryname && params.statename && params.cityname && params.localareaname) {
+    location = `${params.cityname}, ${params.statename}`;
+    serviceName = params.localareaname;
+  } else if (params.countryname && params.statename && params.cityname) {
+    location = `${params.statename}`;
+    serviceName = params.cityname;
+  } else if (params.countryname && params.statename) {
+    location = params.countryname;
+    serviceName = params.statename;
+  } else if (params.countryname && params.servicename) {
+    location = params.countryname;
+    serviceName = params.servicename;
+  } else if (params.slug) {
+    serviceName = params.slug;
+  }
+
+  const locationProps = {
+    location,
+    serviceName
+  };
+
   switch (currentTheme) {
     case 'cleaning':
-      return <CleaningServiceDetail />;
+      return <CleaningServiceDetail {...locationProps} />;
     case 'plumbing':
-      return <PlumbingServiceDetail />;
+      return <PlumbingServiceDetail {...locationProps} />;
     case 'roofing':
-      return <RoofingServiceDetail />;
+      return <RoofingServiceDetail {...locationProps} />;
     case 'hvac':
-      return <HVACServiceDetail />;
+      return <HVACServiceDetail {...locationProps} />;
     case 'painting':
-      return <PaintingServiceDetail />;
+      return <PaintingServiceDetail {...locationProps} />;
     default:
-      return <CleaningServiceDetail />;
+      return <CleaningServiceDetail {...locationProps} />;
   }
 };
 
