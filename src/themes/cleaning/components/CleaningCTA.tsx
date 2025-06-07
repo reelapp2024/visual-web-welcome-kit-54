@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
+import { httpFile } from "../../../config.js";
 import { useNavigate } from 'react-router-dom';
 import { Phone, Sparkles } from 'lucide-react';
-import { httpFile } from "../../../config.js";
 
 const CleaningCTA = () => {
   const navigate = useNavigate();
