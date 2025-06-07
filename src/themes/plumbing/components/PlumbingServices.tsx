@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
-import { Wrench, Droplets, PipeIcon, Zap, Settings, ShieldCheck } from 'lucide-react';
+import { Wrench, Droplets, Pipe, Zap, Settings, ShieldCheck } from 'lucide-react';
 import { slugify } from "../../../extras/slug";
 
 const PlumbingServices = () => {
@@ -63,7 +63,7 @@ const PlumbingServices = () => {
   };
 
   const getServiceIcon = (index) => {
-    const icons = [Wrench, Droplets, PipeIcon, Zap, Settings, ShieldCheck];
+    const icons = [Wrench, Droplets, Pipe, Zap, Settings, ShieldCheck];
     const IconComponent = icons[index % icons.length];
     return <IconComponent className="w-8 h-8" />;
   };
