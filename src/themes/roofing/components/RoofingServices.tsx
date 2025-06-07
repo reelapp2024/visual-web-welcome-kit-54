@@ -1,46 +1,67 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Home, Wrench, RotateCcw, Zap, Search, Shield } from 'lucide-react';
 
 const RoofingServices = () => {
+  const navigate = useNavigate();
+  
   const services = [
     {
       icon: Home,
       title: 'Roof Installation',
       description: 'Complete new roof installation with premium materials',
-      link: '/roofing/services/roof-installation'
+      link: '/roofing/services/roof-installation',
+      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: Wrench,
       title: 'Roof Repair',
       description: 'Expert repairs for leaks and damage',
-      link: '/roofing/services/roof-repair'
+      link: '/roofing/services/roof-repair',
+      image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: RotateCcw,
       title: 'Roof Replacement',
       description: 'Full roof replacement and upgrades',
-      link: '/roofing/services/roof-replacement'
+      link: '/roofing/services/roof-replacement',
+      image: "https://images.unsplash.com/photo-1558002038-bb4237b54e5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: Zap,
       title: 'Emergency Service',
       description: '24/7 emergency roof repairs',
-      link: '/roofing/services/emergency-roof-service'
+      link: '/roofing/services/emergency-roof-service',
+      image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: Search,
       title: 'Roof Inspection',
       description: 'Comprehensive roof assessments',
-      link: '/roofing/services/roof-inspection'
+      link: '/roofing/services/roof-inspection',
+      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: Shield,
       title: 'Maintenance',
       description: 'Preventive care and upkeep',
-      link: '/roofing/services/roof-maintenance'
+      link: '/roofing/services/roof-maintenance',
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     }
   ];
+
+  const handleServiceClick = (service: any) => {
+    const serviceName = service.title.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service.title.replace(/\s+/g, '-'),
+        serviceName: service.title,
+        serviceDescription: service.description,
+        serviceImage: service.image
+      }
+    });
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-slate-100 to-gray-200 font-poppins relative">
@@ -72,7 +93,7 @@ const RoofingServices = () => {
         {/* Staggered Card Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <div key={index} className={`group ${index % 2 === 0 ? 'lg:translate-y-8' : ''}`}>
+            <div key={index} className={`group cursor-pointer ${index % 2 === 0 ? 'lg:translate-y-8' : ''}`} onClick={() => handleServiceClick(service)}>
               <div className="relative">
                 {/* Angular Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-orange-200 transform rotate-3 rounded-2xl group-hover:rotate-6 transition-transform duration-300"></div>
@@ -89,14 +110,6 @@ const RoofingServices = () => {
                     {service.title}
                   </h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-                  
-                  <a
-                    href={service.link}
-                    className="inline-flex items-center text-slate-600 hover:text-orange-500 font-semibold transition-colors group"
-                  >
-                    Learn More 
-                    <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                  </a>
                 </div>
               </div>
             </div>

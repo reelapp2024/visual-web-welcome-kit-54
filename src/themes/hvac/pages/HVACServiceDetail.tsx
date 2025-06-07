@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import HVACHeader from '../components/HVACHeader';
 import HVACCTA from '../components/HVACCTA';
 import HVACAboutUs from '../components/HVACAboutUs';
@@ -12,7 +13,20 @@ import HVACServiceAreas from '../components/HVACServiceAreas';
 import HVACFooter from '../components/HVACFooter';
 import { Thermometer, Phone } from 'lucide-react';
 
-const HVACServiceDetail = () => {
+interface HVACServiceDetailProps {
+  serviceId?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  serviceImage?: string;
+}
+
+const HVACServiceDetail = ({ serviceId, serviceName, serviceDescription, serviceImage }: HVACServiceDetailProps) => {
+  const { serviceName: urlServiceName } = useParams();
+  
+  const displayServiceName = serviceName || urlServiceName || 'Emergency HVAC';
+  const displayServiceDescription = serviceDescription || '24/7 emergency HVAC services for system failures, no heat/no cooling situations, and urgent repairs. Fast response times guaranteed with expert technicians.';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
   return (
     <div className="min-h-screen font-poppins">
       <HVACHeader />
@@ -34,11 +48,10 @@ const HVACServiceDetail = () => {
             <div className="animate-fade-in">
               <div className="flex items-center mb-4">
                 <Thermometer className="w-8 h-8 text-red-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">Emergency HVAC</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}</h1>
               </div>
               <p className="text-xl text-orange-100 mb-8">
-                24/7 emergency HVAC services for system failures, no heat/no cooling situations, and urgent repairs. 
-                Fast response times guaranteed with expert technicians.
+                {displayServiceDescription}
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-red-400" />
@@ -47,8 +60,8 @@ const HVACServiceDetail = () => {
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <img
-                src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Emergency HVAC services"
+                src={displayServiceImage}
+                alt={displayServiceName}
                 className="rounded-2xl shadow-2xl"
               />
             </div>

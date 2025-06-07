@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import CleaningHeader from '../components/CleaningHeader';
 import CleaningCTA from '../components/CleaningCTA';
 import CleaningAboutUs from '../components/CleaningAboutUs';
@@ -12,7 +13,20 @@ import CleaningServiceAreas from '../components/CleaningServiceAreas';
 import CleaningFooter from '../components/CleaningFooter';
 import { Sparkles, Phone } from 'lucide-react';
 
-const CleaningServiceDetail = () => {
+interface CleaningServiceDetailProps {
+  serviceId?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  serviceImage?: string;
+}
+
+const CleaningServiceDetail = ({ serviceId, serviceName, serviceDescription, serviceImage }: CleaningServiceDetailProps) => {
+  const { serviceName: urlServiceName } = useParams();
+  
+  const displayServiceName = serviceName || urlServiceName || 'Residential Cleaning';
+  const displayServiceDescription = serviceDescription || 'Professional home cleaning services for every room with eco-friendly products and trained staff. Same-day booking and satisfaction guaranteed.';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
@@ -34,11 +48,10 @@ const CleaningServiceDetail = () => {
             <div>
               <div className="flex items-center mb-4">
                 <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">Residential Cleaning</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}</h1>
               </div>
               <p className="text-xl text-green-100 mb-8">
-                Professional home cleaning services for every room with eco-friendly products 
-                and trained staff. Same-day booking and satisfaction guaranteed.
+                {displayServiceDescription}
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-emerald-400" />
@@ -47,8 +60,8 @@ const CleaningServiceDetail = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Residential cleaning services"
+                src={displayServiceImage}
+                alt={displayServiceName}
                 className="rounded-2xl shadow-2xl"
               />
             </div>

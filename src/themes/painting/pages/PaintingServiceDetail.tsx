@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PaintingHeader from '../components/PaintingHeader';
 import PaintingCTA from '../components/PaintingCTA';
 import PaintingAboutUs from '../components/PaintingAboutUs';
@@ -12,7 +13,20 @@ import PaintingServiceAreas from '../components/PaintingServiceAreas';
 import PaintingFooter from '../components/PaintingFooter';
 import { Paintbrush, Phone } from 'lucide-react';
 
-const PaintingServiceDetail = () => {
+interface PaintingServiceDetailProps {
+  serviceId?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  serviceImage?: string;
+}
+
+const PaintingServiceDetail = ({ serviceId, serviceName, serviceDescription, serviceImage }: PaintingServiceDetailProps) => {
+  const { serviceName: urlServiceName } = useParams();
+  
+  const displayServiceName = serviceName || urlServiceName || 'Interior Painting';
+  const displayServiceDescription = serviceDescription || 'Professional interior painting services for homes and businesses with premium paints and expert craftsmanship. Same-day estimates and satisfaction guaranteed.';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
   return (
     <div className="min-h-screen font-poppins">
       <PaintingHeader />
@@ -34,11 +48,10 @@ const PaintingServiceDetail = () => {
             <div>
               <div className="flex items-center mb-4">
                 <Paintbrush className="w-8 h-8 text-pink-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">Interior Painting</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}</h1>
               </div>
               <p className="text-xl text-purple-100 mb-8">
-                Professional interior painting services for homes and businesses with premium paints 
-                and expert craftsmanship. Same-day estimates and satisfaction guaranteed.
+                {displayServiceDescription}
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-pink-400" />
@@ -47,8 +60,8 @@ const PaintingServiceDetail = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Interior painting services"
+                src={displayServiceImage}
+                alt={displayServiceName}
                 className="rounded-2xl shadow-2xl"
               />
             </div>

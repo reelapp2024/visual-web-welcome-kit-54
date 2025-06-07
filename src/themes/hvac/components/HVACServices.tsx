@@ -1,58 +1,67 @@
 
 import React from 'react';
-import { Thermometer, Wind, Settings, Zap, Wrench, Snowflake } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Thermometer, Wind, Settings, Wrench, Shield, Clock } from 'lucide-react';
 
 const HVACServices = () => {
+  const navigate = useNavigate();
+  
   const services = [
     {
       icon: <Thermometer className="w-12 h-12" />,
-      title: "Air Conditioning Repair",
-      description: "Expert AC repair and maintenance services for optimal cooling performance.",
-      features: ["Emergency Repairs", "System Diagnostics", "Preventive Maintenance"],
-      image: "https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/ac-repair"
-    },
-    {
-      icon: <Zap className="w-12 h-12" />,
-      title: "Heating System Repair",
-      description: "Professional furnace and heating system repair and installation services.",
-      features: ["Furnace Repair", "Heat Pump Service", "Boiler Maintenance"],
-      image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/heating-repair"
-    },
-    {
-      icon: <Settings className="w-12 h-12" />,
-      title: "HVAC Installation",
-      description: "Complete HVAC system installation and replacement services.",
-      features: ["New Installations", "System Upgrades", "Ductwork"],
-      image: "https://images.unsplash.com/photo-1585177606728-7731b6f45a7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/hvac-installation"
+      title: "Emergency HVAC",
+      description: "24/7 emergency HVAC services for system failures and urgent repairs.",
+      features: ["24/7 Availability", "Rapid Response", "System Diagnostics"],
+      image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: <Wind className="w-12 h-12" />,
-      title: "Duct Cleaning",
-      description: "Professional air duct cleaning and ventilation services.",
-      features: ["Air Duct Cleaning", "Ventilation Service", "Air Quality"],
-      image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/duct-cleaning"
+      title: "Air Conditioning",
+      description: "Complete AC installation, repair, and maintenance services.",
+      features: ["Installation", "Repair Service", "Maintenance"],
+      image: "https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      icon: <Settings className="w-12 h-12" />,
+      title: "Heating Systems",
+      description: "Furnace installation, repair, and heating system maintenance.",
+      features: ["Furnace Repair", "System Installation", "Energy Efficiency"],
+      image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
       icon: <Wrench className="w-12 h-12" />,
-      title: "Thermostat Services",
-      description: "Smart thermostat installation and programming services.",
-      features: ["Smart Thermostats", "Programming", "Energy Savings"],
-      image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/thermostat-services"
+      title: "HVAC Maintenance",
+      description: "Regular maintenance and tune-ups for optimal system performance.",
+      features: ["Preventive Care", "System Tune-ups", "Filter Replacement"],
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     },
     {
-      icon: <Snowflake className="w-12 h-12" />,
-      title: "Emergency HVAC",
-      description: "24/7 emergency HVAC repair and maintenance services.",
-      features: ["24/7 Service", "Emergency Repairs", "Fast Response"],
-      image: "https://images.unsplash.com/photo-1604709177225-055f99402ea3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      link: "/hvac/services/emergency-hvac"
+      icon: <Shield className="w-12 h-12" />,
+      title: "Duct Cleaning",
+      description: "Professional air duct cleaning and ventilation services.",
+      features: ["Duct Cleaning", "Air Quality", "Ventilation"],
+      image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      icon: <Clock className="w-12 h-12" />,
+      title: "System Installation",
+      description: "New HVAC system installation and replacement services.",
+      features: ["New Installation", "System Replacement", "Energy Efficient"],
+      image: "https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
     }
   ];
+
+  const handleServiceClick = (service: any) => {
+    const serviceName = service.title.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service.title.replace(/\s+/g, '-'),
+        serviceName: service.title,
+        serviceDescription: service.description,
+        serviceImage: service.image
+      }
+    });
+  };
 
   return (
     <section className="py-20 bg-white font-poppins">
@@ -62,8 +71,8 @@ const HVACServices = () => {
             Complete HVAC Services
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            From emergency repairs to complete installations, we provide comprehensive heating, 
-            ventilation, and air conditioning solutions for residential and commercial properties.
+            From emergency repairs to complete installations, we provide comprehensive HVAC 
+            solutions for residential and commercial properties.
           </p>
         </div>
 
@@ -71,8 +80,9 @@ const HVACServices = () => {
           {services.map((service, index) => (
             <div 
               key={index} 
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden animate-fade-in"
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden animate-fade-in cursor-pointer"
               style={{ animationDelay: `${index * 0.1}s` }}
+              onClick={() => handleServiceClick(service)}
             >
               <div className="relative h-48 overflow-hidden">
                 <img 
@@ -97,21 +107,11 @@ const HVACServices = () => {
                 <ul className="space-y-2 mb-6">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-gray-700">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
+                      <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
                       {feature}
                     </li>
                   ))}
                 </ul>
-                
-                <a 
-                  href={service.link}
-                  className="inline-flex items-center text-orange-600 font-semibold hover:text-red-600 transition-colors duration-200 group"
-                >
-                  Learn More
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
               </div>
             </div>
           ))}

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PlumbingHeader from '../components/PlumbingHeader';
 import PlumbingCTA from '../components/PlumbingCTA';
 import PlumbingAboutUs from '../components/PlumbingAboutUs';
@@ -12,7 +13,20 @@ import PlumbingServiceAreas from '../components/PlumbingServiceAreas';
 import PlumbingFooter from '../components/PlumbingFooter';
 import { Wrench, Phone } from 'lucide-react';
 
-const PlumbingServiceDetail = () => {
+interface PlumbingServiceDetailProps {
+  serviceId?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  serviceImage?: string;
+}
+
+const PlumbingServiceDetail = ({ serviceId, serviceName, serviceDescription, serviceImage }: PlumbingServiceDetailProps) => {
+  const { serviceName: urlServiceName } = useParams();
+  
+  const displayServiceName = serviceName || urlServiceName || 'Emergency Plumbing';
+  const displayServiceDescription = serviceDescription || '24/7 emergency plumbing services for burst pipes, severe leaks, and urgent repairs. Fast response times guaranteed with expert technicians.';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
   return (
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
@@ -34,11 +48,10 @@ const PlumbingServiceDetail = () => {
             <div>
               <div className="flex items-center mb-4">
                 <Wrench className="w-8 h-8 text-cyan-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">Emergency Plumbing</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}</h1>
               </div>
               <p className="text-xl text-blue-100 mb-8">
-                24/7 emergency plumbing services for burst pipes, severe leaks, and urgent repairs. 
-                Fast response times guaranteed with expert technicians.
+                {displayServiceDescription}
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-cyan-400" />
@@ -47,8 +60,8 @@ const PlumbingServiceDetail = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Emergency plumbing services"
+                src={displayServiceImage}
+                alt={displayServiceName}
                 className="rounded-2xl shadow-2xl"
               />
             </div>

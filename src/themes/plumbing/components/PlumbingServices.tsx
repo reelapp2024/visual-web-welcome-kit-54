@@ -1,8 +1,11 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Wrench, Droplets, Hammer, Zap, ShowerHead, Settings } from 'lucide-react';
 
 const PlumbingServices = () => {
+  const navigate = useNavigate();
+  
   const services = [
     {
       icon: <Zap className="w-12 h-12" />,
@@ -54,6 +57,18 @@ const PlumbingServices = () => {
     }
   ];
 
+  const handleServiceClick = (service: any) => {
+    const serviceName = service.title.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service.title.replace(/\s+/g, '-'),
+        serviceName: service.title,
+        serviceDescription: service.description,
+        serviceImage: service.image
+      }
+    });
+  };
+
   return (
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,8 +86,9 @@ const PlumbingServices = () => {
           {services.map((service, index) => (
             <div 
               key={index} 
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden animate-fade-in"
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden animate-fade-in cursor-pointer"
               style={{ animationDelay: `${index * 0.1}s` }}
+              onClick={() => handleServiceClick(service)}
             >
               <div className="relative h-48 overflow-hidden">
                 <img 
@@ -102,16 +118,6 @@ const PlumbingServices = () => {
                     </li>
                   ))}
                 </ul>
-                
-                <a 
-                  href={service.link}
-                  className="inline-flex items-center text-blue-600 font-semibold hover:text-cyan-600 transition-colors duration-200 group"
-                >
-                  Learn More
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
               </div>
             </div>
           ))}
