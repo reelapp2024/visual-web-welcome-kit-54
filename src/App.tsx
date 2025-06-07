@@ -66,12 +66,6 @@ const App = () => (
           <Route path="/:countryname/:statename" element={<ThemeState />} />
           <Route path="/:countryname/:statename/:cityname" element={<ThemeCity />} />
           <Route path="/:countryname/:statename/:cityname/:localareaname" element={<ThemeCountry />} />
-          
-          {/* Location-based service routes */}
-          <Route path="/:countryname/:servicename" element={<ThemeServiceDetail />} />
-          <Route path="/:countryname/:statename/:servicename" element={<ThemeServiceDetail />} />
-          <Route path="/:countryname/:statename/:cityname/:servicename" element={<ThemeServiceDetail />} />
-          
           <Route path="/states" element={<ThemeState />} />
           <Route path="/cities" element={<ThemeCity />} />
           <Route path="/cities/:slug" element={<CityDetail />} />

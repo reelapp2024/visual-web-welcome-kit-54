@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import CleaningHeader from '../components/CleaningHeader';
 import CleaningCTA from '../components/CleaningCTA';
 import CleaningAboutUs from '../components/CleaningAboutUs';
@@ -12,23 +11,8 @@ import CleaningRelatedServices from '../components/CleaningRelatedServices';
 import CleaningServiceAreas from '../components/CleaningServiceAreas';
 import CleaningFooter from '../components/CleaningFooter';
 import { Sparkles, Phone } from 'lucide-react';
-import { humanizeSlug } from '../../../extras/slug';
 
-interface CleaningServiceDetailProps {
-  location?: string;
-  serviceName?: string;
-}
-
-const CleaningServiceDetail: React.FC<CleaningServiceDetailProps> = ({ location, serviceName }) => {
-  const { slug } = useParams();
-  
-  const displayServiceName = serviceName ? humanizeSlug(serviceName) : (slug ? humanizeSlug(slug) : 'Residential Cleaning');
-  const displayLocation = location ? humanizeSlug(location) : '';
-  
-  const pageTitle = displayLocation 
-    ? `Professional ${displayServiceName} Services in ${displayLocation}`
-    : `Professional ${displayServiceName} Services`;
-
+const CleaningServiceDetail = () => {
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
@@ -38,7 +22,7 @@ const CleaningServiceDetail: React.FC<CleaningServiceDetailProps> = ({ location,
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
@@ -50,13 +34,11 @@ const CleaningServiceDetail: React.FC<CleaningServiceDetailProps> = ({ location,
             <div>
               <div className="flex items-center mb-4">
                 <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">{pageTitle}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">Residential Cleaning</h1>
               </div>
               <p className="text-xl text-green-100 mb-8">
-                {displayLocation 
-                  ? `Professional ${displayServiceName.toLowerCase()} services in ${displayLocation} with eco-friendly products and trained staff. Same-day booking and satisfaction guaranteed.`
-                  : `Professional ${displayServiceName.toLowerCase()} services with eco-friendly products and trained staff. Same-day booking and satisfaction guaranteed.`
-                }
+                Professional home cleaning services for every room with eco-friendly products 
+                and trained staff. Same-day booking and satisfaction guaranteed.
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-emerald-400" />
@@ -66,7 +48,7 @@ const CleaningServiceDetail: React.FC<CleaningServiceDetailProps> = ({ location,
             <div>
               <img
                 src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt={pageTitle}
+                alt="Residential cleaning services"
                 className="rounded-2xl shadow-2xl"
               />
             </div>
