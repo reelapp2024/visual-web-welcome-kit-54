@@ -169,7 +169,7 @@ const CleaningHero = () => {
               <CheckCircle className="w-8 h-8 text-emerald-300 mx-auto mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">Eco-Friendly</h3>
               <p className="text-green-100 text-sm">
-                Safe, green cleaning products
+                Safe, green products
               </p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
@@ -187,7 +187,7 @@ const CleaningHero = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <Sparkles className="w-8 h-8 text-emerald-300 mx-auto mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">Same Day</h3>
-              <p className="text-green-100 text-sm">Book today, clean today</p>
+              <p className="text-green-100 text-sm">Book today</p>
             </div>
           </div>
         </div>

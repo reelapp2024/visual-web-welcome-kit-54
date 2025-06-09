@@ -1,10 +1,42 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { httpFile } from "../../../config.js";
 import { Home, Building, Sparkles, Car, Sofa, Shirt } from 'lucide-react';
 
 const CleaningRelatedServices = () => {
   const navigate = useNavigate();
+
+    const [projectServices, setprojectServices] = useState([]);
+
+  
+    const savedSiteId = localStorage.getItem("currentSiteId");
+    const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await httpFile.post("/webapp/v1/fetch_random_services", {
+              projectId,
+            });
+    
+            if (data) {
+              setprojectServices(data.services || []);
+            }
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData();
+      }, [projectId]);
+
+
+      console.log(projectServices,"projectServicesprojectServicesprojectServices")
+
+
+
   
   const services = [
     {
@@ -46,17 +78,17 @@ const CleaningRelatedServices = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
+          {projectServices.map((service, index) => (
             <button
               key={index}
               onClick={() => navigate(service.link)}
               className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 text-left w-full"
             >
               <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full w-16 h-16 flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-all duration-300">
-                {service.icon}
+                {service.fas_fa_icon}
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-              <p className="text-gray-600">{service.description}</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{service.service_name}</h3>
+              <p className="text-gray-600">{service.service_description}</p>
             </button>
           ))}
         </div>

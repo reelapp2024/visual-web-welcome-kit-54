@@ -41,10 +41,11 @@ const CleaningCountry = () => {
   const [projectLocations, setProjectLocations] = useState([]);
   const currentLocation = location.pathname;
   const RefLocation = currentLocation.slice(1);
+  const [projectServices, setprojectServices] = useState([]);
 
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
- const [projectFaqs, setprojectFaqs] = useState([]);
+  const [projectFaqs, setprojectFaqs] = useState([]);
 
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
@@ -89,9 +90,9 @@ const CleaningCountry = () => {
       nextPage = 'whole areas'
     }
 
-    let locationToNavigate=`/${RefLocation}/${slugify(locationName)}`
+    let locationToNavigate = `/${RefLocation}/${slugify(locationName)}`
 
- 
+
 
     navigate(locationToNavigate, {
       state: {
@@ -127,15 +128,15 @@ const CleaningCountry = () => {
           setProjectLocations(data.locations);
 
           setProjectReviews(data.testimonials || []);
- 
+
           setprojectFaqs(data.faq || []);
 
           setPageLocation(data.RefLocation);
 
-      setIsLoading(false);
+          setIsLoading(false);
 
 
-       
+
 
 
         }
@@ -150,11 +151,46 @@ const CleaningCountry = () => {
 
 
 
-  console.log(openFAQ, "openFAQ",projectFaqs,"projectFaqs")
+  const handleServiceClick = (service: any) => {
+    const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service._id,
+        serviceName: service.service_name,
+        serviceDescription: service.service_description,
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+      }
+    });
+  };
 
-    if (isLoading) {
-      return <CleaningLoader />;
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
+          projectId,
+        });
+
+        if (data) {
+          setprojectServices(data.services || []);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+
+
+  console.log(openFAQ, "openFAQ", projectFaqs, "projectFaqs")
+
+  if (isLoading) {
+    return <CleaningLoader />;
+  }
 
   return (
     <div className="min-h-screen font-poppins">
@@ -184,95 +220,132 @@ const CleaningCountry = () => {
         </div>
       </section>
 
-      <CleaningAboutUs />
-      <CleaningServices />
+      {/* <CleaningAboutUs /> */}
+      <section className="py-20 bg-white font-poppins">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+              Our {projectCategory} Services
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Comprehensive {projectCategory} solutions for you and we make sure for professional results.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projectServices.map((service, index) => (
+              <div
+                key={index}
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100 cursor-pointer"
+                onClick={() => handleServiceClick(service)}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"}
+                    alt={service.service_name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className={`absolute top-4 left-4 bg-gradient-to-r ${service.gradient} rounded-full p-3 text-white shadow-lg`}>
+                    <i className={service.fas_fa_icon} />
+                  </div>
+                </div>
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(pageLocation)}</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <CleaningCTA />
       <CleaningWhyChooseUs />
       <CleaningProcess />
       <CleaningCTA />
       <CleaningGuarantee />
       <section className="py-20 bg-white font-poppins">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            What Our Customers Say
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied
-            customers have to say about our cleaning services.
-          </p>
-        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+              What Our Customers Say
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what our satisfied
+              customers have to say about our cleaning services.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projectReviews.map((testimonial, index) => {
-            // 1) Coerce rating into a number:
-            const rawRating = Number(testimonial.rating) || 0;
-            // 2) Compute how many full stars:
-            const fullStars = Math.floor(rawRating);
-            // 3) Check if there's a half star (only one half max):
-            const hasHalf = rawRating - fullStars >= 0.5;
-            // 4) Remaining empty stars to reach 5 total:
-            const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projectReviews.map((testimonial, index) => {
+              // 1) Coerce rating into a number:
+              const rawRating = Number(testimonial.rating) || 0;
+              // 2) Compute how many full stars:
+              const fullStars = Math.floor(rawRating);
+              // 3) Check if there's a half star (only one half max):
+              const hasHalf = rawRating - fullStars >= 0.5;
+              // 4) Remaining empty stars to reach 5 total:
+              const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 
-            return (
-              <div
-                key={index}
-                className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-              >
-                <div className="mb-6">
-                  <Quote className="w-10 h-10 text-green-500 mb-4" />
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    "{testimonial.review_text}"
-                  </p>
-                </div>
+              return (
+                <div
+                  key={index}
+                  className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                >
+                  <div className="mb-6">
+                    <Quote className="w-10 h-10 text-green-500 mb-4" />
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                      "{testimonial.review_text}"
+                    </p>
+                  </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    {/* <img
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      {/* <img
                       src={testimonial.customer_image}
                       alt=""
                       className="w-12 h-12 rounded-full object-cover"
                     /> */}
-                    <div>
-                      <h4 className="font-bold text-gray-900">
-                        {testimonial.customer_name}
-                      </h4>
-                      <p className="text-gray-600 text-sm">
-                        {testimonial.customer_name}
-                      </p>
+                      <div>
+                        <h4 className="font-bold text-gray-900">
+                          {testimonial.customer_name}
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          {testimonial.customer_name}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-1">
+                      {/* Full stars */}
+                      {[...Array(fullStars)].map((_, i) => (
+                        <Star
+                          key={`full-${index}-${i}`}
+                          className="w-5 h-5 text-yellow-400 fill-current"
+                        />
+                      ))}
+                      {/* One half star if needed */}
+                      {hasHalf && (
+                        <StarHalf
+                          key={`half-${index}`}
+                          className="w-5 h-5 text-yellow-400 fill-current"
+                        />
+                      )}
+                      {/* Empty stars */}
+                      {[...Array(emptyStars)].map((_, i) => (
+                        <Star
+                          key={`empty-${index}-${i}`}
+                          className="w-5 h-5 text-gray-300 fill-current"
+                        />
+                      ))}
                     </div>
                   </div>
-
-                  <div className="flex space-x-1">
-                    {/* Full stars */}
-                    {[...Array(fullStars)].map((_, i) => (
-                      <Star
-                        key={`full-${index}-${i}`}
-                        className="w-5 h-5 text-yellow-400 fill-current"
-                      />
-                    ))}
-                    {/* One half star if needed */}
-                    {hasHalf && (
-                      <StarHalf
-                        key={`half-${index}`}
-                        className="w-5 h-5 text-yellow-400 fill-current"
-                      />
-                    )}
-                    {/* Empty stars */}
-                    {[...Array(emptyStars)].map((_, i) => (
-                      <Star
-                        key={`empty-${index}-${i}`}
-                        className="w-5 h-5 text-gray-300 fill-current"
-                      />
-                    ))}
-                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
       <CleaningCTA />
       <section className="py-20 bg-gray-50 font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -318,41 +391,41 @@ const CleaningCountry = () => {
         </div>
       </section>
       <ServiceMap theme="cleaning" />
-       <section className="py-20 bg-white font-poppins">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            Frequently Asked Questionss
-          </h2>
-          <p className="text-xl text-gray-600">
-            Got questions? We've got answers. Here are the most common questions about our cleaning services.
-          </p>
-        </div>
+      <section className="py-20 bg-white font-poppins">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+              Frequently Asked Questionss
+            </h2>
+            <p className="text-xl text-gray-600">
+              Got questions? We've got answers. Here are the most common questions about our cleaning services.
+            </p>
+          </div>
 
-        <div className="space-y-4">
-          {projectFaqs.map((faq, index) => (
-            <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
-              <button
-                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
-                onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-              >
-                <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
-                {openFAQ === index ? (
-                  <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
-                ) : (
-                  <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+          <div className="space-y-4">
+            {projectFaqs.map((faq, index) => (
+              <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+                <button
+                  className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                >
+                  <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
+                  {openFAQ === index ? (
+                    <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                  )}
+                </button>
+                {openFAQ === index && (
+                  <div className="px-8 pb-6">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
                 )}
-              </button>
-              {openFAQ === index && (
-                <div className="px-8 pb-6">
-                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
       <CleaningCTA />
       <CleaningFooter />
     </div>

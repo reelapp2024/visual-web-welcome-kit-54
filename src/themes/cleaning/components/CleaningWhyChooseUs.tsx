@@ -1,40 +1,43 @@
 
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Shield, Clock, Award, Users, CheckCircle, Sparkles } from 'lucide-react';
 import { httpFile } from "../../../config.js";
 
 const CleaningWhyChooseUs = () => {
 
-    const [projectCategory, setProjectCategory] = useState("");
-    const [projectName, setprojectName] = useState("");
+  const [projectCategory, setProjectCategory] = useState("");
+  const [projectName, setprojectName] = useState("");
   const [projectWhyChooseUs, setprojectWhyChooseUs] = useState([]);
 
-  
-    const savedSiteId = localStorage.getItem("currentSiteId");
-    const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
 
 
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const { data } = await httpFile.post("/webapp/v1/my_site", {
-              projectId,
-              pageType: "home",
-            });
-    
-            if (data.projectInfo && data.projectInfo.serviceType) {
-              setProjectCategory(data.projectInfo.serviceType);
-              setprojectName(data.projectInfo.projectName);
-              setprojectWhyChooseUs(data.projectInfo.whyChooseUsSection);
-             
-            }
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-    
-        fetchData();
-      }, [projectId]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setprojectName(data.projectInfo.projectName);
+          setprojectWhyChooseUs(data.projectInfo.whyChooseUsSection);
+
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+  console.log(projectWhyChooseUs, "projectWhyChooseUs")
 
 
   const features = [
@@ -84,7 +87,7 @@ const CleaningWhyChooseUs = () => {
             Why Choose {projectName}?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            When you choose us, you're choosing quality, reliability, and exceptional service 
+            When you choose us, you're choosing quality, reliability, and exceptional service
             that's backed by years of experience and thousands of satisfied customers.
           </p>
         </div>
@@ -101,8 +104,8 @@ const CleaningWhyChooseUs = () => {
                 </div> */}
 
                 <div className={`bg-gradient-to-br ${feature.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
-  <span className="text-4xl">⭐</span>
-</div>
+                  <span className="text-4xl">⭐</span>
+                </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{feature.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
