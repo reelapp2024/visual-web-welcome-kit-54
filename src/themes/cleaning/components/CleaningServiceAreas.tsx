@@ -1,13 +1,10 @@
-
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { httpFile } from "../../../config.js";
 import { MapPin, Clock, Shield } from 'lucide-react';
 import { slugify } from "../../../extras/slug";
 
 const CleaningServiceAreas = () => {
-  const navigate = useNavigate();
-
   const [projectCategory, setProjectCategory] = useState("");
   const [welcomeLine, setWelcomeLine] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -22,7 +19,6 @@ const CleaningServiceAreas = () => {
   if (site) {
     const currentSiteId = localStorage.getItem("currentSiteId");
     if (currentSiteId !== site) {
-   
       localStorage.setItem("currentSiteId", site);
     }
   }
@@ -31,7 +27,6 @@ const CleaningServiceAreas = () => {
   // 3) Now read back from localStorage (or fall back to default):
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "683da559d48d4721c48972d5";
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,10 +41,7 @@ const CleaningServiceAreas = () => {
           setWelcomeLine(data.projectInfo.welcomeLine);
           setPhoneNumber(data.aboutUs.phone);
           setUpcomingPage(data.upcomingPage);
-
           setLocations(data.locations);
-
-
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -59,51 +51,30 @@ const CleaningServiceAreas = () => {
     fetchData();
   }, [projectId]);
 
+  const getLocationPath = (locationName, id, _id) => {
+    let nextPage = '';
 
-
-
-   const handleLocationClick = (locationName, id, _id) => {
-
-
- 
-
-
-    let nextPage=''
-
-    if(UpcomingPage=='country'){
-
-      nextPage='States'
-    }
-    else if(UpcomingPage=='state'){
-
-      nextPage='Cities'
+    if (UpcomingPage === 'country') {
+      nextPage = 'States';
+    } else if (UpcomingPage === 'state') {
+      nextPage = 'Cities';
+    } else if (UpcomingPage === 'city') {
+      nextPage = 'Local Areas';
+    } else if (UpcomingPage === 'local') {
+      nextPage = 'whole areas';
     }
 
-     if(UpcomingPage=='city'){
-
-      nextPage='Local Areas'
-    }
-
-     if(UpcomingPage=='local'){
-
-      nextPage='whole areas'
-    }
- 
-    navigate(`/${slugify(locationName)}`, {
+    return {
+      pathname: `/${slugify(locationName)}`,
       state: {
         id,
         projectId,
         UpcomingPage,
         nextPage,
         locationName,
-        // oldPage,
         _id
       }
-    });
-    
-  
-    // log the startFrom value
-
+    };
   };
 
   return (
@@ -139,12 +110,12 @@ const CleaningServiceAreas = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => handleLocationClick(area.name, area.location_id,  area._id)}
-                className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+              <Link
+                to={getLocationPath(area.name, area.location_id, area._id)}
+                className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 inline-block text-center"
               >
                 See Areas
-              </button>
+              </Link>
             </div>
           ))}
         </div>

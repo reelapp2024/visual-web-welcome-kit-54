@@ -1,12 +1,11 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Phone, Menu, X, Paintbrush } from 'lucide-react';
 import { useState } from 'react';
 
 const PaintingHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
 
   const navigationItems = [
     { name: 'Home', href: '/' },
@@ -15,11 +14,6 @@ const PaintingHeader = () => {
     { name: 'Areas', href: '/areas' },
     { name: 'Contact', href: '/contact' }
   ];
-
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsMenuOpen(false);
-  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50 font-poppins">
@@ -30,24 +24,24 @@ const PaintingHeader = () => {
             <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-lg mr-3">
               <Paintbrush className="h-6 w-6 text-white" />
             </div>
-            <button onClick={() => handleNavigation('/')}>
+            <Link to="/">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 ColorPro Painting
               </h1>
               <p className="text-sm text-gray-600">Professional Interior & Exterior Painting</p>
-            </button>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item) => (
-              <button
+              <Link
                 key={item.name}
-                onClick={() => handleNavigation(item.href)}
+                to={item.href}
                 className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200"
               >
                 {item.name}
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -76,13 +70,14 @@ const PaintingHeader = () => {
           <div className="md:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-4">
               {navigationItems.map((item) => (
-                <button
+                <Link
                   key={item.name}
-                  onClick={() => handleNavigation(item.href)}
+                  to={item.href}
                   className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200 text-left"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
               <a
                 href="tel:5551234567"

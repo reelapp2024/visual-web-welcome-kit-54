@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { httpFile } from "../../../config.js";
 import { Home, Building, Sparkles, Car, Sofa, Shirt } from 'lucide-react';
 
 const CleaningServices = () => {
-  const navigate = useNavigate();
   const [projectServices, setprojectServices] = useState([]);
   const [projectCategory, setProjectCategory] = useState("");
 
@@ -64,16 +63,7 @@ const CleaningServices = () => {
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/services/${serviceName}`, {
-      state: {
-        serviceId: service._id,
-        serviceName: service.service_name,
-        serviceDescription: service.service_description,
-        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
-      }
-    });
+    return `/services/${serviceName}`;
   };
 
   useEffect(() => {
@@ -127,10 +117,18 @@ const CleaningServices = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projectServices.map((service, index) => (
-            <div 
+            <Link 
               key={index} 
+              to={handleServiceClick(service)}
+              state={{
+                serviceId: service._id,
+                serviceName: service.service_name,
+                serviceDescription: service.service_description,
+                serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+                serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+                serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+              }}
               className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100 cursor-pointer"
-              onClick={() => handleServiceClick(service)}
             >
               <div className="relative h-48 overflow-hidden">
                 <img
@@ -147,7 +145,7 @@ const CleaningServices = () => {
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name}</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,11 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Phone, Thermometer } from 'lucide-react';
 import { httpFile } from "../../../config.js";
 
 const HVACCTA = () => {
-  const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [CTA, setCTA] = useState("");
   const [projectCategory, setProjectCategory] = useState("");
@@ -54,13 +53,13 @@ const HVACCTA = () => {
             <span>Call Now: {phoneNumber || "(555) 123-4567"}</span>
           </a>
           
-          <button 
-            onClick={() => navigate('/contact')}
+          <Link 
+            to="/contact"
             className="group bg-red-500 hover:bg-red-400 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 flex items-center space-x-3 w-full sm:w-auto justify-center shadow-xl transform hover:scale-105"
           >
             <Thermometer size={24} />
             <span>Book {projectCategory || "HVAC"} Services</span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

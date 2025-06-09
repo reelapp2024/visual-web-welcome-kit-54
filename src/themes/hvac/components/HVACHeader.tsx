@@ -1,12 +1,11 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, X, Phone, Clock, ChevronDown, Thermometer } from 'lucide-react';
 
 const HVACHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const services = [
     { name: 'Air Conditioning Repair', slug: 'ac-repair' },
@@ -23,11 +22,6 @@ const HVACHeader = () => {
     { name: 'Los Angeles', slug: 'city' },
     { name: 'Downtown LA', slug: 'local-area' }
   ];
-
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsMenuOpen(false);
-  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50 font-poppins">
@@ -59,7 +53,7 @@ const HVACHeader = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <button onClick={() => handleNavigation('/')} className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2">
                 <Thermometer className="w-8 h-8 text-white" />
               </div>
@@ -69,98 +63,100 @@ const HVACHeader = () => {
                 </div>
                 <div className="text-xs text-gray-500">HVAC Experts</div>
               </div>
-            </button>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            <button 
-              onClick={() => handleNavigation('/')}
+            <Link 
+              to="/"
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               Home
-            </button>
-            <button 
-              onClick={() => handleNavigation('/about')}
+            </Link>
+            <Link 
+              to="/about"
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               About
-            </button>
+            </Link>
             
             {/* Services Dropdown */}
             <div className="relative group">
-              <button 
+              <Link 
+                to="/services"
                 className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center"
                 onMouseEnter={() => setOpenDropdown('services')}
               >
                 Services
                 <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
+              </Link>
               <div 
                 className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
                 onMouseEnter={() => setOpenDropdown('services')}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 {services.map((service) => (
-                  <button
+                  <Link
                     key={service.slug}
-                    onClick={() => handleNavigation(`/services/${service.slug}`)}
+                    to={`/services/${service.slug}`}
                     className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
                   >
                     {service.name}
-                  </button>
+                  </Link>
                 ))}
                 <div className="border-t border-gray-100 mt-2 pt-2">
-                  <button
-                    onClick={() => handleNavigation('/services')}
+                  <Link
+                    to="/services"
                     className="block w-full text-left px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
                   >
                     View All Services
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
 
             {/* Areas Dropdown */}
             <div className="relative group">
-              <button 
+              <Link 
+                to="/areas"
                 className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center"
                 onMouseEnter={() => setOpenDropdown('areas')}
               >
                 Areas We Serve
                 <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
+              </Link>
               <div 
                 className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
                 onMouseEnter={() => setOpenDropdown('areas')}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 {areas.map((area) => (
-                  <button
+                  <Link
                     key={area.slug}
-                    onClick={() => handleNavigation(`/${area.slug}`)}
+                    to={`/${area.slug}`}
                     className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
                   >
                     {area.name}
-                  </button>
+                  </Link>
                 ))}
                 <div className="border-t border-gray-100 mt-2 pt-2">
-                  <button
-                    onClick={() => handleNavigation('/areas')}
+                  <Link
+                    to="/areas"
                     className="block w-full text-left px-4 py-3 text-orange-600 font-semibold hover:bg-orange-50 transition-colors duration-200"
                   >
                     View All Areas
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
 
-            <button 
-              onClick={() => handleNavigation('/contact')}
+            <Link 
+              to="/contact"
               className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
             >
               Contact
-            </button>
+            </Link>
 
             {/* CTA Button */}
             <a 
@@ -187,36 +183,41 @@ const HVACHeader = () => {
         {isMenuOpen && (
           <div className="lg:hidden bg-white border-t border-gray-200 py-4 animate-fade-in">
             <div className="space-y-4">
-              <button 
-                onClick={() => handleNavigation('/')}
+              <Link 
+                to="/"
                 className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Home
-              </button>
-              <button 
-                onClick={() => handleNavigation('/about')}
+              </Link>
+              <Link 
+                to="/about"
                 className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
                 About
-              </button>
-              <button 
-                onClick={() => handleNavigation('/services')}
+              </Link>
+              <Link 
+                to="/services"
                 className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Services
-              </button>
-              <button 
-                onClick={() => handleNavigation('/areas')}
+              </Link>
+              <Link 
+                to="/areas"
                 className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Areas We Serve
-              </button>
-              <button 
-                onClick={() => handleNavigation('/contact')}
+              </Link>
+              <Link 
+                to="/contact"
                 className="block w-full text-left text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Contact
-              </button>
+              </Link>
               <a 
                 href="tel:5551234567"
                 className="block bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-full font-bold text-center transition-all duration-300"
