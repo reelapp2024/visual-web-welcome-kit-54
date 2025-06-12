@@ -56,8 +56,8 @@ const CleaningState = () => {
   const parts = currentLocation.split('/').filter(Boolean);
 
 // Get last and second-last parts
-const State = parts[parts.length - 1];        // like state
-const Country = parts[parts.length - 2];  // like country
+const State = humanizeString(parts[parts.length - 1]);        // like state
+const Country = humanizeString(parts[parts.length - 2]);  // like country
 
 console.log('Last segment (state):', State);
 console.log('Second last segment (country):', Country);
