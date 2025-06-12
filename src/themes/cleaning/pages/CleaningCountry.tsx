@@ -351,7 +351,7 @@ const CleaningCountry = () => {
         </div>
       </section>
 
-      <ServiceMap theme="cleaning" />
+
 
       {/* FAQ Section */}
       <section className="py-20 bg-white font-poppins">

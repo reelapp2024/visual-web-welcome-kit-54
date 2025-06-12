@@ -122,31 +122,7 @@ const CleaningCountryMap = ({ countryName }: CleaningCountryMapProps) => {
           style={{ width: '100%' }} 
         />
         
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">🌍</span>
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Wide Coverage</h3>
-            <p className="text-gray-600">Serving multiple regions across {countryName}</p>
-          </div>
-          
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="bg-emerald-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">⚡</span>
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Quick Response</h3>
-            <p className="text-gray-600">Fast and reliable service in your area</p>
-          </div>
-          
-          <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl">✨</span>
-            </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Quality Service</h3>
-            <p className="text-gray-600">Professional cleaning with guaranteed results</p>
-          </div>
-        </div>
+      
       </div>
     </section>
   );
