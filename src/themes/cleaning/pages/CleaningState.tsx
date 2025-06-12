@@ -53,6 +53,15 @@ const CleaningState = () => {
   let stateName = currentLocation.split('/').pop();
   console.log('Text after last slash:', stateName);
 
+  const parts = currentLocation.split('/').filter(Boolean);
+
+// Get last and second-last parts
+const State = parts[parts.length - 1];        // like state
+const Country = parts[parts.length - 2];  // like country
+
+console.log('Last segment (state):', State);
+console.log('Second last segment (country):', Country);
+
 
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
 
