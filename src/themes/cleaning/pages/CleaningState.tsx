@@ -61,7 +61,7 @@ const CleaningState = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const savedSiteId = localStorage.getItem("currentSiteId");
-  let projectId = savedSiteId || "683da559d48d4721c48972d5";
+  let projectId = savedSiteId || "684a89807771b19c131ff5e7";
 
 
   let { id,
