@@ -23,9 +23,9 @@ interface PlumbingServiceDetailProps {
 const PlumbingServiceDetail = ({ serviceId, serviceName, serviceDescription, serviceImage }: PlumbingServiceDetailProps) => {
   const { serviceName: urlServiceName } = useParams();
   
-  const displayServiceName = serviceName || urlServiceName || 'Emergency Plumbing';
-  const displayServiceDescription = serviceDescription || '24/7 emergency plumbing services for burst pipes, severe leaks, and urgent repairs. Fast response times guaranteed with expert technicians.';
-  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+  const displayServiceName = serviceName || urlServiceName || 'Plumbing Repair';
+  const displayServiceDescription = serviceDescription || 'Professional plumbing services for homes and businesses with 24/7 emergency response. Licensed plumbers with years of experience.';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
   return (
     <div className="min-h-screen font-poppins">
