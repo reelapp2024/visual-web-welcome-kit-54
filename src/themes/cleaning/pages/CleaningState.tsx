@@ -29,7 +29,7 @@ import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import CleaningLoader from '../components/CleaningLoader';
-import CleaningCountryMap from '../components/CleaningCountryMap';
+import CleaningStateMap from '../components/CleaningStateMap';
 
 const CleaningState = () => {
   const [projectServices, setprojectServices] = useState([]);
@@ -246,7 +246,7 @@ console.log('Second last segment (country):', Country);
       </section>
 
       {/* State Map Section */}
-      <CleaningCountryMap countryName={State} />
+      <CleaningStateMap stateName={State} countryName={Country} />
 
       <CleaningCTA />
       {/* <CleaningAboutUs /> */}
