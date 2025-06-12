@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { httpFile } from "../../../config.js";
@@ -30,15 +29,10 @@ import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import CleaningLoader from '../components/CleaningLoader';
+import CleaningCountryMap from '../components/CleaningCountryMap';
 
 const CleaningState = () => {
-
-
-
-
-
   const [projectServices, setprojectServices] = useState([]);
-
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -117,7 +111,6 @@ console.log('Second last segment (country):', Country);
     }
 
     let locationToNavigate = `/${RefLocation}/${slugify(locationName)}`
-
 
 
     navigate(locationToNavigate, {
@@ -251,6 +244,9 @@ console.log('Second last segment (country):', Country);
           </p>
         </div>
       </section>
+
+      {/* State Map Section */}
+      <CleaningCountryMap countryName={State} />
 
       <CleaningCTA />
       {/* <CleaningAboutUs /> */}
