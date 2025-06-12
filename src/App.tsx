@@ -65,7 +65,7 @@ const App = () => (
           <Route path="/:countryname" element={<ThemeCountry />} />
           <Route path="/:countryname/:statename" element={<ThemeState />} />
           <Route path="/:countryname/:statename/:cityname" element={<ThemeCity />} />
-          <Route path="/:countryname/:statename/:cityname/:localareaname" element={<ThemeCountry />} />
+          <Route path="/:countryname/:statename/:cityname/:localareaname" element={<ThemeAreaDetail />} />
           <Route path="/states" element={<ThemeState />} />
           <Route path="/cities" element={<ThemeCity />} />
           <Route path="/cities/:slug" element={<CityDetail />} />

@@ -133,8 +133,12 @@ const CleaningCity = () => {
           refId: id,
           _id: _id,
           RefLocation: RefLocation,
+          reqFrom:"cleaningCity"
+
 
         });
+
+        console.log(data)
 
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
@@ -402,7 +406,7 @@ const CleaningCity = () => {
           </div>
         </div>
       </section>
-      <ServiceMap theme="cleaning" />
+      {/* <ServiceMap theme="cleaning" /> */}
        <section className="py-20 bg-white font-poppins">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">

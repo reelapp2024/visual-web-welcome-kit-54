@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Clock, Award, Users, CheckCircle, Sparkles } from 'lucide-react';
 import { httpFile } from "../../../config.js";
-
+import DynamicFAIcon from '../../../extras/DynamicFAIcon.js'; // make sure the path is correct
 const CleaningWhyChooseUs = () => {
 
   const [projectCategory, setProjectCategory] = useState("");
@@ -20,6 +20,8 @@ const CleaningWhyChooseUs = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
+          reqFrom:"Whychooseus"
+
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {
@@ -40,44 +42,7 @@ const CleaningWhyChooseUs = () => {
   console.log(projectWhyChooseUs, "projectWhyChooseUs")
 
 
-  const features = [
-    {
-      icon: <Clock className="w-12 h-12" />,
-      title: "Same Day Bookings",
-      description: "Last-minute cleaning needs? No problem. Book our services the same day you call.",
-      gradient: "from-green-500 to-green-600"
-    },
-    {
-      icon: <Shield className="w-12 h-12" />,
-      title: "Bonded & Insured",
-      description: "All our cleaners are fully bonded, insured, and background-checked for your protection.",
-      gradient: "from-emerald-500 to-emerald-600"
-    },
-    {
-      icon: <Award className="w-12 h-12" />,
-      title: "10+ Years Experience",
-      description: "Over a decade of professional cleaning experience serving our community.",
-      gradient: "from-green-600 to-emerald-500"
-    },
-    {
-      icon: <Users className="w-12 h-12" />,
-      title: "Trained Team",
-      description: "Professional, uniformed cleaners who treat your property with respect and care.",
-      gradient: "from-emerald-600 to-green-600"
-    },
-    {
-      icon: <CheckCircle className="w-12 h-12" />,
-      title: "Satisfaction Guarantee",
-      description: "100% satisfaction guarantee on all cleaning services with quality assurance.",
-      gradient: "from-green-500 to-emerald-500"
-    },
-    {
-      icon: <Sparkles className="w-12 h-12" />,
-      title: "Eco-Friendly Products",
-      description: "Safe, non-toxic cleaning products that are gentle on your family and pets.",
-      gradient: "from-emerald-500 to-green-500"
-    }
-  ];
+
 
   return (
     <section className="py-20 bg-white font-poppins">
@@ -96,15 +61,14 @@ const CleaningWhyChooseUs = () => {
           {projectWhyChooseUs.map((feature, index) => (
             <div key={index} className="text-center group">
               <div className="bg-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 p-8 border border-gray-100">
-                {/* <div className={`bg-gradient-to-br ${feature.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
-                  {feature.icon}
 
-                 
 
-                </div> */}
-
-                <div className={`bg-gradient-to-br ${feature.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
-                  <span className="text-4xl">⭐</span>
+                <div
+                  className={`bg-gradient-to-br ${feature.gradient || 'from-gray-400 to-gray-600'
+                    } rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-300`}
+                >
+                    <DynamicFAIcon iconClass={feature.iconClass || ''} />
+                  {/* Changed icon color to green-500 */}
                 </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{feature.title}</h3>

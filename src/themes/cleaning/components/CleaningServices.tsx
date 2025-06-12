@@ -10,56 +10,7 @@ const CleaningServices = () => {
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "683da559d48d4721c48972d5";
 
-  const services = [
-    {
-      icon: <Home className="w-12 h-12" />,
-      title: "Residential Cleaning",
-      description: "Complete home cleaning services including kitchens, bathrooms, bedrooms, and living areas.",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Deep cleaning", "Regular maintenance", "Move-in/out cleaning"],
-      gradient: "from-green-500 to-green-600"
-    },
-    {
-      icon: <Building className="w-12 h-12" />,
-      title: "Commercial Cleaning",
-      description: "Professional office and commercial space cleaning with flexible scheduling options.",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Office cleaning", "Retail spaces", "Medical facilities"],
-      gradient: "from-emerald-500 to-emerald-600"
-    },
-    {
-      icon: <Sparkles className="w-12 h-12" />,
-      title: "Deep Cleaning",
-      description: "Thorough deep cleaning service for homes and businesses that need extra attention.",
-      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Spring cleaning", "Post-construction", "Move-in ready"],
-      gradient: "from-green-600 to-emerald-500"
-    },
-    {
-      icon: <Car className="w-12 h-12" />,
-      title: "Garage Cleaning",
-      description: "Complete garage organization and cleaning services to maximize your storage space.",
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Organization", "Floor cleaning", "Storage solutions"],
-      gradient: "from-emerald-600 to-green-600"
-    },
-    {
-      icon: <Sofa className="w-12 h-12" />,
-      title: "Upholstery Cleaning",
-      description: "Professional furniture and upholstery cleaning to restore your favorite pieces.",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Fabric protection", "Stain removal", "Odor elimination"],
-      gradient: "from-green-500 to-emerald-600"
-    },
-    {
-      icon: <Shirt className="w-12 h-12" />,
-      title: "Laundry Services",
-      description: "Professional laundry and dry cleaning services with pickup and delivery options.",
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: ["Wash & fold", "Dry cleaning", "Pickup & delivery"],
-      gradient: "from-emerald-500 to-green-500"
-    }
-  ];
+  
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
@@ -90,6 +41,8 @@ const CleaningServices = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
+          reqFrom:"cleaningServices"
+
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {

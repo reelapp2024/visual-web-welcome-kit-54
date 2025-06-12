@@ -50,7 +50,7 @@ const CleaningState = () => {
   const RefLocation = currentLocation.slice(1);
   console.log('Path without leading slash:', RefLocation);
 
-  const stateName = currentLocation.split('/').pop();
+  let stateName = currentLocation.split('/').pop();
   console.log('Text after last slash:', stateName);
 
 
@@ -69,10 +69,18 @@ const CleaningState = () => {
     UpcomingPage,
     nextPage,
     locationName,
+    PrevLocation,
 
     _id } = location.state || {};
 
-  const handleLocationClick = (locationName, id, _id) => {
+
+    if(!PrevLocation){
+      PrevLocation=humanizeString(stateName)
+    }
+    console.log(location.state, "location.state")
+
+
+  const handleLocationClick = (locationName, id, _id,slug) => {
 
 
 
@@ -129,6 +137,8 @@ const CleaningState = () => {
           refId: id,
           _id: _id,
           RefLocation: RefLocation,
+          reqFrom:"cleaningState"
+
 
         });
 
@@ -224,10 +234,10 @@ const CleaningState = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
           <div className="flex items-center justify-center mb-4">
             <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
-            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {humanizeString(stateName)}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {PrevLocation}</h1>
           </div>
           <p className="text-xl text-green-100 max-w-3xl mx-auto">
-            Comprehensive {projectCategory} services throughout {humanizeString(stateName)} with certified professionals
+            Comprehensive {projectCategory} services throughout {PrevLocation} with certified professionals
             and same-day booking in every major city.
           </p>
         </div>
@@ -265,7 +275,7 @@ const CleaningState = () => {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(stateName)}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {PrevLocation}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
                 </div>
               </div>
@@ -394,7 +404,7 @@ const CleaningState = () => {
                 </div>
 
                 <button
-                  onClick={() => handleLocationClick(area.name, area.location_id, area._id)}
+                  onClick={() => handleLocationClick(area.name, area.location_id, area._id,area.slug)}
                   className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
                 >
                   See Areas

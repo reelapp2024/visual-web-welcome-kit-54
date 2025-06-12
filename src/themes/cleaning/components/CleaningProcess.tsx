@@ -2,11 +2,13 @@
 import React ,{useEffect, useState} from 'react';
 import { httpFile } from "../../../config.js";
 import { Phone, Calendar, Sparkles, CheckCircle } from 'lucide-react';
+import DynamicFAIcon from '../../../extras/DynamicFAIcon.js'; // make sure the path is correct
 
 const CleaningProcess = () => {
 
 
     const [projectOurProcess, setprojectOurProcess] = useState([]);
+    const [projectCategory, setProjectCategory] = useState("");
   
    const savedSiteId = localStorage.getItem("currentSiteId");
     const projectId = savedSiteId || "683da559d48d4721c48972d5";
@@ -18,9 +20,12 @@ const CleaningProcess = () => {
             const { data } = await httpFile.post("/webapp/v1/my_site", {
               projectId,
               pageType: "home",
+          reqFrom:"Process"
+
             });
     
             if (data.projectInfo ) {
+          setProjectCategory(data.projectInfo.serviceType);
             
               setprojectOurProcess(data.projectInfo.ourProcessSection);
              
@@ -35,54 +40,7 @@ const CleaningProcess = () => {
 
 
 
-  const steps = [
-    {
-      icon: <Phone className="w-10 h-10" />,
-      title: "Contact Us",
-      description: "Call us for a free consultation and quote for your cleaning needs.",
-      gradient: "from-green-500 to-green-600",
-      number: "01"
-    },
-    {
-      icon: <Calendar className="w-10 h-10" />,
-      title: "Schedule Service",
-      description: "We'll arrange a convenient time that works with your schedule.",
-      gradient: "from-emerald-500 to-emerald-600",
-      number: "02"
-    },
-    {
-      icon: <Sparkles className="w-10 h-10" />,
-      title: "Professional Cleaning",
-      description: "Our trained team arrives with all supplies and cleans to perfection.",
-      gradient: "from-green-500 to-emerald-500",
-      number: "03"
-    },
-    {
-      icon: <CheckCircle className="w-10 h-10" />,
-      title: "Quality Check",
-      description: "We inspect every detail to ensure you're completely satisfied.",
-      gradient: "from-emerald-600 to-green-600",
-      number: "04"
-    },
 
-    {
-      icon: <CheckCircle className="w-10 h-10" />,
-      title: "Quality Check 1",
-      description: "We inspect every detail to ensure you're completely satisfied.",
-      gradient: "from-emerald-600 to-green-600",
-      number: "05"
-    }
-
-    ,
-
-    {
-      icon: <CheckCircle className="w-10 h-10" />,
-      title: "Quality Check 2",
-      description: "We inspect every detail to ensure you're completely satisfied.",
-      gradient: "from-emerald-600 to-green-600",
-      number: "06"
-    }
-  ];
 
 
   console.log(projectOurProcess,"projectOurProcessprojectOurProcessprojectOurProcessprojectOurProcessprojectOurProcess")
@@ -95,7 +53,7 @@ const CleaningProcess = () => {
             Our Simple Process
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Our streamlined 4-step process ensures you get professional cleaning service from start to finish.
+            Our streamlined {projectOurProcess.length}-step process ensures you get professional {projectCategory} service from start to finish.
           </p>
         </div>
 
@@ -112,10 +70,13 @@ const CleaningProcess = () => {
                 {/* <div className={`bg-gradient-to-br ${step.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
                   {step.icon}
                 </div> */}
-
-                <div className={`bg-gradient-to-br ${step.gradient} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 text-white shadow-xl group-hover:scale-110 transition-all duration-300`}>
-  <span className="text-4xl">⭐</span>
-</div>
+  <div
+                  className={`bg-gradient-to-br ${step.gradient || 'from-gray-400 to-gray-600'
+                    } rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-300`}
+                >
+                    <DynamicFAIcon iconClass={step.iconClass || ''} />
+                  {/* Changed icon color to green-500 */}
+                </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{step.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{step.description}</p>

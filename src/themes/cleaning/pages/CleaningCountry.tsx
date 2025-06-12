@@ -60,13 +60,18 @@ const CleaningCountry = () => {
     UpcomingPage,
     nextPage,
     locationName,
+    sortname,
 
     _id } = location.state || {};
 
-  const handleLocationClick = (locationName, id, _id) => {
 
 
+  const handleLocationClick = (locationName, id, _id,sortname) => {
 
+
+ let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
+
+//  alert(PrevLocation)
 
 
     let nextPage = ''
@@ -101,6 +106,7 @@ const CleaningCountry = () => {
         UpcomingPage,
         nextPage,
         locationName,
+        PrevLocation,
         // oldPage,
         _id
       }
@@ -120,8 +126,13 @@ const CleaningCountry = () => {
           refId: id,
           _id: _id,
           RefLocation: RefLocation,
+          reqFrom:"cleaningCountry"
+
 
         });
+
+
+
 
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
@@ -158,6 +169,8 @@ const CleaningCountry = () => {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
+        locationName:`${humanizeString(locationName)}, ${sortname}`,
+        
         serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
@@ -186,7 +199,7 @@ const CleaningCountry = () => {
 
 
 
-  console.log(openFAQ, "openFAQ", projectFaqs, "projectFaqs")
+  console.log(RefLocation, "RefLocation")
 
   if (isLoading) {
     return <CleaningLoader />;
@@ -211,7 +224,7 @@ const CleaningCountry = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
           <div className="flex items-center justify-center mb-4">
             <Flag className="w-8 h-8 text-emerald-400 mr-3" />
-            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {humanizeString(pageLocation)}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {humanizeString(pageLocation)},{sortname}</h1>
           </div>
           <p className="text-xl text-green-100 max-w-3xl mx-auto">
             Professional {projectCategory} services across the {humanizeString(pageLocation)} with nationwide coverage
@@ -251,7 +264,7 @@ const CleaningCountry = () => {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(pageLocation)}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(pageLocation)},{sortname}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
                 </div>
               </div>
@@ -360,12 +373,14 @@ const CleaningCountry = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projectLocations.map((area, index) => (
+
+              
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full p-3 mr-4">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">{area.name}</h3>
+                  <h3 className="text-xl font-bold text-gray-900">{area.name},{sortname}</h3>
                 </div>
 
                 <div className="space-y-3">
@@ -378,9 +393,10 @@ const CleaningCountry = () => {
                     <span>100% Original services</span>
                   </div>
                 </div>
+               
 
                 <button
-                  onClick={() => handleLocationClick(area.name, area.location_id, area._id)}
+                  onClick={() => handleLocationClick(area.name, area.location_id, area._id,sortname)}
                   className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
                 >
                   See Areas

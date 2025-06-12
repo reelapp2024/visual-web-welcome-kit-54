@@ -14,19 +14,10 @@ import { Sparkles, Phone } from 'lucide-react';
 import { httpFile } from "../../../config.js";
 import humanizeString from "../../../extras/stringUtils.js";
 
-// Import Font Awesome (if not already included in your project)
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-interface CleaningServiceDetailProps {
-  serviceId?: string;
-  serviceName?: string;
-  serviceDescription?: string;
-  serviceImage?: string;
-}
-
-const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServiceDetailProps) => {
+const CleaningServiceDetail = () => {
   let { serviceName: urlServiceName } = useParams();
-
   const [projectOurProcess, setprojectOurProcess] = useState([]);
   const [serviceDetails, setServiceDetails] = useState(null);
   const [serviceImage, setServiceImage] = useState("");
@@ -34,15 +25,52 @@ const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServ
   const [stepProcess, setStepProcess] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [reloadFlag, setReloadFlag] = useState(0);
 
-  const savedSiteId = localStorage.getItem("currentSiteId");
-  let projectId = savedSiteId || "683da559d48d4721c48972d5";
   const location = useLocation();
   const navigate = useNavigate();
-  const serviceId = location.state?.serviceId;
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+  const locationName = location.state?.locationName ? `in ${location.state.locationName}` : '';
+  const [serviceId, setServiceId] = useState(location.state?.serviceId || "");
+  const displayServiceName = humanizeString(urlServiceName) || 'Residential Cleaning';
 
   useEffect(() => {
-    const fetchData = async () => {
+    localStorage.setItem("locaitonname", locationName);
+  }, [locationName]);
+
+  // When URL changes (same page but different param), force refetch
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setServiceId(location.state?.serviceId || "");
+    setReloadFlag(prev => prev + 1);
+  }, [urlServiceName]);
+
+  useEffect(() => {
+    const fetchServiceId = async () => {
+      if (!serviceId && displayServiceName) {
+        try {
+          const { data } = await httpFile.post("/webapp/v1/fetch_service_by_name_and_project", {
+            projectId,
+            serviceName: displayServiceName,
+          });
+
+          if (data?.serviceId) {
+            setServiceId(data.serviceId);
+          }
+        } catch (error) {
+          console.error("Error fetching service ID:", error);
+        }
+      }
+    };
+
+    fetchServiceId();
+  }, [projectId, urlServiceName, serviceId, reloadFlag]);
+
+  useEffect(() => {
+    const fetchServiceData = async () => {
+      if (!serviceId) return;
+
       try {
         const { data } = await httpFile.post("/webapp/v1/fetch_service", { serviceId });
 
@@ -54,12 +82,12 @@ const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServ
           setIsLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching service details:", error);
       }
     };
 
-    fetchData();
-  }, [projectId]);
+    fetchServiceData();
+  }, [serviceId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,28 +109,15 @@ const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServ
     fetchData();
   }, [projectId]);
 
-  console.log(stepProcess, "service stepProcess");
-
-  serviceName = humanizeString(serviceName);
-
-  const displayServiceName = serviceName || urlServiceName || 'Residential Cleaning';
-  const displayServiceDescription = serviceDescription || 'Professional home cleaning services for every room with eco-friendly products and trained staff. Same-day booking and satisfaction guaranteed.';
-  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+  const displayServiceDescription = serviceDetails?.service_description || 'Professional home cleaning services...';
+  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?...';
 
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
 
-      {/* Service Hero */}
       <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[600px] flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `${ProjectBaseImage}`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${ProjectBaseImage})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -110,35 +125,24 @@ const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServ
             <div>
               <div className="flex items-center mb-4">
                 <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName} {locationName}</h1>
               </div>
-
-              <div className="flex items-center mb-4">
-
-                <p className="text-xl text-green-100 mb-8">
-                  <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
-
-                  <span className="text-lg">{displayServiceDescription}</span>
-                </p>
-
-              </div>
+              <p className="text-xl text-green-100 mb-8">
+                <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
+                <span className="text-lg">{displayServiceDescription} {locationName}</span>
+              </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-emerald-400" />
                 <span className="text-lg">Call Now: {phoneNumber}</span>
               </div>
             </div>
             <div>
-              <img
-                src={displayServiceImage}
-                alt={displayServiceName}
-                className="rounded-2xl shadow-2xl"
-              />
+              <img src={displayServiceImage} alt={displayServiceName} className="rounded-2xl shadow-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* <CleaningAboutUs /> */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -152,61 +156,34 @@ const CleaningServiceDetail = ({ serviceName, serviceDescription }: CleaningServ
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {stepProcess.length > 0 ? (
-              stepProcess.map((step, index) => {
-                // Log warning if iconClass is missing
-                if (!step.iconClass) {
-                  console.warn(`Missing iconClass for step ${index + 1}:`, step);
-                }
-
-                return (
-                  <div key={index} className="text-center relative group">
-                    {/* Step Number */}
-                    <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-xl z-10 shadow-xl group-hover:scale-110 transition-all duration-300">
-                      {index + 1}
-                    </div>
-
-                    {/* Card */}
-                    <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 p-8 border border-gray-100">
-                      <div
-                        className={`bg-gradient-to-br ${step.gradient || 'from-gray-400 to-gray-600'
-                          } rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-300`}
-                      >
-                        <i className={`${step.iconClass || 'fas fa-star'} text-4xl text-green-500`}></i>
-                        {/* Changed icon color to green-500 */}
-                      </div>
-
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                        {step.stepName || 'Step'}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        {step.serviceDescription || 'No description available.'}
-                      </p>
-                    </div>
-
-                    {/* Arrow for desktop */}
-                    {index < stepProcess.length - 1 && (
-                      <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-green-300 z-20">
-                        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                          <path
-                            fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    )}
+              stepProcess.map((step, index) => (
+                <div key={index} className="text-center relative group">
+                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-xl z-10 shadow-xl group-hover:scale-110 transition-all duration-300">
+                    {index + 1}
                   </div>
-                );
-              })
+                  <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 p-8 border border-gray-100">
+                    <div className={`bg-gradient-to-br ${step.gradient || 'from-gray-400 to-gray-600'} rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-300`}>
+                      <i className={`${step.iconClass || 'fas fa-star'} text-4xl text-green-500`}></i>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{step.stepName || 'Step'}</h3>
+                    <p className="text-gray-600 leading-relaxed">{step.serviceDescription || 'No description available.'}</p>
+                  </div>
+                  {index < stepProcess.length - 1 && (
+                    <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-green-300 z-20">
+                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              ))
             ) : (
-              <p className="text-center text-gray-600 col-span-4">
-                No process steps available.
-              </p>
+              <p className="text-center text-gray-600 col-span-4">No process steps available.</p>
             )}
           </div>
         </div>
       </section>
-      <CleaningBeforeAfter />
+
       <CleaningCTA />
       <CleaningWhyChooseUs />
       <CleaningGuarantee />

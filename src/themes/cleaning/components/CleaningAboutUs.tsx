@@ -45,6 +45,7 @@ const CleaningAboutUs = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
+          reqFrom:"Aboutus"
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {

@@ -34,6 +34,8 @@ const CleaningServiceAreas = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
+          reqFrom:"servicesAreas"
+
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {
@@ -43,6 +45,8 @@ const CleaningServiceAreas = () => {
           setUpcomingPage(data.upcomingPage);
           setLocations(data.locations);
         }
+
+        console.log(data.slug,"data.slug")
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -51,8 +55,15 @@ const CleaningServiceAreas = () => {
     fetchData();
   }, [projectId]);
 
-  const getLocationPath = (locationName, id, _id) => {
+  console.log(locations, "locations")
+
+
+  const getLocationPath = (locationName, id, _id,sortname) => {
     let nextPage = '';
+
+    if(sortname){
+      console.log("country page so sortname is available")
+    }
 
     if (UpcomingPage === 'country') {
       nextPage = 'States';
@@ -72,10 +83,21 @@ const CleaningServiceAreas = () => {
         UpcomingPage,
         nextPage,
         locationName,
+        sortname,
         _id
       }
     };
   };
+
+
+  const getNextPage = () => {
+  if (UpcomingPage === 'country') return 'States';
+  if (UpcomingPage === 'state') return 'Cities';
+  if (UpcomingPage === 'city') return 'Local Areas';
+  if (UpcomingPage === 'local') return 'whole areas';
+  return '';
+};
+
 
   return (
     <section className="py-20 bg-gray-50 font-poppins">
@@ -110,12 +132,24 @@ const CleaningServiceAreas = () => {
                 </div>
               </div>
 
-              <Link
-                to={getLocationPath(area.name, area.location_id, area._id)}
-                className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 inline-block text-center"
-              >
-                See Areas
-              </Link>
+             <Link
+  to={{
+    pathname: `/${area.slug}`,
+  }}
+  state={{
+    id: area.location_id,
+    projectId,
+    UpcomingPage,
+    nextPage: getNextPage(),
+    locationName: area.name,
+    sortname: area.sortname,
+    _id: area._id,
+  }}
+    className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 inline-block text-center"
+>
+  See Areas
+</Link>
+
             </div>
           ))}
         </div>

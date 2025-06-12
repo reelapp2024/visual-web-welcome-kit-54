@@ -1,10 +1,42 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { httpFile } from "../../../config.js";
 import { Link } from 'react-router-dom';
 import { Phone, Menu, X, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+
 
 const CleaningHeader = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [projectCategory, setProjectCategory] = useState("");
+  const [projectFasFA, setProjectFasFA] = useState("");
+
+
+
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "683da559d48d4721c48972d5";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home"
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+
+          setPhoneNumber(data.aboutUs.phone);
+          setProjectName(data.projectInfo.projectName);
+          setProjectCategory(data.projectInfo.serviceType);
+          setProjectFasFA(data.projectInfo.defaultFasFaIcon);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigationItems = [
@@ -21,14 +53,46 @@ const CleaningHeader = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-2 rounded-lg mr-3">
-              <Sparkles className="h-6 w-6 text-white" />
+            {/* <div className="bg-gradient-to-br from-green-600 to-emerald-600 p-2 rounded-xl mr-3 shadow-lg"> */}
+            <div
+              style={{
+                fontSize: '2rem',
+                color: '#fff',
+                background: 'linear-gradient(145deg, #38a169, #2f855a)', // Subtle 3D gradient
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '50%',
+                boxShadow:
+                  'inset -2px -2px 5px rgba(255,255,255,0.2), inset 2px 2px 5px rgba(0,0,0,0.2), 0 6px 15px rgba(0,0,0,0.15)',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                cursor: 'pointer',
+                transform: 'scale(1)',
+                marginRight: '13px'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.08)';
+                e.currentTarget.style.boxShadow =
+                  'inset -1px -1px 4px rgba(255,255,255,0.3), inset 1px 1px 4px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow =
+                  'inset -2px -2px 5px rgba(255,255,255,0.2), inset 2px 2px 5px rgba(0,0,0,0.2), 0 6px 15px rgba(0,0,0,0.15)';
+              }}
+            >
+              <i className={`fas ${projectFasFA}`}></i>
             </div>
+
+            {/* </div> */}
+
             <Link to="/">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                SparkleClean Pro
+                {projectName}
               </h1>
-              <p className="text-sm text-gray-600">Professional Residential & Commercial Cleaning</p>
+              <p className="text-sm text-gray-600">Professional {projectCategory}</p>
             </Link>
           </div>
 
@@ -48,11 +112,12 @@ const CleaningHeader = () => {
           {/* Call Button */}
           <div className="hidden md:flex items-center">
             <a
-              href="tel:5551234567"
+              href={`tel:${phoneNumber}`}
+
               className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-full font-bold flex items-center space-x-2 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <Phone size={18} />
-              <span>(555) 123-4567</span>
+              <span>{phoneNumber}</span>
             </a>
           </div>
 

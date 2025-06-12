@@ -18,6 +18,8 @@ const CleaningCTA = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
+          reqFrom:"CTA"
+          
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {
