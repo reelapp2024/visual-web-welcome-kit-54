@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { httpFile } from "../../../config.js";
@@ -12,8 +11,6 @@ interface Testimonial {
   customer_name: string;
   rating: number | string; // could be 4.5, "3.5", etc.
 }
-
-
 
 import humanizeString from "../../../extras/stringUtils.js";
 
@@ -32,7 +29,7 @@ import CleaningFooter from '../components/CleaningFooter';
 import { Flag } from 'lucide-react';
 import { slugify } from "../../../extras/slug";
 import CleaningLoader from '../components/CleaningLoader';
-
+import CountryMap from '../components/CleaningCountryMap';
 
 const CleaningCountry = () => {
   const navigate = useNavigate();
@@ -54,50 +51,29 @@ const CleaningCountry = () => {
   const savedSiteId = localStorage.getItem("currentSiteId");
   let projectId = savedSiteId || "684a89807771b19c131ff5e7";
 
-
-  let { id,
-
-    UpcomingPage,
-    nextPage,
-    locationName,
-    sortname,
-
-    _id } = location.state || {};
-
-
+  let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
 
   const handleLocationClick = (locationName, id, _id,sortname) => {
-
-
- let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
-
-//  alert(PrevLocation)
-
+    let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
 
     let nextPage = ''
 
     if (UpcomingPage == 'country') {
-
       nextPage = 'States'
     }
     else if (UpcomingPage == 'state') {
-
       nextPage = 'Cities'
     }
 
     if (UpcomingPage == 'city') {
-
       nextPage = 'Local Areas'
     }
 
     if (UpcomingPage == 'local') {
-
       nextPage = 'whole areas'
     }
 
     let locationToNavigate = `/${RefLocation}/${slugify(locationName)}`
-
-
 
     navigate(locationToNavigate, {
       state: {
@@ -107,14 +83,9 @@ const CleaningCountry = () => {
         nextPage,
         locationName,
         PrevLocation,
-        // oldPage,
         _id
       }
     });
-
-
-    // log the startFrom value
-
   };
 
   useEffect(() => {
@@ -127,29 +98,15 @@ const CleaningCountry = () => {
           _id: _id,
           RefLocation: RefLocation,
           reqFrom:"cleaningCountry"
-
-
         });
-
-
-
 
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
           setProjectLocations(data.locations);
-
           setProjectReviews(data.testimonials || []);
-
           setprojectFaqs(data.faq || []);
-
           setPageLocation(data.RefLocation);
-
           setIsLoading(false);
-
-
-
-
-
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -159,9 +116,6 @@ const CleaningCountry = () => {
     fetchData();
   }, [projectId]);
 
-
-
-
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
     navigate(`/services/${serviceName}`, {
@@ -170,7 +124,6 @@ const CleaningCountry = () => {
         serviceName: service.service_name,
         serviceDescription: service.service_description,
         locationName:`${humanizeString(locationName)}, ${sortname}`,
-        
         serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
@@ -195,9 +148,6 @@ const CleaningCountry = () => {
 
     fetchData();
   }, [projectId]);
-
-
-
 
   console.log(RefLocation, "RefLocation")
 
@@ -233,7 +183,10 @@ const CleaningCountry = () => {
         </div>
       </section>
 
-      {/* <CleaningAboutUs /> */}
+      {/* Country Map Section */}
+      <CountryMap countryName={RefLocation} />
+
+      {/* Services Section */}
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -272,11 +225,14 @@ const CleaningCountry = () => {
           </div>
         </div>
       </section>
+
       <CleaningCTA />
       <CleaningWhyChooseUs />
       <CleaningProcess />
       <CleaningCTA />
       <CleaningGuarantee />
+
+      {/* Testimonials Section */}
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -291,13 +247,9 @@ const CleaningCountry = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projectReviews.map((testimonial, index) => {
-              // 1) Coerce rating into a number:
               const rawRating = Number(testimonial.rating) || 0;
-              // 2) Compute how many full stars:
               const fullStars = Math.floor(rawRating);
-              // 3) Check if there's a half star (only one half max):
               const hasHalf = rawRating - fullStars >= 0.5;
-              // 4) Remaining empty stars to reach 5 total:
               const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 
               return (
@@ -314,11 +266,6 @@ const CleaningCountry = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      {/* <img
-                      src={testimonial.customer_image}
-                      alt=""
-                      className="w-12 h-12 rounded-full object-cover"
-                    /> */}
                       <div>
                         <h4 className="font-bold text-gray-900">
                           {testimonial.customer_name}
@@ -330,21 +277,18 @@ const CleaningCountry = () => {
                     </div>
 
                     <div className="flex space-x-1">
-                      {/* Full stars */}
                       {[...Array(fullStars)].map((_, i) => (
                         <Star
                           key={`full-${index}-${i}`}
                           className="w-5 h-5 text-yellow-400 fill-current"
                         />
                       ))}
-                      {/* One half star if needed */}
                       {hasHalf && (
                         <StarHalf
                           key={`half-${index}`}
                           className="w-5 h-5 text-yellow-400 fill-current"
                         />
                       )}
-                      {/* Empty stars */}
                       {[...Array(emptyStars)].map((_, i) => (
                         <Star
                           key={`empty-${index}-${i}`}
@@ -359,7 +303,10 @@ const CleaningCountry = () => {
           </div>
         </div>
       </section>
+
       <CleaningCTA />
+
+      {/* Service Areas Section */}
       <section className="py-20 bg-gray-50 font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -373,8 +320,6 @@ const CleaningCountry = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projectLocations.map((area, index) => (
-
-              
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full p-3 mr-4">
@@ -393,7 +338,6 @@ const CleaningCountry = () => {
                     <span>100% Original services</span>
                   </div>
                 </div>
-               
 
                 <button
                   onClick={() => handleLocationClick(area.name, area.location_id, area._id,sortname)}
@@ -406,7 +350,10 @@ const CleaningCountry = () => {
           </div>
         </div>
       </section>
+
       <ServiceMap theme="cleaning" />
+
+      {/* FAQ Section */}
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -442,6 +389,7 @@ const CleaningCountry = () => {
           </div>
         </div>
       </section>
+
       <CleaningCTA />
       <CleaningFooter />
     </div>
