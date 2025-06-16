@@ -167,18 +167,19 @@ console.log('Second last segment (country):', Country);
 
 
    const handleServiceClick = (service: any) => {
-      const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-      navigate(`/services/${serviceName}`, {
-        state: {
-          serviceId: service._id,
-          serviceName: service.service_name,
-          serviceDescription: service.service_description,
-          serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-          serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-          serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
-        }
-      });
-    };
+    const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service._id,
+        serviceName: service.service_name,
+        serviceDescription: service.service_description,
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        locationName: PrevLocation // Pass the location name
+      }
+    });
+  };
   
     useEffect(() => {
       const fetchData = async () => {
@@ -254,10 +255,10 @@ console.log('Second last segment (country):', Country);
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              Our {projectCategory} Services
+              Our {projectCategory} Services in {PrevLocation}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive {projectCategory} solutions for you and we make sure for professional results.
+              Comprehensive {projectCategory} solutions in {PrevLocation} and we make sure for professional results.
             </p>
           </div>
 
