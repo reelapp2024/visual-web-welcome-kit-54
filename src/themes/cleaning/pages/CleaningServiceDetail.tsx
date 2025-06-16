@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import CleaningHeader from '../components/CleaningHeader';
@@ -32,16 +33,18 @@ const CleaningServiceDetail = () => {
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
   
-  // Get location name from navigation state or localStorage
-  const locationName = location.state?.locationName || localStorage.getItem("locaitonname") || '';
-  const displayLocationText = locationName ? ` in ${locationName}` : '';
+  // Get area name from navigation state
+  const areaName = location.state?.areaname || '';
+  const displayLocationText = areaName ? ` in ${areaName}` : '';
   
   const [serviceId, setServiceId] = useState(location.state?.serviceId || "");
   const displayServiceName = humanizeString(urlServiceName) || 'Residential Cleaning';
 
   useEffect(() => {
-    localStorage.setItem("locaitonname", locationName);
-  }, [locationName]);
+    if (areaName) {
+      localStorage.setItem("locaitonname", areaName);
+    }
+  }, [areaName]);
 
   // When URL changes (same page but different param), force refetch
   useEffect(() => {

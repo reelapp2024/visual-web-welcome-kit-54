@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { httpFile } from "../../../config.js";
@@ -84,7 +85,8 @@ const CleaningServiceAreas = () => {
         nextPage,
         locationName,
         sortname,
-        _id
+        _id,
+        areaname: locationName
       }
     };
   };
@@ -144,6 +146,7 @@ const CleaningServiceAreas = () => {
     locationName: area.name,
     sortname: area.sortname,
     _id: area._id,
+    areaname: area.name
   }}
     className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 inline-block text-center"
 >

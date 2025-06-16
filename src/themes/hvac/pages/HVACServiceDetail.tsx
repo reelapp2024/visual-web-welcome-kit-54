@@ -27,17 +27,17 @@ const HVACServiceDetail = () => {
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
   
-  // Get location name from navigation state or localStorage
-  const locationName = location.state?.locationName || localStorage.getItem("locaitonname") || '';
-  const displayLocationText = locationName ? ` in ${locationName}` : '';
+  // Get area name from navigation state
+  const areaName = location.state?.areaname || '';
+  const displayLocationText = areaName ? ` in ${areaName}` : '';
   
   const displayServiceName = humanizeString(urlServiceName) || 'HVAC Installation';
 
   useEffect(() => {
-    if (locationName) {
-      localStorage.setItem("locaitonname", locationName);
+    if (areaName) {
+      localStorage.setItem("locaitonname", areaName);
     }
-  }, [locationName]);
+  }, [areaName]);
 
   useEffect(() => {
     const fetchServiceId = async () => {

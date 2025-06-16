@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { httpFile } from "../../../config.js";
 import { Home, Building, Sparkles, Car, Sofa, Shirt } from 'lucide-react';
 
@@ -9,8 +10,10 @@ const CleaningServices = () => {
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
-
   
+  const location = useLocation();
+  // Get area name from current page's state
+  const areaName = location.state?.locationName || location.state?.areaname || localStorage.getItem("locaitonname") || '';
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
@@ -61,7 +64,7 @@ const CleaningServices = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            Our {projectCategory} Services
+            Our {projectCategory} Services{areaName ? ` in ${areaName}` : ''}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Comprehensive {projectCategory} solutions for you and we make sure for professional results.
@@ -80,7 +83,7 @@ const CleaningServices = () => {
                 serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
                 serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
                 serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-                locationName: localStorage.getItem("locaitonname") || ''
+                areaname: areaName
               }}
               className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100 cursor-pointer"
             >
@@ -96,7 +99,9 @@ const CleaningServices = () => {
                 </div>
               </div>
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {service.service_name}{areaName ? ` in ${areaName}` : ''}
+                </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
               </div>
             </Link>
