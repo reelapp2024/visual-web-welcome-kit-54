@@ -23,6 +23,9 @@ interface ServiceDetailProps {
   serviceName?: string;
   serviceDescription?: string;
   serviceImage?: string;
+  serviceImage1?: string;
+  serviceImage2?: string;
+  locationName?: string;
 }
 
 const ThemeServiceDetail = () => {
@@ -34,22 +37,25 @@ const ThemeServiceDetail = () => {
     serviceId: serviceData?.serviceId,
     serviceName: serviceName || serviceData?.serviceName,
     serviceDescription: serviceData?.serviceDescription,
-    serviceImage: serviceData?.serviceImage
+    serviceImage: serviceData?.serviceImage,
+    serviceImage1: serviceData?.serviceImage1,
+    serviceImage2: serviceData?.serviceImage2,
+    locationName: serviceData?.locationName
   };
 
   switch (currentTheme) {
     case 'cleaning':
-      return <CleaningServiceDetail {...props} />;
+      return <CleaningServiceDetail />;
     case 'plumbing':
-      return <PlumbingServiceDetail {...props} />;
+      return <PlumbingServiceDetail />;
     case 'roofing':
-      return <RoofingServiceDetail {...props} />;
+      return <RoofingServiceDetail />;
     case 'hvac':
-      return <HVACServiceDetail {...props} />;
+      return <HVACServiceDetail />;
     case 'painting':
-      return <PaintingServiceDetail {...props} />;
+      return <PaintingServiceDetail />;
     default:
-      return <CleaningServiceDetail {...props} />;
+      return <CleaningServiceDetail />;
   }
 };
 
