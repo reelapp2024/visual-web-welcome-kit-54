@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import CleaningHeader from '../components/CleaningHeader';
@@ -32,19 +31,13 @@ const CleaningServiceDetail = () => {
   const navigate = useNavigate();
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
-  
-  // Get area name from navigation state
-  const areaName = location.state?.areaname || '';
-  const displayLocationText = areaName ? ` in ${areaName}` : '';
-  
+  const locationName = location.state?.locationName ? `in ${location.state.locationName}` : '';
   const [serviceId, setServiceId] = useState(location.state?.serviceId || "");
   const displayServiceName = humanizeString(urlServiceName) || 'Residential Cleaning';
 
   useEffect(() => {
-    if (areaName) {
-      localStorage.setItem("locaitonname", areaName);
-    }
-  }, [areaName]);
+    localStorage.setItem("locaitonname", locationName);
+  }, [locationName]);
 
   // When URL changes (same page but different param), force refetch
   useEffect(() => {
@@ -132,10 +125,11 @@ const CleaningServiceDetail = () => {
             <div>
               <div className="flex items-center mb-4">
                 <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName}{displayLocationText}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{displayServiceName} {locationName}</h1>
               </div>
               <p className="text-xl text-green-100 mb-8">
-                {displayServiceDescription}{displayLocationText ? ` Professional service available ${displayLocationText}.` : ''}
+                <Sparkles className="w-8 h-8 text-emerald-400 mr-3" />
+                <span className="text-lg">{displayServiceDescription} {locationName}</span>
               </p>
               <div className="flex items-center space-x-4">
                 <Phone className="w-6 h-6 text-emerald-400" />
@@ -153,10 +147,10 @@ const CleaningServiceDetail = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              Our Simple Process{displayLocationText}
+              Our Simple Process
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Our streamlined 4-step process ensures you get professional {displayServiceName.toLowerCase()} service{displayLocationText} from start to finish.
+              Our streamlined 4-step process ensures you get professional cleaning service from start to finish.
             </p>
           </div>
 

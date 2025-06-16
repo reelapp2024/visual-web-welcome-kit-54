@@ -18,23 +18,38 @@ import HVACServiceDetail from '../themes/hvac/pages/HVACServiceDetail';
 // Painting Theme
 import PaintingServiceDetail from '../themes/painting/pages/PaintingServiceDetail';
 
+interface ServiceDetailProps {
+  serviceId?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  serviceImage?: string;
+}
+
 const ThemeServiceDetail = () => {
   const { serviceName } = useParams();
   const location = useLocation();
+  const serviceData = location.state as ServiceDetailProps;
+
+  const props = {
+    serviceId: serviceData?.serviceId,
+    serviceName: serviceName || serviceData?.serviceName,
+    serviceDescription: serviceData?.serviceDescription,
+    serviceImage: serviceData?.serviceImage
+  };
 
   switch (currentTheme) {
     case 'cleaning':
-      return <CleaningServiceDetail />;
+      return <CleaningServiceDetail {...props} />;
     case 'plumbing':
-      return <PlumbingServiceDetail />;
+      return <PlumbingServiceDetail {...props} />;
     case 'roofing':
-      return <RoofingServiceDetail />;
+      return <RoofingServiceDetail {...props} />;
     case 'hvac':
-      return <HVACServiceDetail />;
+      return <HVACServiceDetail {...props} />;
     case 'painting':
-      return <PaintingServiceDetail />;
+      return <PaintingServiceDetail {...props} />;
     default:
-      return <CleaningServiceDetail />;
+      return <CleaningServiceDetail {...props} />;
   }
 };
 
