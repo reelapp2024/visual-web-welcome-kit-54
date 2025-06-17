@@ -31,32 +31,32 @@ import humanizeString from "../../../extras/stringUtils.js";
 const CleaningAreaDetail = () => {
 
 
-  
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [projectServices, setprojectServices] = useState([]);
-  
-    const [projectLocations, setProjectLocations] = useState([]);
-      const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-     const [projectFaqs, setprojectFaqs] = useState([]);
-    const currentLocation = location.pathname;
-    const RefLocation = currentLocation.slice(1);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [projectServices, setprojectServices] = useState([]);
+
+  const [projectLocations, setProjectLocations] = useState([]);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [projectFaqs, setprojectFaqs] = useState([]);
+  const currentLocation = location.pathname;
+  const RefLocation = currentLocation.slice(1);
 
 
-      const cityName = currentLocation.split('/').pop();
-      console.log('Text after last slash:', cityName);
-    
-      const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
-    
-    
-      const [projectCategory, setProjectCategory] = useState("");
-      const [pageLocation, setPageLocation] = useState("");
-    
-      const savedSiteId = localStorage.getItem("currentSiteId");
-      let projectId = savedSiteId || "684a89807771b19c131ff5e7";
-      const [locations, setLocations] = useState([]);
-    
-      const [isLoading, setIsLoading] = useState(true);
+  const cityName = currentLocation.split('/').pop();
+  console.log('Text after last slash:', cityName);
+
+  const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
+
+
+  const [projectCategory, setProjectCategory] = useState("");
+  const [pageLocation, setPageLocation] = useState("");
+
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  let projectId = savedSiteId || "684a89807771b19c131ff5e7";
+  const [locations, setLocations] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
 
   let { id,
@@ -68,86 +68,88 @@ const CleaningAreaDetail = () => {
     _id } = location.state || {};
 
 
-      
-        useEffect(() => {
-          const fetchData = async () => {
-            try {
-              const { data } = await httpFile.post("/webapp/v1/my_site", {
-                projectId,
-                pageType: "local_area",
-                refId: _id,
-                _id: _id,
-                RefLocation: RefLocation,
-                          reqFrom:"cleningArea"
 
-      
-              });
-      
-              if (data.projectInfo && data.projectInfo.serviceType) {
-                setProjectCategory(data.projectInfo.serviceType);
-                setProjectLocations(data.locations);
-                setProjectReviews(data.testimonials || []);
-      
-                setprojectFaqs(data.faq || []);
-      
-                setLocations([{
-                  name:"Proud to say we covered the whole area"
-                  
-                }]);
-      
-                setPageLocation(data.RefLocation)
-            setIsLoading(false);
-      
-      
-              }
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-          };
-      
-          fetchData();
-        }, [projectId]);
-      
-      
-      
-      
-         const handleServiceClick = (service: any) => {
-            const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-            navigate(`/services/${serviceName}`, {
-              state: {
-                serviceId: service._id,
-                serviceName: service.service_name,
-                serviceDescription: service.service_description,
-                serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-                serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-                serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
-              }
-            });
-          };
-        
-          useEffect(() => {
-            const fetchData = async () => {
-              try {
-                const { data } = await httpFile.post("/webapp/v1/fetch_services", {
-                  projectId,
-                });
-        
-                if (data) {
-                  setprojectServices(data.services || []);
-                }
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-            };
-        
-            fetchData();
-          }, [projectId]);
-        
-        
-        
-        
-      
-        console.log(pageLocation, "pageLocation")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "local_area",
+          refId: _id,
+          _id: _id,
+          RefLocation: RefLocation,
+          reqFrom: "cleningArea"
+
+
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setProjectLocations(data.locations);
+          setProjectReviews(data.testimonials || []);
+
+          setprojectFaqs(data.faq || []);
+
+          setLocations([{
+            name: "Proud to say we covered the whole area"
+
+          }]);
+
+          setPageLocation(data.RefLocation)
+          setIsLoading(false);
+
+
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+
+
+  const handleServiceClick = (service: any) => {
+    const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/services/${serviceName}`, {
+      state: {
+        serviceId: service._id,
+        serviceName: service.service_name,
+        serviceDescription: service.service_description,
+        locationName: `${humanizeString(cityName)}`,
+
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+      }
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
+          projectId,
+        });
+
+        if (data) {
+          setprojectServices(data.services || []);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [projectId]);
+
+
+
+
+
+  console.log(pageLocation, "pageLocation")
 
 
 
@@ -160,7 +162,7 @@ const CleaningAreaDetail = () => {
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
-      
+
       {/* Area Hero */}
       <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,7 +194,7 @@ const CleaningAreaDetail = () => {
       <CleaningCTA />
 
       {/* <CleaningAboutUs /> */}
- <section className="py-20 bg-white font-poppins">
+      <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
@@ -235,7 +237,7 @@ const CleaningAreaDetail = () => {
       <CleaningProcess />
       <CleaningCTA />
       <CleaningGuarantee />
-   <section className="py-20 bg-white font-poppins">
+      <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
@@ -318,7 +320,7 @@ const CleaningAreaDetail = () => {
         </div>
       </section>
       <CleaningCTA />
-     <section className="py-20 bg-gray-50 font-poppins">
+      <section className="py-20 bg-gray-50 font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
@@ -350,48 +352,48 @@ const CleaningAreaDetail = () => {
                   </div>
                 </div>
 
-               
+
               </div>
             ))}
           </div>
         </div>
       </section>
       {/* <ServiceMap theme="cleaning" /> */}
-       <section className="py-20 bg-white font-poppins">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            Frequently Asked Questionss
-          </h2>
-          <p className="text-xl text-gray-600">
-            Got questions? We've got answers. Here are the most common questions about our cleaning services.
-          </p>
-        </div>
+      <section className="py-20 bg-white font-poppins">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+              Frequently Asked Questionss
+            </h2>
+            <p className="text-xl text-gray-600">
+              Got questions? We've got answers. Here are the most common questions about our cleaning services.
+            </p>
+          </div>
 
-        <div className="space-y-4">
-          {projectFaqs.map((faq, index) => (
-            <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
-              <button
-                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
-                onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-              >
-                <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
-                {openFAQ === index ? (
-                  <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
-                ) : (
-                  <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+          <div className="space-y-4">
+            {projectFaqs.map((faq, index) => (
+              <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+                <button
+                  className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                >
+                  <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
+                  {openFAQ === index ? (
+                    <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                  )}
+                </button>
+                {openFAQ === index && (
+                  <div className="px-8 pb-6">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
                 )}
-              </button>
-              {openFAQ === index && (
-                <div className="px-8 pb-6">
-                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
       <CleaningCTA />
       <CleaningFooter />
     </div>

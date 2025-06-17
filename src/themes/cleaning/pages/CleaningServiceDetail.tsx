@@ -189,7 +189,7 @@ const CleaningServiceDetail = () => {
       <CleaningGuarantee />
       <CleaningCTA />
       <CleaningRelatedServices />
-      <CleaningServiceAreas />
+      {/* <CleaningServiceAreas /> */}
       <CleaningFooter />
     </div>
   );

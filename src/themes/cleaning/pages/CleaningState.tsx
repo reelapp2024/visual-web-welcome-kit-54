@@ -173,6 +173,8 @@ console.log('Second last segment (country):', Country);
           serviceId: service._id,
           serviceName: service.service_name,
           serviceDescription: service.service_description,
+          locationName:`${humanizeString(stateName)}`,
+          
           serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
           serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
           serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
