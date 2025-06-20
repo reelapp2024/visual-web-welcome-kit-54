@@ -29,7 +29,8 @@ import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import CleaningLoader from '../components/CleaningLoader';
-import CleaningStateMap from '../components/CleaningStateMap';
+import CleaningCountryMap from '../components/CleaningCountryMap.js';
+import DynamicIcon from '../../../extras/DynamicIcon.js';
 
 const CleaningState = () => {
   const [projectServices, setprojectServices] = useState([]);
@@ -40,6 +41,8 @@ const CleaningState = () => {
   const [projectLocations, setProjectLocations] = useState([]);
     const [openFAQ, setOpenFAQ] = useState<number | null>(null);
    const [projectFaqs, setprojectFaqs] = useState([]);
+   const [locInfo, setLocInfo]                   = useState<{ name: string; lat: number; lng: number } | null>(null);
+     const [phoneNumber, setPhoneNumber] = useState('');
   const currentLocation = location.pathname;
   const RefLocation = currentLocation.slice(1);
   console.log('Path without leading slash:', RefLocation);
@@ -152,6 +155,19 @@ console.log('Second last segment (country):', Country);
           setProjectReviews(data.testimonials || []);
           setprojectFaqs(data.faq || []);
 
+            setPhoneNumber(data.aboutUs.phone || '');
+          console.log(data,"check the lat lng of")
+
+          
+        // if info contains lat/lng, set locInfo for map
+          if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
+            setLocInfo({
+              name: data.info.name,
+              lat:  data.info.lat,
+              lng:  data.info.lng
+            });
+          }
+
           setPageLocation(data.RefLocation)
       setIsLoading(false);
 
@@ -181,6 +197,11 @@ console.log('Second last segment (country):', Country);
         }
       });
     };
+      const getFirstSentence = (text: string) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx > -1 ? text.slice(0, idx + 1) : text;
+  };
   
     useEffect(() => {
       const fetchData = async () => {
@@ -224,31 +245,61 @@ console.log('Second last segment (country):', Country);
       <CleaningHeader />
 
       {/* State Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85"></div>
+     <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
+  {/* Background image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage:
+        'url(https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+    }}
+  />
+  <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-          <div className="flex items-center justify-center mb-4">
-            <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
-            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {PrevLocation}</h1>
-          </div>
-          <p className="text-xl text-green-100 max-w-3xl mx-auto">
-            Comprehensive {projectCategory} services throughout {PrevLocation} with certified professionals
-            and same-day booking in every major city.
-          </p>
-        </div>
-      </section>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+    {/* Icon + Title */}
+    <div className="flex items-center justify-center mb-4">
+      <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
+      <h1 className="text-4xl md:text-5xl font-bold">
+        {projectCategory} services in {PrevLocation}
+      </h1>
+    </div>
 
-      {/* State Map Section */}
-      <CleaningStateMap stateName={State} countryName={Country} />
+    {/* Description */}
+    <p className="text-xl text-green-100 max-w-3xl mx-auto mb-8">
+      Comprehensive {projectCategory} services throughout {PrevLocation} with certified professionals
+      and same-day booking in every major city.
+    </p>
+
+    {/* CTA Buttons (added) */}
+    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+      <a
+        href={`tel:${phoneNumber}`}
+        className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3"
+      >
+        <DynamicIcon iconName="Phone" className="group-hover:animate-bounce" />
+        <span>Call Now: {phoneNumber}</span>
+      </a>
+      <button
+        onClick={() => navigate('/contact')}
+        className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-transform hover:scale-105 border border-white/30"
+      >
+        <DynamicIcon iconName="Sparkles"  className="group-hover:rotate-12 transition-transform" />
+        <span>Free Quote</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+    {/* Map Section (only if lat/lng available) */}
+      {locInfo && (
+        <CleaningCountryMap
+          locationName={locInfo.name}
+          lat={locInfo.lat}
+          lng={locInfo.lng}
+        />
+      )}
 
       <CleaningCTA />
       {/* <CleaningAboutUs /> */}
@@ -283,7 +334,7 @@ console.log('Second last segment (country):', Country);
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {PrevLocation}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed"> {getFirstSentence(service.service_description)}</p>
                 </div>
               </div>
             ))}
@@ -421,7 +472,7 @@ console.log('Second last segment (country):', Country);
           </div>
         </div>
       </section>
-      <ServiceMap theme="cleaning" />
+ 
        <section className="py-20 bg-white font-poppins">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">

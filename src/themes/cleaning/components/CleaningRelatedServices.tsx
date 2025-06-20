@@ -5,7 +5,7 @@ import DynamicFAIcon from '../../../extras/DynamicFAIcon.js'; // Adjust if path 
 
 const CleaningRelatedServices = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ Track route changes
+  const location = useLocation(); // 🚀 Track route changes
   const [projectServices, setProjectServices] = useState([]);
 
   const savedSiteId = localStorage.getItem("currentSiteId");
@@ -28,11 +28,9 @@ const CleaningRelatedServices = () => {
     fetchData();
   }, [projectId]);
 
-  // ✅ Listen to route changes and re-fetch or update UI
   useEffect(() => {
     if (location.state) {
-      // You can optionally act on location.state here, or re-fetch content
-      fetchData(); // Optional: re-fetch related services
+      fetchData(); // Re-fetch on route state change
     }
   }, [location]);
 
@@ -50,6 +48,13 @@ const CleaningRelatedServices = () => {
     });
   };
 
+  // Helper to truncate at first period
+  const getTruncatedDescription = (text) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx !== -1 ? text.substring(0, idx + 1) : text;
+  };
+
   return (
     <section className="py-20 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,19 +68,22 @@ const CleaningRelatedServices = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {projectServices.map((service, index) => (
-            <button
-              key={index}
-              onClick={() => handleServiceClick(service)}
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 text-left w-full"
-            >
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full w-16 h-16 flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-all duration-300">
-                <DynamicFAIcon className='white' iconClass={service.fas_fa_icon || ''} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{service.service_name}</h3>
-              <p className="text-gray-600">{service.service_description}</p>
-            </button>
-          ))}
+          {projectServices.map((service, index) => {
+            const shortDesc = getTruncatedDescription(service.service_description);
+            return (
+              <button
+                key={index}
+                onClick={() => handleServiceClick(service)}
+                className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-4 border border-gray-100 text-left w-full"
+              >
+                <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full w-16 h-16 flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-all duration-300">
+                  <DynamicFAIcon className='white' iconClass={service.fas_fa_icon || ''} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{service.service_name}</h3>
+                <p className="text-gray-600">{shortDesc}</p>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

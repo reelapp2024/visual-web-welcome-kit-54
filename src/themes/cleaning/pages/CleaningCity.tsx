@@ -163,7 +163,11 @@ const CleaningCity = () => {
   }, [projectId]);
 
 
-
+  const getFirstSentence = (text: string) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx > -1 ? text.slice(0, idx + 1) : text;
+  };
 
    const handleServiceClick = (service: any) => {
       const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
@@ -270,7 +274,7 @@ const CleaningCity = () => {
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(cityName)}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed"> {getFirstSentence(service.service_description)}</p>
                 </div>
               </div>
             ))}

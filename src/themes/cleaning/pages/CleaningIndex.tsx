@@ -29,7 +29,8 @@ const CleaningIndex = () => {
       try {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
-          pageType: "home"
+          pageType: "home",
+          reqFrom:"home"
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {

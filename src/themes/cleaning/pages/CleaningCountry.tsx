@@ -29,7 +29,8 @@ import CleaningFooter from '../components/CleaningFooter';
 import { Flag } from 'lucide-react';
 import { slugify } from "../../../extras/slug";
 import CleaningLoader from '../components/CleaningLoader';
-import CountryMap from '../components/CleaningCountryMap';
+import CleaningCountryMap from '../components/CleaningCountryMap';
+import DynamicIcon from '../../../extras/DynamicIcon.js';
 
 const CleaningCountry = () => {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ const CleaningCountry = () => {
   const currentLocation = location.pathname;
   const RefLocation = currentLocation.slice(1);
   const [projectServices, setprojectServices] = useState([]);
+  const [locInfo, setLocInfo]                   = useState<{ name: string; lat: number; lng: number } | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -53,7 +56,7 @@ const CleaningCountry = () => {
 
   let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
 
-  const handleLocationClick = (locationName, id, _id,sortname) => {
+  const handleLocationClick = (locationName, id, _id, sortname) => {
     let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
 
     let nextPage = ''
@@ -97,7 +100,7 @@ const CleaningCountry = () => {
           refId: id,
           _id: _id,
           RefLocation: RefLocation,
-          reqFrom:"cleaningCountry"
+          reqFrom: "cleaningCountry"
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {
@@ -107,6 +110,19 @@ const CleaningCountry = () => {
           setprojectFaqs(data.faq || []);
           setPageLocation(data.RefLocation);
           setIsLoading(false);
+          setPhoneNumber(data.aboutUs.phone || '');
+          console.log(data,"check the lat lng of")
+
+          
+        // if info contains lat/lng, set locInfo for map
+          if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
+            setLocInfo({
+              name: data.info.name,
+              lat:  data.info.lat,
+              lng:  data.info.lng
+            });
+          }
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -116,6 +132,14 @@ const CleaningCountry = () => {
     fetchData();
   }, [projectId]);
 
+    // helper: grab everything through the first period
+  const getFirstSentence = (text: string) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx > -1 ? text.slice(0, idx + 1) : text;
+  };
+
+
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
     navigate(`/services/${serviceName}`, {
@@ -123,7 +147,7 @@ const CleaningCountry = () => {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
-        locationName:`${humanizeString(locationName)}, ${sortname}`,
+        locationName: `${humanizeString(locationName)}, ${sortname}`,
         serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
@@ -160,31 +184,62 @@ const CleaningCountry = () => {
       <CleaningHeader />
 
       {/* Country Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85"></div>
+  <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
+  {/* Background image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage:
+        'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+    }}
+  />
+  <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-          <div className="flex items-center justify-center mb-4">
-            <Flag className="w-8 h-8 text-emerald-400 mr-3" />
-            <h1 className="text-4xl md:text-5xl font-bold">{projectCategory} services in {humanizeString(pageLocation)},{sortname}</h1>
-          </div>
-          <p className="text-xl text-green-100 max-w-3xl mx-auto">
-            Professional {projectCategory} services across the {humanizeString(pageLocation)} with nationwide coverage
-            and local expertise in every state.
-          </p>
-        </div>
-      </section>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+    {/* Title */}
+    <div className="flex items-center justify-center mb-4">
+      <Flag className="w-8 h-8 text-emerald-400 mr-3" />
+      <h1 className="text-4xl md:text-5xl font-bold">
+        {projectCategory} services in {humanizeString(pageLocation)}, {sortname}
+      </h1>
+    </div>
 
-      {/* Country Map Section */}
-      <CountryMap countryName={RefLocation} />
+    {/* Description */}
+    <p className="text-xl text-green-100 max-w-3xl mx-auto mb-8">
+      Professional {projectCategory} services across the {humanizeString(pageLocation)} with nationwide coverage
+      and local expertise in every state.
+    </p>
+
+    {/* 👉 Moved CTA buttons directly below description */}
+    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+      <a
+        href={`tel:${phoneNumber}`}
+        className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3"
+      >
+        <DynamicIcon iconName="Phone"  className="group-hover:animate-bounce" />
+        <span>Call Now: {phoneNumber}</span>
+      </a>
+      <button
+        onClick={() => navigate('/contact')}
+        className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-transform hover:scale-105 border border-white/30"
+      >
+        <DynamicIcon iconName="Sparkles"  className="group-hover:rotate-12 transition-transform" />
+        <span>Free Quote</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+      
+
+     {/* Map Section (only if lat/lng available) */}
+      {locInfo && (
+        <CleaningCountryMap
+          locationName={locInfo.name}
+          lat={locInfo.lat}
+          lng={locInfo.lng}
+        />
+      )}
 
       {/* Services Section */}
       <section className="py-20 bg-white font-poppins">
@@ -218,7 +273,7 @@ const CleaningCountry = () => {
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(pageLocation)},{sortname}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed"> {getFirstSentence(service.service_description)}</p>
                 </div>
               </div>
             ))}
@@ -340,7 +395,7 @@ const CleaningCountry = () => {
                 </div>
 
                 <button
-                  onClick={() => handleLocationClick(area.name, area.location_id, area._id,sortname)}
+                  onClick={() => handleLocationClick(area.name, area.location_id, area._id, sortname)}
                   className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
                 >
                   See Areas

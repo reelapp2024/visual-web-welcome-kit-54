@@ -4,15 +4,20 @@ import { httpFile } from "../../../config.js";
 import { Home, Building, Sparkles, Car, Sofa, Shirt } from 'lucide-react';
 
 const CleaningServices = () => {
-  const [projectServices, setprojectServices] = useState([]);
+  const [projectServices, setProjectServices] = useState([]);
   const [projectCategory, setProjectCategory] = useState("");
 
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
 
-  
+  // Helper to truncate at first period
+  const getTruncatedDescription = (text) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx !== -1 ? text.substring(0, idx + 1) : text;
+  };
 
-  const handleServiceClick = (service: any) => {
+  const handleServiceClick = (service) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
     return `/services/${serviceName}`;
   };
@@ -20,18 +25,14 @@ const CleaningServices = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
-          projectId,
-        });
-
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", { projectId });
         if (data) {
-          setprojectServices(data.services || []);
+          setProjectServices(data.services || []);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [projectId]);
 
@@ -41,10 +42,8 @@ const CleaningServices = () => {
         const { data } = await httpFile.post("/webapp/v1/my_site", {
           projectId,
           pageType: "home",
-          reqFrom:"cleaningServices"
-
+          reqFrom: "cleaningServices"
         });
-
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
         }
@@ -52,7 +51,6 @@ const CleaningServices = () => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [projectId]);
 
@@ -69,37 +67,40 @@ const CleaningServices = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projectServices.map((service, index) => (
-            <Link 
-              key={index} 
-              to={handleServiceClick(service)}
-              state={{
-                serviceId: service._id,
-                serviceName: service.service_name,
-                serviceDescription: service.service_description,
-                serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-                serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-                serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
-              }}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100 cursor-pointer"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"}
-                  alt={service.service_name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className={`absolute top-4 left-4 bg-gradient-to-r ${service.gradient} rounded-full p-3 text-white shadow-lg`}>
-                 <i className={service.fas_fa_icon} />
+          {projectServices.map((service, index) => {
+            const shortDesc = getTruncatedDescription(service.service_description);
+            return (
+              <Link 
+                key={index} 
+                to={handleServiceClick(service)}
+                state={{
+                  serviceId: service._id,
+                  serviceName: service.service_name,
+                  serviceDescription: service.service_description,
+                  serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+                  serviceImage1: service.images[1]?.url || "https://img.free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+                  serviceImage2: service.images[2]?.url || "https://img.free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+                }}
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 overflow-hidden border border-gray-100 cursor-pointer"
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"}
+                    alt={service.service_name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className={`absolute top-4 left-4 bg-gradient-to-r ${service.gradient} rounded-full p-3 text-white shadow-lg`}>
+                    <i className={service.fas_fa_icon} />
+                  </div>
                 </div>
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
-              </div>
-            </Link>
-          ))}
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name}</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{shortDesc}</p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

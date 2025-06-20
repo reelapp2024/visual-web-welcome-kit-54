@@ -10,6 +10,7 @@ const CleaningHeader = () => {
   const [projectCategory, setProjectCategory] = useState("");
   const [projectFasFA, setProjectFasFA] = useState("");
 
+  const [projectSlogan, setProjectSlogan] = useState('');
 
 
   const savedSiteId = localStorage.getItem("currentSiteId");
@@ -29,6 +30,8 @@ const CleaningHeader = () => {
           setProjectName(data.projectInfo.projectName);
           setProjectCategory(data.projectInfo.serviceType);
           setProjectFasFA(data.projectInfo.defaultFasFaIcon);
+          setProjectSlogan(data.projectInfo.projectSlogan || `Professional ${data.projectInfo.serviceType}`);
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -92,7 +95,7 @@ const CleaningHeader = () => {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                 {projectName}
               </h1>
-              <p className="text-sm text-gray-600">Professional {projectCategory}</p>
+              <p className="text-sm text-gray-600"> {projectSlogan}</p>
             </Link>
           </div>
 

@@ -26,7 +26,7 @@ const CleaningServiceDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [reloadFlag, setReloadFlag] = useState(0);
-
+const [aboutService, setAboutService] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const savedSiteId = localStorage.getItem("currentSiteId");
@@ -38,6 +38,8 @@ const CleaningServiceDetail = () => {
   useEffect(() => {
     localStorage.setItem("locaitonname", locationName);
   }, [locationName]);
+
+  console.log(locationName,"Location name!!!!")
 
   // When URL changes (same page but different param), force refetch
   useEffect(() => {
@@ -79,6 +81,7 @@ const CleaningServiceDetail = () => {
           setServiceImage(data.service.images?.[0]?.url || "");
           setProjectBaseImage(data.service.images?.[2]?.url || "");
           setStepProcess(data.service.steps_process || []);
+          setAboutService(data.service.about_service || '');
           setIsLoading(false);
         }
       } catch (error) {
@@ -110,7 +113,7 @@ const CleaningServiceDetail = () => {
   }, [projectId]);
 
   const displayServiceDescription = serviceDetails?.service_description || 'Professional home cleaning services...';
-  const displayServiceImage = serviceImage || 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?...';
+  const displayServiceImage = serviceImage || '';
 
   return (
     <div className="min-h-screen font-poppins">
@@ -142,6 +145,21 @@ const CleaningServiceDetail = () => {
           </div>
         </div>
       </section>
+
+{/* ==== NEW “ABOUT” SECTION ==== */}
+{aboutService && (
+  <section className="py-16 bg-white font-poppins">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 className="text-4xl font-bold mb-6">
+        About {displayServiceName}
+      </h2>
+      <p className="text-lg text-gray-700 leading-relaxed">
+        {aboutService}
+      </p>
+    </div>
+  </section>
+)}
+
 
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

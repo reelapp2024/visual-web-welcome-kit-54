@@ -1,68 +1,69 @@
-
+// src/themes/cleaning/components/CleaningAboutUs.tsx
 import React, { useEffect, useState } from 'react';
-import { httpFile } from "../../../config.js";
-import { Award, Users, Clock, Shield } from 'lucide-react';
+import { httpFile } from '../../../config.js';
+import CleaningLoader from '../components/CleaningLoader';
+import DynamicIcon from '../../../extras/DynamicIcon.js';
 
-const CleaningAboutUs = () => {
-  const [aboutImage, setaboutImage] = useState("");
-  const [projectCategory, setProjectCategory] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
+interface Stat {
+  serialno: number;
+  iconName: string;
+  value: string;
+  label: string;
+}
 
-  const savedSiteId = localStorage.getItem("currentSiteId");
-  const projectId = savedSiteId || "684a89807771b19c131ff5e7";
+const sanitize = (raw: any): string =>
+  typeof raw === 'string'
+    ? raw.trim().replace(/^[,\s"]+|[,\s"]+$/g, '')
+    : '';
 
-  const stats = [
-    {
-      icon: <Award className="w-8 h-8" />,
-      number: "10+",
-      label: "Years Experience",
-      color: "text-green-600"
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      number: "3K+",
-      label: "Happy Customers",
-      color: "text-emerald-600"
-    },
-    {
-      icon: <Clock className="w-8 h-8" />,
-      number: "Same Day",
-      label: "Booking Available",
-      color: "text-green-600"
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      number: "100%",
-      label: "Satisfaction Guarantee",
-      color: "text-emerald-600"
-    }
-  ];
+const CleaningAboutUs: React.FC = () => {
+  const [aboutImage, setAboutImage] = useState('');
+  const [projectCategory, setProjectCategory] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Read projectId from query or localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const site = urlParams.get('siteId');
+  if (site && localStorage.getItem('currentSiteId') !== site) {
+    localStorage.setItem('currentSiteId', site);
+  }
+  const projectId =
+    localStorage.getItem('currentSiteId') || '684a89807771b19c131ff5e7';
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
-        const { data } = await httpFile.post("/webapp/v1/my_site", {
+        const { data } = await httpFile.post('/webapp/v1/my_site', {
           projectId,
-          pageType: "home",
-          reqFrom:"Aboutus"
+          pageType: 'home',
+          reqFrom: 'Aboutus',
         });
 
-        if (data.projectInfo && data.projectInfo.serviceType) {
-          setProjectCategory(data.projectInfo.serviceType);
-          setProjectDescription(data.projectInfo.description)
-          setaboutImage(data.projectInfo.images[0].url)
+        const info = data.projectInfo || {};
+        const about = data.aboutUs || {};
 
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        setProjectCategory(info.serviceType || '');
+        setProjectDescription(info.description || '');
+        setAboutImage((info.images?.[0]?.url as string) || '');
+
+        const fetchedStats: Stat[] = (info.statsSection || []).map((s: any) => ({
+          serialno: s.serialno,
+          iconName: sanitize(s.iconName),
+          value: sanitize(s.value),
+          label: sanitize(s.label),
+        }));
+        setStats(fetchedStats);
+      } catch (err) {
+        console.error('Error fetching About Us data:', err);
+      } finally {
+        setIsLoading(false);
       }
-    };
-
-    fetchData();
+    })();
   }, [projectId]);
 
-
+  if (isLoading) return <CleaningLoader />;
 
   return (
     <section className="py-20 bg-gray-50 font-poppins">
@@ -73,20 +74,22 @@ const CleaningAboutUs = () => {
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
               Professional {projectCategory} Solutions You Can Trust
             </h2>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-            {projectDescription}
-            </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            
+              {projectDescription}
             </p>
 
             <div className="grid grid-cols-2 gap-6">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className={`${stat.color} mb-2 flex justify-center`}>
-                    {stat.icon}
+              {stats.map((stat) => (
+                <div key={stat.serialno} className="text-center">
+                  <div className="mb-2 flex justify-center text-emerald-600">
+                    <DynamicIcon
+                      iconName={stat.iconName}
+                      className="w-8 h-8"
+                    />
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
+                  <div className="text-3xl font-bold text-gray-900 mb-1">
+                    {stat.value}
+                  </div>
                   <div className="text-gray-600 text-sm">{stat.label}</div>
                 </div>
               ))}
@@ -95,19 +98,28 @@ const CleaningAboutUs = () => {
 
           {/* Image */}
           <div className="relative">
-            <img
-              src={aboutImage}
-              alt="Professional cleaners at work"
-              className="rounded-2xl shadow-2xl w-full h-[500px] object-cover"
-            />
+            {aboutImage && (
+              <img
+                src={aboutImage}
+                alt="Professional cleaners at work"
+                className="rounded-2xl shadow-2xl w-full h-[500px] object-cover"
+              />
+            )}
             <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-6 shadow-xl border border-gray-100">
               <div className="flex items-center space-x-3">
                 <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full p-3">
-                  <Shield className="w-6 h-6 text-white" />
+                  <DynamicIcon
+                    iconName="Shield"
+                    className="w-6 h-6 text-white"
+                  />
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900">Bonded & Insured</div>
-                  <div className="text-gray-600 text-sm">Your Property Protected</div>
+                  <div className="font-bold text-gray-900">
+                    Bonded &amp; Insured
+                  </div>
+                  <div className="text-gray-600 text-sm">
+                    Your Property Protected
+                  </div>
                 </div>
               </div>
             </div>

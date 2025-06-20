@@ -108,7 +108,11 @@ const CleaningAreaDetail = () => {
     fetchData();
   }, [projectId]);
 
-
+  const getFirstSentence = (text: string) => {
+    if (!text) return '';
+    const idx = text.indexOf('.');
+    return idx > -1 ? text.slice(0, idx + 1) : text;
+  };
 
 
   const handleServiceClick = (service: any) => {
@@ -164,32 +168,42 @@ const CleaningAreaDetail = () => {
       <CleaningHeader />
 
       {/* Area Hero */}
-      <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center mb-4">
-                <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
-                <h1 className="text-4xl md:text-5xl font-bold">{humanizeString(cityName)}</h1>
-              </div>
-              <p className="text-xl text-green-100 mb-8">
-                Professional {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
-              </p>
-              <div className="flex items-center space-x-4">
-                <Clock className="w-6 h-6 text-emerald-400" />
-                <span className="text-lg">Same-day booking available</span>
-              </div>
-            </div>
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Downtown Metro cleaning services"
-                className="rounded-2xl shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+     <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div className="flex flex-col items-center justify-center space-y-6">
+      {/* Location Header */}
+      <div className="flex items-center justify-center mb-4">
+        <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
+        <h1 className="text-4xl md:text-5xl font-bold">{humanizeString(cityName)}</h1>
+      </div>
+
+      {/* Main Description */}
+      <p className="text-xl text-green-100 max-w-2xl">
+        Professional {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
+      </p>
+
+      {/* Additional Description */}
+      <p className="text-lg text-green-100 max-w-xl">
+        Reach out today for personalized service and eco-friendly solutions at your doorstep.
+      </p>
+
+      {/* Call to Action Button */}
+      <button
+        className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
+        onClick={() => handleCallNow()}
+      >
+        Call Now
+      </button>
+
+      {/* Same-day Booking Note */}
+      <div className="flex items-center justify-center space-x-2">
+        <Clock className="w-6 h-6 text-emerald-400" />
+        <span className="text-lg">Same-day booking available</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <CleaningCTA />
 
@@ -225,7 +239,7 @@ const CleaningAreaDetail = () => {
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(cityName)}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.service_description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed"> {getFirstSentence(service.service_description)}</p>
                 </div>
               </div>
             ))}
