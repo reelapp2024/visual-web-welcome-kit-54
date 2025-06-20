@@ -1,18 +1,21 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { httpFile } from "../../../config.js";
 import { MapPin, Clock, Shield } from 'lucide-react';
 import { Star, StarHalf, Quote } from "lucide-react";
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Building } from 'lucide-react';
 
 interface Testimonial {
   review_text: string;
   customer_image: string;
   customer_name: string;
-  rating: number | string; // could be 4.5, "3.5", etc.
+  rating: number | string;
 }
 
 import humanizeString from "../../../extras/stringUtils.js";
+import { slugify } from "../../../extras/slug";
 
 import CleaningHeader from '../components/CleaningHeader';
 import CleaningCTA from '../components/CleaningCTA';
@@ -27,56 +30,206 @@ import ServiceMap from '../../../components/ServiceMap';
 import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import { Flag } from 'lucide-react';
-import { slugify } from "../../../extras/slug";
 import CleaningLoader from '../components/CleaningLoader';
 import CleaningCountryMap from '../components/CleaningCountryMap';
 import DynamicIcon from '../../../extras/DynamicIcon.js';
 
 const CleaningCountry = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
+  
+  // Get slug from URL path
+  const pathname = location.pathname;
+  const slug = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+  
+  const [pageType, setPageType] = useState('');
   const [projectLocations, setProjectLocations] = useState([]);
-  const currentLocation = location.pathname;
-  const RefLocation = currentLocation.slice(1);
   const [projectServices, setprojectServices] = useState([]);
-  const [locInfo, setLocInfo]                   = useState<{ name: string; lat: number; lng: number } | null>(null);
+  const [locInfo, setLocInfo] = useState<{ name: string; lat: number; lng: number } | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
-
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [projectFaqs, setprojectFaqs] = useState([]);
-
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const savedSiteId = localStorage.getItem("currentSiteId");
-  let projectId = savedSiteId || "684a89807771b19c131ff5e7";
+  const projectId = "685554e6ce43a5111d80438e";
 
+  // Extract values from location state or URL
   let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
+  
+  // Get city name from URL for city/local area pages
+  const cityName = pathname.split('/').pop();
+
+  // Determine page content based on pageType
+  const getPageTitle = () => {
+    switch (pageType) {
+      case 'country':
+        return `${projectCategory} services in ${humanizeString(pageLocation)}, ${sortname}`;
+      case 'state':
+        return `${humanizeString(cityName)} ${projectCategory} Services`;
+      case 'city':
+        return `${humanizeString(cityName)} ${projectCategory} Services`;
+      case 'local_area':
+        return humanizeString(cityName);
+      default:
+        return `${projectCategory} services`;
+    }
+  };
+
+  const getPageDescription = () => {
+    switch (pageType) {
+      case 'country':
+        return `Professional ${projectCategory} services across the ${humanizeString(pageLocation)} with nationwide coverage and local expertise in every state.`;
+      case 'state':
+        return `Professional residential and commercial ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+      case 'city':
+        return `Professional residential and commercial ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+      case 'local_area':
+        return `Professional ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+      default:
+        return `Professional ${projectCategory} services.`;
+    }
+  };
+
+  const getHeroIcon = () => {
+    switch (pageType) {
+      case 'country':
+        return Flag;
+      case 'state':
+      case 'city':
+        return Building;
+      case 'local_area':
+        return MapPin;
+      default:
+        return Flag;
+    }
+  };
+
+  // First API call to determine page type
+  useEffect(() => {
+    const fetchPageType = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/slugToPageType", {
+          projectId,
+          slug
+        });
+        
+        if (data?.slugType) {
+          setPageType(data.slugType);
+        }
+      } catch (error) {
+        console.error("Error fetching page type:", error);
+        setPageType('country'); // fallback
+      }
+    };
+
+    if (slug) {
+      fetchPageType();
+    }
+  }, [slug, projectId]);
+
+  // Second API call based on page type
+  useEffect(() => {
+    if (!pageType) return;
+
+    const fetchData = async () => {
+      try {
+        let apiPageType = pageType;
+        let refId = id;
+        let apiId = _id;
+        let refLocation = slug;
+        let reqFrom = "";
+
+        // Set appropriate values based on page type
+        switch (pageType) {
+          case 'country':
+            reqFrom = "cleaningCountry";
+            break;
+          case 'state':
+            reqFrom = "cleaningState";
+            break;
+          case 'city':
+            reqFrom = "cleaningCity";
+            break;
+          case 'local_area':
+            reqFrom = "cleningArea";
+            refLocation = slug;
+            break;
+        }
+
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: apiPageType,
+          refId: refId,
+          _id: apiId,
+          RefLocation: refLocation,
+          reqFrom: reqFrom
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setProjectLocations(data.locations || []);
+          setProjectReviews(data.testimonials || []);
+          setprojectFaqs(data.faq || []);
+          setPageLocation(data.RefLocation || '');
+          setPhoneNumber(data.aboutUs?.phone || '');
+          
+          // Set location info for map if available
+          if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
+            setLocInfo({
+              name: data.info.name,
+              lat: data.info.lat,
+              lng: data.info.lng
+            });
+          }
+          
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [pageType, projectId, slug]);
+
+  // Fetch services
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
+          projectId,
+        });
+
+        if (data) {
+          setprojectServices(data.services || []);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, [projectId]);
 
   const handleLocationClick = (locationName, id, _id, sortname) => {
     let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
-
-    let nextPage = ''
+    let nextPage = '';
 
     if (UpcomingPage == 'country') {
-      nextPage = 'States'
-    }
-    else if (UpcomingPage == 'state') {
-      nextPage = 'Cities'
-    }
-
-    if (UpcomingPage == 'city') {
-      nextPage = 'Local Areas'
-    }
-
-    if (UpcomingPage == 'local') {
-      nextPage = 'whole areas'
+      nextPage = 'States';
+    } else if (UpcomingPage == 'state') {
+      nextPage = 'Cities';
+    } else if (UpcomingPage == 'city') {
+      nextPage = 'Local Areas';
+    } else if (UpcomingPage == 'local') {
+      nextPage = 'whole areas';
     }
 
-    let locationToNavigate = `/${RefLocation}/${slugify(locationName)}`
+    let locationToNavigate = `/${slug}/${slugify(locationName)}`;
 
     navigate(locationToNavigate, {
       state: {
@@ -91,63 +244,33 @@ const CleaningCountry = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await httpFile.post("/webapp/v1/my_site", {
-          projectId,
-          pageType: UpcomingPage,
-          refId: id,
-          _id: _id,
-          RefLocation: RefLocation,
-          reqFrom: "cleaningCountry"
-        });
-
-        if (data.projectInfo && data.projectInfo.serviceType) {
-          setProjectCategory(data.projectInfo.serviceType);
-          setProjectLocations(data.locations);
-          setProjectReviews(data.testimonials || []);
-          setprojectFaqs(data.faq || []);
-          setPageLocation(data.RefLocation);
-          setIsLoading(false);
-          setPhoneNumber(data.aboutUs.phone || '');
-          console.log(data,"check the lat lng of")
-
-          
-        // if info contains lat/lng, set locInfo for map
-          if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
-            setLocInfo({
-              name: data.info.name,
-              lat:  data.info.lat,
-              lng:  data.info.lng
-            });
-          }
-
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [projectId]);
-
-    // helper: grab everything through the first period
   const getFirstSentence = (text: string) => {
     if (!text) return '';
     const idx = text.indexOf('.');
     return idx > -1 ? text.slice(0, idx + 1) : text;
   };
 
-
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
+    let areaName = '';
+    
+    switch (pageType) {
+      case 'country':
+        areaName = `${humanizeString(pageLocation)}, ${sortname}`;
+        break;
+      case 'state':
+      case 'city':
+      case 'local_area':
+        areaName = humanizeString(cityName);
+        break;
+    }
+
     navigate(`/services/${serviceName}`, {
       state: {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
-        locationName: `${humanizeString(locationName)}, ${sortname}`,
+        areaName: areaName,
         serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
@@ -155,91 +278,94 @@ const CleaningCountry = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
-          projectId,
-        });
-
-        if (data) {
-          setprojectServices(data.services || []);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [projectId]);
-
-  console.log(RefLocation, "RefLocation")
-
   if (isLoading) {
     return <CleaningLoader />;
   }
+
+  const HeroIcon = getHeroIcon();
 
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
 
-      {/* Country Hero */}
-  <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
-  {/* Background image */}
-  <div
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage:
-        'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
-    }}
-  />
-  <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85" />
+      {/* Dynamic Hero Section */}
+      <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: pageType === 'local_area' 
+              ? 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
+              : 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85" />
 
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-    {/* Title */}
-    <div className="flex items-center justify-center mb-4">
-      <Flag className="w-8 h-8 text-emerald-400 mr-3" />
-      <h1 className="text-4xl md:text-5xl font-bold">
-        {projectCategory} services in {humanizeString(pageLocation)}, {sortname}
-      </h1>
-    </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          {pageType === 'local_area' ? (
+            // Local Area Hero Layout
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-4">
+                <HeroIcon className="w-8 h-8 text-emerald-400 mr-3" />
+                <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
+              </div>
+              <p className="text-xl text-green-100 max-w-2xl mx-auto mb-6">
+                {getPageDescription()}
+              </p>
+              <p className="text-lg text-green-100 max-w-xl mx-auto mb-8">
+                Reach out today for personalized service and eco-friendly solutions at your doorstep.
+              </p>
+              <button className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg">
+                Call Now
+              </button>
+              <div className="flex items-center justify-center space-x-2 mt-6">
+                <Clock className="w-6 h-6 text-emerald-400" />
+                <span className="text-lg">Same-day booking available</span>
+              </div>
+            </div>
+          ) : (
+            // Country/State/City Hero Layout
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-4">
+                <HeroIcon className="w-8 h-8 text-emerald-400 mr-3" />
+                <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
+              </div>
+              <p className="text-xl text-green-100 max-w-3xl mx-auto mb-8">
+                {getPageDescription()}
+              </p>
+              {pageType === 'country' && (
+                <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                  <a
+                    href={`tel:${phoneNumber}`}
+                    className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3"
+                  >
+                    <DynamicIcon iconName="Phone" className="group-hover:animate-bounce" />
+                    <span>Call Now: {phoneNumber}</span>
+                  </a>
+                  <button
+                    onClick={() => navigate('/contact')}
+                    className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-transform hover:scale-105 border border-white/30"
+                  >
+                    <DynamicIcon iconName="Sparkles" className="group-hover:rotate-12 transition-transform" />
+                    <span>Free Quote</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
 
-    {/* Description */}
-    <p className="text-xl text-green-100 max-w-3xl mx-auto mb-8">
-      Professional {projectCategory} services across the {humanizeString(pageLocation)} with nationwide coverage
-      and local expertise in every state.
-    </p>
-
-    {/* 👉 Moved CTA buttons directly below description */}
-    <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-      <a
-        href={`tel:${phoneNumber}`}
-        className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3"
-      >
-        <DynamicIcon iconName="Phone"  className="group-hover:animate-bounce" />
-        <span>Call Now: {phoneNumber}</span>
-      </a>
-      <button
-        onClick={() => navigate('/contact')}
-        className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-transform hover:scale-105 border border-white/30"
-      >
-        <DynamicIcon iconName="Sparkles"  className="group-hover:rotate-12 transition-transform" />
-        <span>Free Quote</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-      
-
-     {/* Map Section (only if lat/lng available) */}
-      {locInfo && (
+      {/* Conditional Map Section */}
+      {pageType === 'country' && locInfo && (
         <CleaningCountryMap
           locationName={locInfo.name}
           lat={locInfo.lat}
           lng={locInfo.lng}
         />
       )}
+
+      {/* Always show CTA */}
+      <CleaningCTA />
 
       {/* Services Section */}
       <section className="py-20 bg-white font-poppins">
@@ -272,8 +398,10 @@ const CleaningCountry = () => {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.service_name} in {humanizeString(pageLocation)},{sortname}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed"> {getFirstSentence(service.service_description)}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    {service.service_name} in {pageType === 'country' ? `${humanizeString(pageLocation)},${sortname}` : humanizeString(cityName)}
+                  </h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{getFirstSentence(service.service_description)}</p>
                 </div>
               </div>
             ))}
@@ -295,8 +423,7 @@ const CleaningCountry = () => {
               What Our Customers Say
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our satisfied
-              customers have to say about our cleaning services.
+              Don't just take our word for it. Here's what our satisfied customers have to say about our cleaning services.
             </p>
           </div>
 
@@ -380,7 +507,9 @@ const CleaningCountry = () => {
                   <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-full p-3 mr-4">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">{area.name},{sortname}</h3>
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {area.name}{pageType === 'country' && sortname ? `,${sortname}` : ''}
+                  </h3>
                 </div>
 
                 <div className="space-y-3">
@@ -394,26 +523,26 @@ const CleaningCountry = () => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => handleLocationClick(area.name, area.location_id, area._id, sortname)}
-                  className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
-                >
-                  See Areas
-                </button>
+                {pageType !== 'local_area' && (
+                  <button
+                    onClick={() => handleLocationClick(area.name, area.location_id, area._id, sortname)}
+                    className="mt-6 w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300"
+                  >
+                    See Areas
+                  </button>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-
-
       {/* FAQ Section */}
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              Frequently Asked Questionss
+              Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600">
               Got questions? We've got answers. Here are the most common questions about our cleaning services.
