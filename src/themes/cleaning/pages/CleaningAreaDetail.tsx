@@ -30,8 +30,6 @@ import humanizeString from "../../../extras/stringUtils.js";
 
 const CleaningAreaDetail = () => {
 
-
-
   const location = useLocation();
   const navigate = useNavigate();
   const [projectServices, setprojectServices] = useState([]);
@@ -155,13 +153,10 @@ const CleaningAreaDetail = () => {
 
   console.log(pageLocation, "pageLocation")
 
-
-
-
-
-
-
-
+  const handleCallNow = () => {
+    // You can implement the actual phone call logic here
+    console.log('Call now clicked');
+  };
 
   return (
     <div className="min-h-screen font-poppins">
@@ -190,7 +185,7 @@ const CleaningAreaDetail = () => {
       {/* Call to Action Button */}
       <button
         className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
-        onClick={() => handleCallNow()}
+        onClick={handleCallNow}
       >
         Call Now
       </button>
