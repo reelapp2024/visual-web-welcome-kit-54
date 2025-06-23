@@ -24,7 +24,7 @@ import PlumbingProcess from '../components/PlumbingProcess';
 import PlumbingGuarantee from '../components/PlumbingGuarantee';
 import PlumbingTestimonials from '../components/PlumbingTestimonials';
 import PlumbingServiceAreas from '../components/PlumbingServiceAreas';
-import PlumbingAreaMap from '../../../components/PlumbingAreaMap';
+import ServiceMap from '../../../components/ServiceMap';
 import PlumbingFAQ from '../components/PlumbingFAQ';
 import PlumbingFooter from '../components/PlumbingFooter';
 import { Flag } from 'lucide-react';
@@ -257,15 +257,6 @@ const PlumbingCountry = () => {
 
   const HeroIcon = getHeroIcon();
 
-  // State locations for map
-  const stateLocations = [
-    { name: 'California', coordinates: [-119.4179, 36.7783] as [number, number], type: 'state' as const },
-    { name: 'Texas', coordinates: [-99.9018, 31.9686] as [number, number], type: 'state' as const },
-    { name: 'Florida', coordinates: [-82.4572, 27.7663] as [number, number], type: 'state' as const },
-    { name: 'New York', coordinates: [-74.0059, 40.7128] as [number, number], type: 'state' as const },
-    { name: 'Illinois', coordinates: [-89.3985, 40.6331] as [number, number], type: 'state' as const }
-  ];
-
   return (
     <div className="min-h-screen font-poppins">
       <PlumbingHeader />
@@ -277,7 +268,7 @@ const PlumbingCountry = () => {
           style={{ 
             backgroundImage: pageType === 'local_area' 
               ? 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
-              : 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+              : 'url(https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/85 to-cyan-600/85"></div>
@@ -317,6 +308,7 @@ const PlumbingCountry = () => {
         </div>
       </section>
 
+      <PlumbingCTA />
       <PlumbingAboutUs />
       
       {/* Services Section */}
@@ -351,7 +343,7 @@ const PlumbingCountry = () => {
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    {service.service_name} in {pageType === 'country' ? `${humanizeString(pageLocation)},${sortname}` : humanizeString(cityName)}
+                    {service.service_name} in {pageType === 'country' ? `${humanizeString(pageLocation)}, ${sortname}` : humanizeString(cityName)}
                   </h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{getFirstSentence(service.service_description)}</p>
                 </div>
@@ -487,31 +479,8 @@ const PlumbingCountry = () => {
           </div>
         </div>
       </section>
-      
-      {/* Map Section - only show for country page */}
-      {pageType === 'country' && (
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
-                Our Service States
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                We provide professional plumbing services across multiple states with local expertise and 24/7 emergency response.
-              </p>
-            </div>
-            
-            <PlumbingAreaMap
-              centerCoordinates={[-98.5795, 39.8283]}
-              zoom={4}
-              locations={stateLocations}
-              areaName="United States"
-              areaType="country"
-              className="h-[600px] rounded-2xl shadow-2xl"
-            />
-          </div>
-        </section>
-      )}
+
+      {pageType === 'country' && <ServiceMap theme="plumbing" />}
 
       {/* FAQ Section */}
       {projectFaqs.length > 0 && (
@@ -551,7 +520,7 @@ const PlumbingCountry = () => {
           </div>
         </section>
       )}
-      
+
       <PlumbingCTA />
       <PlumbingFooter />
     </div>

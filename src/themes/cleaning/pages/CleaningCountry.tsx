@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
@@ -470,7 +469,7 @@ const CleaningCountry = () => {
                   </div>
                   <div className="flex items-center text-gray-600">
                     <Shield className="w-5 h-5 text-emerald-500 mr-3" />
-                    <span>100% Eco-friendly services</span>
+                    <span>100% Professional services</span>
                   </div>
                 </div>
 
