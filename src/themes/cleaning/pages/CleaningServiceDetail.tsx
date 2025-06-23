@@ -16,7 +16,11 @@ import humanizeString from "../../../extras/stringUtils.js";
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const CleaningServiceDetail = () => {
+interface CleaningServiceDetailProps {
+  locationFromUrl?: string;
+}
+
+const CleaningServiceDetail = ({ locationFromUrl }: CleaningServiceDetailProps) => {
   let { serviceName: urlServiceName } = useParams();
   const [projectOurProcess, setprojectOurProcess] = useState([]);
   const [serviceDetails, setServiceDetails] = useState(null);
@@ -26,12 +30,17 @@ const CleaningServiceDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [reloadFlag, setReloadFlag] = useState(0);
-const [aboutService, setAboutService] = useState('');
+  const [aboutService, setAboutService] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const savedSiteId = localStorage.getItem("currentSiteId");
   const projectId = savedSiteId || "684a89807771b19c131ff5e7";
-  const locationName = location.state?.locationName ? `in ${location.state.locationName}` : '';
+  
+  // Use locationFromUrl if available, otherwise fallback to state
+  const locationName = locationFromUrl 
+    ? `in ${locationFromUrl}` 
+    : (location.state?.locationName ? `in ${location.state.locationName}` : '');
+    
   const [serviceId, setServiceId] = useState(location.state?.serviceId || "");
   const displayServiceName = humanizeString(urlServiceName) || 'Residential Cleaning';
 
@@ -146,20 +155,19 @@ const [aboutService, setAboutService] = useState('');
         </div>
       </section>
 
-{/* ==== NEW “ABOUT” SECTION ==== */}
-{aboutService && (
-  <section className="py-16 bg-white font-poppins">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-4xl font-bold mb-6">
-        About {displayServiceName}
-      </h2>
-      <p className="text-lg text-gray-700 leading-relaxed">
-        {aboutService}
-      </p>
-    </div>
-  </section>
-)}
-
+      {/* ==== NEW “ABOUT” SECTION ==== */}
+      {aboutService && (
+        <section className="py-16 bg-white font-poppins">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold mb-6">
+              About {displayServiceName}
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              {aboutService}
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

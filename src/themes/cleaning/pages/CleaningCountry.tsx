@@ -65,7 +65,7 @@ const CleaningCountry = () => {
   const projectId = getProjectId();
 
   // Extract values from location state or URL
-  let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
+  let { id, UpcomingPage, nextPage, locationName, sortname, _id, countryName, stateName, cityName, localAreaName } = location.state || {};
   
   // Get city name from URL for city/local area pages
   const cityName = pathname.split('/').pop();
@@ -222,25 +222,27 @@ const CleaningCountry = () => {
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-    let locationName = '';
     
-    switch (pageType) {
-      case 'country':
-        locationName = `${humanizeString(pageLocation)}${sortname ? `, ${sortname}` : ''}`;
-        break;
-      case 'state':
-      case 'city':
-      case 'local_area':
-        locationName = humanizeString(cityName);
-        break;
+    // Get current location name from URL or state
+    let currentLocationName = '';
+    if (UpcomingPage === 'country') {
+      currentLocationName = humanizeString(countryName);
+    } else if (UpcomingPage === 'state') {
+      currentLocationName = humanizeString(stateName);
+    } else if (UpcomingPage === 'city') {
+      currentLocationName = humanizeString(cityName);
+    } else if (UpcomingPage === 'local') {
+      currentLocationName = humanizeString(localAreaName);
     }
-
-    navigate(`/services/${serviceName}`, {
+    
+    const locationSlug = slugify(currentLocationName);
+    
+    navigate(`/${locationSlug}/services/${serviceName}`, {
       state: {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
-        locationName: locationName,
+        locationName: currentLocationName,
         serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
