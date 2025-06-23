@@ -1,8 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
-import { MapPin, Clock, Shield, Building } from 'lucide-react';
-import { Star, StarHalf, Quote } from "lucide-react";
+import { MapPin, Clock, Shield, Building, Phone, Quote } from 'lucide-react';
+import { Star, StarHalf, Quote as QuoteIcon } from "lucide-react";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Testimonial {
@@ -16,12 +17,12 @@ import humanizeString from "../../../extras/stringUtils.js";
 import { slugify } from "../../../extras/slug";
 
 import RoofingHeader from '../components/RoofingHeader';
-import RoofingHero from '../components/RoofingHero';
+import RoofingCTA from '../components/RoofingCTA';
 import RoofingAboutUs from '../components/RoofingAboutUs';
 import RoofingServices from '../components/RoofingServices';
-import RoofingGuarantee from '../components/RoofingGuarantee';
-import RoofingProcess from '../components/RoofingProcess';
 import RoofingWhyChooseUs from '../components/RoofingWhyChooseUs';
+import RoofingProcess from '../components/RoofingProcess';
+import RoofingGuarantee from '../components/RoofingGuarantee';
 import RoofingTestimonials from '../components/RoofingTestimonials';
 import RoofingServiceAreas from '../components/RoofingServiceAreas';
 import ServiceMap from '../../../components/ServiceMap';
@@ -209,16 +210,16 @@ const RoofingCountry = () => {
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-    let areaName = '';
+    let locationName = '';
     
     switch (pageType) {
       case 'country':
-        areaName = `${humanizeString(pageLocation)}, ${sortname}`;
+        locationName = `${humanizeString(pageLocation)}${sortname ? `, ${sortname}` : ''}`;
         break;
       case 'state':
       case 'city':
       case 'local_area':
-        areaName = humanizeString(cityName);
+        locationName = humanizeString(cityName);
         break;
     }
 
@@ -227,8 +228,10 @@ const RoofingCountry = () => {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
-        areaName: areaName,
-        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+        locationName: locationName,
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
       }
     });
   };
@@ -258,26 +261,26 @@ const RoofingCountry = () => {
   const HeroIcon = getHeroIcon();
 
   return (
-    <div className="min-h-screen font-poppins bg-gradient-to-br from-slate-50 to-gray-50">
+    <div className="min-h-screen font-poppins">
       <RoofingHeader />
       
       {/* Dynamic Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-slate-600 to-gray-600 text-white overflow-hidden min-h-[500px] flex items-center">
+      <section className="relative py-20 bg-gradient-to-br from-slate-600 to-orange-600 text-white overflow-hidden min-h-[500px] flex items-center">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ 
             backgroundImage: pageType === 'local_area' 
               ? 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
-              : 'url(https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+              : 'url(https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
           }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-600/85 to-gray-600/85"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-600/85 to-orange-600/85"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           {pageType === 'local_area' ? (
             <div className="text-center">
               <div className="flex items-center justify-center mb-4">
-                <HeroIcon className="w-8 h-8 text-gray-400 mr-3" />
+                <HeroIcon className="w-8 h-8 text-orange-400 mr-3" />
                 <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
               </div>
               <p className="text-xl text-slate-100 max-w-2xl mx-auto mb-6">
@@ -286,23 +289,57 @@ const RoofingCountry = () => {
               <p className="text-lg text-slate-100 max-w-xl mx-auto mb-8">
                 Reach out today for personalized service and reliable solutions at your doorstep.
               </p>
-              <button className="bg-slate-400 hover:bg-slate-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg">
-                Call Now
-              </button>
-              <div className="flex items-center justify-center space-x-2 mt-6">
-                <Clock className="w-6 h-6 text-slate-400" />
+              
+              {/* Call to Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
+                <a
+                  href="tel:5551234567"
+                  className="group bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Call Now</span>
+                </a>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="group bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg border border-white/30 transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Quote className="w-5 h-5" />
+                  <span>Free Quote</span>
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-center space-x-2">
+                <Clock className="w-6 h-6 text-orange-400" />
                 <span className="text-lg">Same-day booking available</span>
               </div>
             </div>
           ) : (
             <div className="text-center">
               <div className="flex items-center justify-center mb-4">
-                <HeroIcon className="w-8 h-8 text-gray-400 mr-3" />
+                <HeroIcon className="w-8 h-8 text-orange-400 mr-3" />
                 <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
               </div>
-              <p className="text-xl text-slate-100 max-w-3xl mx-auto">
+              <p className="text-xl text-slate-100 max-w-3xl mx-auto mb-8">
                 {getPageDescription()}
               </p>
+              
+              {/* Call to Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <a
+                  href="tel:5551234567"
+                  className="group bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Call Now</span>
+                </a>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="group bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg border border-white/30 transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Quote className="w-5 h-5" />
+                  <span>Free Quote</span>
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -314,7 +351,7 @@ const RoofingCountry = () => {
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-orange-600 bg-clip-text text-transparent mb-6">
               Our {projectCategory} Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -352,9 +389,10 @@ const RoofingCountry = () => {
         </div>
       </section>
 
-      <RoofingGuarantee />
+      <RoofingCTA />
       <RoofingWhyChooseUs />
       <RoofingProcess />
+      <RoofingCTA />
       <RoofingGuarantee />
 
       {/* Testimonials Section */}
@@ -362,7 +400,7 @@ const RoofingCountry = () => {
         <section className="py-20 bg-white font-poppins">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-orange-600 bg-clip-text text-transparent mb-6">
                 What Our Customers Say
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -383,7 +421,7 @@ const RoofingCountry = () => {
                     className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
                   >
                     <div className="mb-6">
-                      <Quote className="w-10 h-10 text-slate-500 mb-4" />
+                      <QuoteIcon className="w-10 h-10 text-orange-500 mb-4" />
                       <p className="text-gray-700 leading-relaxed text-lg">
                         "{testimonial.review_text}"
                       </p>
@@ -427,13 +465,13 @@ const RoofingCountry = () => {
         </section>
       )}
 
-      <RoofingGuarantee />
+      <RoofingCTA />
 
       {/* Service Areas Section */}
       <section className="py-20 bg-gray-50 font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-orange-600 bg-clip-text text-transparent mb-6">
               Areas We Serve
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -445,7 +483,7 @@ const RoofingCountry = () => {
             {projectLocations.map((area, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
                 <div className="flex items-center mb-4">
-                  <div className="bg-gradient-to-r from-slate-500 to-gray-500 rounded-full p-3 mr-4">
+                  <div className="bg-gradient-to-r from-slate-500 to-orange-500 rounded-full p-3 mr-4">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900">
@@ -455,11 +493,11 @@ const RoofingCountry = () => {
 
                 <div className="space-y-3">
                   <div className="flex items-center text-gray-600">
-                    <Clock className="w-5 h-5 text-slate-500 mr-3" />
+                    <Clock className="w-5 h-5 text-orange-500 mr-3" />
                     <span>Response time: Fast</span>
                   </div>
                   <div className="flex items-center text-gray-600">
-                    <Shield className="w-5 h-5 text-gray-500 mr-3" />
+                    <Shield className="w-5 h-5 text-slate-500 mr-3" />
                     <span>100% Professional services</span>
                   </div>
                 </div>
@@ -467,7 +505,7 @@ const RoofingCountry = () => {
                 {pageType !== 'local_area' && (
                   <button
                     onClick={() => handleLocationClick(area.name, area.location_id, area._id, sortname)}
-                    className="mt-6 w-full bg-gradient-to-r from-slate-600 to-gray-600 text-white py-3 rounded-lg font-semibold hover:from-slate-700 hover:to-gray-700 transition-all duration-300"
+                    className="mt-6 w-full bg-gradient-to-r from-slate-600 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-slate-700 hover:to-orange-700 transition-all duration-300"
                   >
                     See Areas
                   </button>
@@ -485,7 +523,7 @@ const RoofingCountry = () => {
         <section className="py-20 bg-white font-poppins">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-600 to-orange-600 bg-clip-text text-transparent mb-6">
                 Frequently Asked Questions
               </h2>
               <p className="text-xl text-gray-600">
@@ -502,7 +540,7 @@ const RoofingCountry = () => {
                   >
                     <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
                     {openFAQ === index ? (
-                      <ChevronUp className="w-6 h-6 text-slate-600 flex-shrink-0" />
+                      <ChevronUp className="w-6 h-6 text-orange-600 flex-shrink-0" />
                     ) : (
                       <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
                     )}
@@ -519,7 +557,7 @@ const RoofingCountry = () => {
         </section>
       )}
 
-      <RoofingGuarantee />
+      <RoofingCTA />
       <RoofingFooter />
     </div>
   );

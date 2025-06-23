@@ -4,6 +4,7 @@ import { httpFile } from "../../../config.js";
 import { MapPin, Clock, Shield, Building } from 'lucide-react';
 import { Star, StarHalf, Quote } from "lucide-react";
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone } from 'lucide-react';
 
 interface Testimonial {
   review_text: string;
@@ -209,16 +210,16 @@ const PlumbingCountry = () => {
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
-    let areaName = '';
+    let locationName = '';
     
     switch (pageType) {
       case 'country':
-        areaName = `${humanizeString(pageLocation)}, ${sortname}`;
+        locationName = `${humanizeString(pageLocation)}${sortname ? `, ${sortname}` : ''}`;
         break;
       case 'state':
       case 'city':
       case 'local_area':
-        areaName = humanizeString(cityName);
+        locationName = humanizeString(cityName);
         break;
     }
 
@@ -227,8 +228,10 @@ const PlumbingCountry = () => {
         serviceId: service._id,
         serviceName: service.service_name,
         serviceDescription: service.service_description,
-        areaName: areaName,
-        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+        locationName: locationName,
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
+        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
       }
     });
   };
@@ -268,7 +271,7 @@ const PlumbingCountry = () => {
           style={{ 
             backgroundImage: pageType === 'local_area' 
               ? 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
-              : 'url(https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+              : 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/85 to-cyan-600/85"></div>
@@ -286,10 +289,26 @@ const PlumbingCountry = () => {
               <p className="text-lg text-blue-100 max-w-xl mx-auto mb-8">
                 Reach out today for personalized service and reliable solutions at your doorstep.
               </p>
-              <button className="bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg">
-                Call Now
-              </button>
-              <div className="flex items-center justify-center space-x-2 mt-6">
+              
+              {/* Call to Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
+                <a
+                  href="tel:5551234567"
+                  className="group bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Call Now</span>
+                </a>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="group bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg border border-white/30 transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Quote className="w-5 h-5" />
+                  <span>Free Quote</span>
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-center space-x-2">
                 <Clock className="w-6 h-6 text-cyan-400" />
                 <span className="text-lg">Same-day booking available</span>
               </div>
@@ -300,9 +319,27 @@ const PlumbingCountry = () => {
                 <HeroIcon className="w-8 h-8 text-cyan-400 mr-3" />
                 <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
               </div>
-              <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
                 {getPageDescription()}
               </p>
+              
+              {/* Call to Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <a
+                  href="tel:5551234567"
+                  className="group bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Call Now</span>
+                </a>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className="group bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg border border-white/30 transition-all duration-300 flex items-center justify-center space-x-3"
+                >
+                  <Quote className="w-5 h-5" />
+                  <span>Free Quote</span>
+                </button>
+              </div>
             </div>
           )}
         </div>
