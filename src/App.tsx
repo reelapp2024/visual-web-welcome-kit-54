@@ -58,10 +58,6 @@ const App = () => (
           <Route path="/services" element={<ThemeServices />} />
           <Route path="/contact" element={<ThemeContact />} />
           <Route path="/services/:serviceName" element={<ThemeServiceDetail />} />
-          
-          {/* Location-specific service detail route */}
-          <Route path="/:locationName/services/:serviceName" element={<ThemeServiceDetail />} />
-          
           <Route path="/areas" element={<ThemeAreas />} />
           <Route path="/areas/:slug" element={<ThemeAreaDetail />} />
           <Route path="/:slug" element={<ThemeCountry />} />
