@@ -28,7 +28,7 @@ import PaintingFAQ from '../components/PaintingFAQ';
 import PaintingFooter from '../components/PaintingFooter';
 import { Flag } from 'lucide-react';
 import PaintingLoader from '../components/PaintingLoader';
-import ServiceMap from '../components/ServiceMap';
+import ServiceMap from '../../../components/ServiceMap';
 
 const PaintingCountry = () => {
   const navigate = useNavigate();
