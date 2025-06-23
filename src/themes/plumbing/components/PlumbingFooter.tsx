@@ -1,66 +1,107 @@
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { useFooterData } from '../../../hooks/useFooterData.js';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, LinkedIn } from 'lucide-react';
+import { httpFile } from "../../../config.js";
 
 const PlumbingFooter = () => {
-  const navigate = useNavigate();
-  const { footerData, isLoading } = useFooterData();
+  const [projectCategory, setProjectCategory] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [services, setServices] = useState([]);
 
-  if (isLoading) {
-    return (
-      <footer className="bg-gradient-to-br from-gray-900 to-blue-900 text-white font-poppins">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center text-gray-400">Loading...</div>
-        </div>
-      </footer>
-    );
-  }
+  const savedSiteId = localStorage.getItem("currentSiteId");
+  const projectId = savedSiteId || "68593752dd530358b97f0a3f";
 
-  const projectName = footerData?.projectName || "ProFlow Plumbing";
-  const welcomeLine = footerData?.welcomeLine || "Professional plumbing services you can trust. Available 24/7 for all your emergency and routine plumbing needs.";
-  const aboutUs = footerData?.aboutUs || {};
-  const services = footerData?.services || [];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/my_site", {
+          projectId,
+          pageType: "home",
+          reqFrom: "plumbingFooter"
+        });
+
+        if (data.projectInfo && data.projectInfo.serviceType) {
+          setProjectCategory(data.projectInfo.serviceType);
+          setProjectName(data.projectInfo.projectName);
+          setPhoneNumber(data.aboutUs.phone);
+          setEmail(data.aboutUs.email);
+          setAddress(data.aboutUs.address);
+        }
+      } catch (error) {
+        console.error("Error fetching footer data:", error);
+      }
+    };
+
+    const fetchServices = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
+          projectId,
+        });
+
+        if (data) {
+          setServices(data.services || []);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchData();
+    fetchServices();
+  }, [projectId]);
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-blue-900 text-white font-poppins">
+    <footer className="bg-gray-900 text-white font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-6">{projectName}</h3>
+          <div className="lg:col-span-1">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg p-2">
+                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
+                  <span className="text-blue-600 font-bold text-lg">P</span>
+                </div>
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                {projectName || "ProFlow Plumbing"}
+              </span>
+            </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              {welcomeLine}
+              Professional {projectCategory} services with 24/7 emergency support. 
+              Licensed, insured, and trusted by thousands of satisfied customers.
             </p>
             <div className="flex space-x-4">
-              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              <a href="#" className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition-colors">
                 <Facebook className="w-5 h-5" />
-              </button>
-              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              </a>
+              <a href="#" className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition-colors">
                 <Twitter className="w-5 h-5" />
-              </button>
-              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
+              </a>
+              <a href="#" className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition-colors">
                 <Instagram className="w-5 h-5" />
-              </button>
-              <button className="bg-white/10 hover:bg-blue-600 p-2 rounded-full transition-all duration-300">
-                <Linkedin className="w-5 h-5" />
-              </button>
+              </a>
+              <a href="#" className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition-colors">
+                <LinkedIn className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-6">Our Services</h4>
+            <h3 className="text-lg font-bold mb-6 text-blue-400">Our Services</h3>
             <ul className="space-y-3">
               {services.slice(0, 6).map((service, index) => (
                 <li key={index}>
-                  <button 
-                    onClick={() => navigate(`/services/${service.service_name.toLowerCase().replace(/\s+/g, '-')}`)} 
-                    className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                  <Link 
+                    to={`/services/${service.service_name.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="text-gray-300 hover:text-blue-400 transition-colors"
                   >
                     {service.service_name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -68,71 +109,78 @@ const PlumbingFooter = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
+            <h3 className="text-lg font-bold mb-6 text-blue-400">Quick Links</h3>
             <ul className="space-y-3">
-              <li><button onClick={() => navigate('/')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Home</button></li>
-              <li><button onClick={() => navigate('/about')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">About Us</button></li>
-              <li><button onClick={() => navigate('/services')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Services</button></li>
-              <li><button onClick={() => navigate('/areas')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Service Areas</button></li>
-              <li><button onClick={() => navigate('/contact')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Contact</button></li>
-              <li><button onClick={() => navigate('/plumbing/privacy-policy')} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">Privacy Policy</button></li>
+              <li>
+                <Link to="/" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/areas" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Service Areas
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-6">Contact Info</h4>
+            <h3 className="text-lg font-bold mb-6 text-blue-400">Contact Info</h3>
             <div className="space-y-4">
-              {aboutUs.phone && (
-                <div className="flex items-center">
-                  <Phone className="w-5 h-5 text-cyan-400 mr-3" />
-                  <a href={`tel:${aboutUs.phone}`} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">
-                    {aboutUs.phone}
-                  </a>
+              <div className="flex items-start space-x-3">
+                <Phone className="w-5 h-5 text-blue-400 mt-1" />
+                <div>
+                  <p className="text-gray-300">{phoneNumber}</p>
+                  <p className="text-sm text-gray-400">24/7 Emergency Line</p>
                 </div>
-              )}
-              {aboutUs.email && (
-                <div className="flex items-center">
-                  <Mail className="w-5 h-5 text-cyan-400 mr-3" />
-                  <a href={`mailto:${aboutUs.email}`} className="text-gray-300 hover:text-cyan-400 transition-colors duration-200">
-                    {aboutUs.email}
-                  </a>
+              </div>
+              <div className="flex items-start space-x-3">
+                <Mail className="w-5 h-5 text-blue-400 mt-1" />
+                <div>
+                  <p className="text-gray-300">{email}</p>
+                  <p className="text-sm text-gray-400">Email Us Anytime</p>
                 </div>
-              )}
-              {aboutUs.mainLocation && (
-                <div className="flex items-start">
-                  <MapPin className="w-5 h-5 text-cyan-400 mr-3 mt-1" />
-                  <span className="text-gray-300">
-                    {aboutUs.mainLocation}
-                  </span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <MapPin className="w-5 h-5 text-blue-400 mt-1" />
+                <div>
+                  <p className="text-gray-300">{address}</p>
+                  <p className="text-sm text-gray-400">Service Location</p>
                 </div>
-              )}
-              <div className="flex items-center">
-                <Clock className="w-5 h-5 text-cyan-400 mr-3" />
-                <span className="text-gray-300">24/7 Emergency Service</span>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 {projectName}. All rights reserved.
+              © 2024 {projectName || "ProFlow Plumbing"}. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <button onClick={() => navigate('/plumbing/terms-conditions')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
-                Terms & Conditions
-              </button>
-              <button onClick={() => navigate('/plumbing/privacy-policy')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
+              <Link to="/privacy-policy" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
                 Privacy Policy
-              </button>
-              <button onClick={() => navigate('/disclaimer')} className="text-gray-400 hover:text-cyan-400 text-sm transition-colors duration-200">
-                Disclaimer
-              </button>
+              </Link>
+              <Link to="/terms-conditions" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
+                Terms of Service
+              </Link>
             </div>
           </div>
         </div>
