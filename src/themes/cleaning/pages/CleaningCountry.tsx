@@ -46,6 +46,8 @@ const CleaningCountry = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [projectFaqs, setprojectFaqs] = useState([]);
   const [projectCategory, setProjectCategory] = useState("");
+  const [welcomeLine, setWelcomeLine] = useState("");
+
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
    const [locInfo, setLocInfo]                   = useState<{ name: string; lat: number; lng: number } | null>(null);
@@ -173,6 +175,7 @@ const CleaningCountry = () => {
 
         if (data.projectInfo && data.projectInfo.serviceType) {
           setProjectCategory(data.projectInfo.serviceType);
+          setWelcomeLine(data.projectInfo.welcomeLine);
           setProjectLocations(data.locations || []);
           setProjectReviews(data.testimonials || []);
           setprojectFaqs(data.faq || []);
@@ -296,9 +299,7 @@ const CleaningCountry = () => {
               <p className="text-xl text-green-100 max-w-2xl mx-auto mb-6">
                 {getPageDescription()}
               </p>
-              <p className="text-lg text-green-100 max-w-xl mx-auto mb-8">
-                Reach out today for personalized service and eco-friendly solutions at your doorstep.
-              </p>
+          
               <button
                 className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
                 onClick={handleCallNow}

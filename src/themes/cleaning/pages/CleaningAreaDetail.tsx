@@ -157,7 +157,7 @@ const CleaningAreaDetail = () => {
 
             {/* Additional Description */}
             <p className="text-lg text-green-100 max-w-xl">
-              Reach out today for personalized service and eco-friendly solutions at your doorstep.
+              {welcomeLine}
             </p>
 
             {/* Call to Action Button */}
