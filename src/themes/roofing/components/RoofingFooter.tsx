@@ -2,9 +2,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { useFooterData } from '../../../hooks/useFooterData.js';
 
 const RoofingFooter = () => {
   const navigate = useNavigate();
+  const { footerData, isLoading } = useFooterData();
+
+  if (isLoading) {
+    return (
+      <footer className="bg-slate-900 text-white font-poppins">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center text-gray-400">Loading...</div>
+        </div>
+      </footer>
+    );
+  }
+
+  const projectName = footerData?.projectName || "Elite Roofing Pro";
+  const welcomeLine = footerData?.welcomeLine || "Professional roofing installation, repair, and maintenance services for residential and commercial properties. Licensed contractors providing quality workmanship with premium materials and reliable service.";
+  const aboutUs = footerData?.aboutUs || {};
+  const services = footerData?.services || [];
 
   return (
     <footer className="bg-slate-900 text-white font-poppins">
@@ -13,10 +30,9 @@ const RoofingFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2 space-y-4">
-            <button onClick={() => navigate('/')} className="text-2xl font-bold hover:text-orange-300 transition-colors">Elite Roofing Pro</button>
+            <button onClick={() => navigate('/')} className="text-2xl font-bold hover:text-orange-300 transition-colors">{projectName}</button>
             <p className="text-slate-100 leading-relaxed">
-              Professional roofing installation, repair, and maintenance services for residential and commercial properties. 
-              Licensed contractors providing quality workmanship with premium materials and reliable service.
+              {welcomeLine}
             </p>
             <div className="flex space-x-4">
               <button className="text-slate-400 hover:text-white transition-colors duration-200">
@@ -38,11 +54,16 @@ const RoofingFooter = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Our Services</h4>
             <ul className="space-y-2">
-              <li><button onClick={() => navigate('/services/roof-installation')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Installation</button></li>
-              <li><button onClick={() => navigate('/services/roof-repair')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Repair</button></li>
-              <li><button onClick={() => navigate('/services/roof-replacement')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Replacement</button></li>
-              <li><button onClick={() => navigate('/services/emergency-roof-service')} className="text-slate-100 hover:text-white transition-colors duration-200">Emergency Service</button></li>
-              <li><button onClick={() => navigate('/services/roof-inspection')} className="text-slate-100 hover:text-white transition-colors duration-200">Roof Inspection</button></li>
+              {services.slice(0, 5).map((service, index) => (
+                <li key={index}>
+                  <button 
+                    onClick={() => navigate(`/services/${service.service_name.toLowerCase().replace(/\s+/g, '-')}`)} 
+                    className="text-slate-100 hover:text-white transition-colors duration-200"
+                  >
+                    {service.service_name}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -70,18 +91,24 @@ const RoofingFooter = () => {
             </ul>
             
             <div className="space-y-3 pt-4">
-              <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-slate-400" />
-                <a href="tel:5551234567" className="text-slate-100 hover:text-white transition-colors">(555) 123-4567</a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail size={16} className="text-slate-400" />
-                <a href="mailto:info@eliteroofingpro.com" className="text-slate-100 hover:text-white transition-colors">info@eliteroofingpro.com</a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin size={16} className="text-slate-400" />
-                <span className="text-slate-100">Serving Metro Area</span>
-              </div>
+              {aboutUs.phone && (
+                <div className="flex items-center space-x-3">
+                  <Phone size={16} className="text-slate-400" />
+                  <a href={`tel:${aboutUs.phone}`} className="text-slate-100 hover:text-white transition-colors">{aboutUs.phone}</a>
+                </div>
+              )}
+              {aboutUs.email && (
+                <div className="flex items-center space-x-3">
+                  <Mail size={16} className="text-slate-400" />
+                  <a href={`mailto:${aboutUs.email}`} className="text-slate-100 hover:text-white transition-colors">{aboutUs.email}</a>
+                </div>
+              )}
+              {aboutUs.mainLocation && (
+                <div className="flex items-center space-x-3">
+                  <MapPin size={16} className="text-slate-400" />
+                  <span className="text-slate-100">{aboutUs.mainLocation}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -95,9 +122,11 @@ const RoofingFooter = () => {
             <p className="text-slate-100 mb-6 max-w-2xl mx-auto">
               Call now for professional roofing installation, repair, and maintenance services! We handle everything from emergency repairs to complete roof replacement.
             </p>
-            <a href="tel:5551234567" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
-              Call Now: (555) 123-4567
-            </a>
+            {aboutUs.phone && (
+              <a href={`tel:${aboutUs.phone}`} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
+                Call Now: {aboutUs.phone}
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -107,7 +136,7 @@ const RoofingFooter = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-slate-400 text-sm">
-              © 2024 Elite Roofing Pro. All rights reserved. Licensed & Bonded Roofing Services.
+              © 2024 {projectName}. All rights reserved. Licensed & Bonded Roofing Services.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button onClick={() => navigate('/roofing/privacy-policy')} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
