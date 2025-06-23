@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, LinkedIn } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { httpFile } from "../../../config.js";
 
 const PlumbingFooter = () => {
@@ -85,7 +84,7 @@ const PlumbingFooter = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="bg-blue-600 hover:bg-blue-700 p-2 rounded-full transition-colors">
-                <LinkedIn className="w-5 h-5" />
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
