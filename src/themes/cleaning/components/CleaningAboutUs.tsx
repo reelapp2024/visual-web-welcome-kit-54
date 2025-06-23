@@ -30,7 +30,7 @@ const CleaningAboutUs: React.FC = () => {
     localStorage.setItem('currentSiteId', site);
   }
   const projectId =
-    localStorage.getItem('currentSiteId') || '684a89807771b19c131ff5e7';
+    localStorage.getItem('currentSiteId') || '68593752dd530358b97f0a3f';
 
   useEffect(() => {
     (async () => {

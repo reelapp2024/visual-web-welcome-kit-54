@@ -43,7 +43,7 @@ const queryClient = new QueryClient();
 
 // Dynamic theme configuration - define the type properly
 export type ThemeType = 'cleaning' | 'plumbing' | 'roofing' | 'hvac' | 'painting';
-export const currentTheme: ThemeType = "cleaning";
+export const currentTheme: ThemeType = "plumbing";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
