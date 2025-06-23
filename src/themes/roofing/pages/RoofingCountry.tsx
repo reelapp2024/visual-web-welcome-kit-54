@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
-import { MapPin, Clock, Shield, Building, Phone, Quote } from 'lucide-react';
-import { Star, StarHalf, Quote as QuoteIcon } from "lucide-react";
+import { MapPin, Clock, Shield, Building } from 'lucide-react';
+import { Star, StarHalf, Quote } from "lucide-react";
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone } from 'lucide-react';
 
 interface Testimonial {
   review_text: string;
@@ -49,13 +50,24 @@ const RoofingCountry = () => {
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  // Handle site ID from query params
+  const urlParams = new URLSearchParams(window.location.search);
+  const site = urlParams.get("siteId");
+
+  if (site) {
+    const currentSiteId = localStorage.getItem("currentSiteId");
+    if (currentSiteId !== site) {
+      localStorage.setItem("currentSiteId", site);
+    }
+  }
+
   // Project ID hierarchy: env > localStorage > hardcoded
   const getProjectId = () => {
     if (import.meta.env.VITE_PROJECT_ID) {
       return import.meta.env.VITE_PROJECT_ID;
     }
     const savedSiteId = localStorage.getItem("currentSiteId");
-    return savedSiteId || "685554e6ce43a5111d80438e";
+    return savedSiteId || "68593752dd530358b97f0a3f";
   };
 
   const projectId = getProjectId();
@@ -234,6 +246,45 @@ const RoofingCountry = () => {
         serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
       }
     });
+  };
+
+  const getLocationPath = (locationName, id, _id, sortname) => {
+    let nextPage = '';
+
+    if (sortname) {
+      console.log("country page so sortname is available")
+    }
+
+    if (UpcomingPage === 'country') {
+      nextPage = 'States';
+    } else if (UpcomingPage === 'state') {
+      nextPage = 'Cities';
+    } else if (UpcomingPage === 'city') {
+      nextPage = 'Local Areas';
+    } else if (UpcomingPage === 'local') {
+      nextPage = 'whole areas';
+    }
+
+    return {
+      pathname: `/${slugify(locationName)}`,
+      state: {
+        id,
+        projectId,
+        UpcomingPage,
+        nextPage,
+        locationName,
+        sortname,
+        _id
+      }
+    };
+  };
+
+  const getNextPage = () => {
+    if (UpcomingPage === 'country') return 'States';
+    if (UpcomingPage === 'state') return 'Cities';
+    if (UpcomingPage === 'city') return 'Local Areas';
+    if (UpcomingPage === 'local') return 'whole areas';
+    return '';
   };
 
   useEffect(() => {
@@ -421,7 +472,7 @@ const RoofingCountry = () => {
                     className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
                   >
                     <div className="mb-6">
-                      <QuoteIcon className="w-10 h-10 text-orange-500 mb-4" />
+                      <Quote className="w-10 h-10 text-orange-500 mb-4" />
                       <p className="text-gray-700 leading-relaxed text-lg">
                         "{testimonial.review_text}"
                       </p>
