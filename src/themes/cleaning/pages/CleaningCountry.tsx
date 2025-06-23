@@ -14,6 +14,7 @@ interface Testimonial {
 
 import humanizeString from "../../../extras/stringUtils.js";
 import { slugify } from "../../../extras/slug";
+import CleaningCountryMap from '../components/CleaningCountryMap.js';
 
 import CleaningHeader from '../components/CleaningHeader';
 import CleaningCTA from '../components/CleaningCTA';
@@ -47,6 +48,7 @@ const CleaningCountry = () => {
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+   const [locInfo, setLocInfo]                   = useState<{ name: string; lat: number; lng: number } | null>(null);
 
   // Project ID hierarchy: env > localStorage > hardcoded
   const getProjectId = () => {
@@ -176,6 +178,13 @@ const CleaningCountry = () => {
           setprojectFaqs(data.faq || []);
           setPageLocation(data.RefLocation || '');
           setIsLoading(false);
+            if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
+            setLocInfo({
+              name: data.info.name,
+              lat:  data.info.lat,
+              lng:  data.info.lng
+            });
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -314,6 +323,15 @@ const CleaningCountry = () => {
           )}
         </div>
       </section>
+
+         {/* Map Section (only if lat/lng available) */}
+            {locInfo && (
+              <CleaningCountryMap
+                locationName={locInfo.name}
+                lat={locInfo.lat}
+                lng={locInfo.lng}
+              />
+            )}
 
       <CleaningCTA />
       <CleaningAboutUs />
