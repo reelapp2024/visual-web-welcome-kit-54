@@ -42,6 +42,7 @@ const CleaningAreaDetail = () => {
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
+  const [welcomeLine, setWelcomeLine] = useState("");
 
   // Project ID hierarchy: env > localStorage > hardcoded
   const getProjectId = () => {
@@ -74,9 +75,8 @@ const CleaningAreaDetail = () => {
           setProjectCategory(data.projectInfo.serviceType);
           setProjectLocations(data.locations);
           setProjectReviews(data.testimonials || []);
-
           setprojectFaqs(data.faq || []);
-
+          setWelcomeLine(data.projectInfo.welcomeLine || `Professional ${data.projectInfo.serviceType} services with same-day booking.`);
           setLocations([{
             name: "Proud to say we covered the whole area"
           }]);
@@ -260,11 +260,6 @@ const CleaningAreaDetail = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      {/* <img
-                        src={testimonial.customer_image}
-                        alt=""
-                        className="w-12 h-12 rounded-full object-cover"
-                      /> */}
                       <div>
                         <h4 className="font-bold text-gray-900">
                           {testimonial.customer_name}
