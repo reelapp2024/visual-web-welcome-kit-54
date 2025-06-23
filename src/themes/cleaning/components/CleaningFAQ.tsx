@@ -5,11 +5,18 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const CleaningFAQ = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
- const [projectFaqs, setprojectFaqs] = useState([]);
+  const [projectFaqs, setprojectFaqs] = useState([]);
 
-  const savedSiteId = localStorage.getItem("currentSiteId");
-  const projectId = savedSiteId || "684a89807771b19c131ff5e7";
+  // Project ID hierarchy: env > localStorage > hardcoded
+  const getProjectId = () => {
+    if (import.meta.env.VITE_PROJECT_ID) {
+      return import.meta.env.VITE_PROJECT_ID;
+    }
+    const savedSiteId = localStorage.getItem("currentSiteId");
+    return savedSiteId || "685554e6ce43a5111d80438e";
+  };
 
+  const projectId = getProjectId();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +26,6 @@ const CleaningFAQ = () => {
         });
 
         if (data) {
-  
           setprojectFaqs(data.faq || []);
         }
       } catch (error) {
@@ -30,42 +36,12 @@ const CleaningFAQ = () => {
     fetchData();
   }, [projectId]);
 
-
-
-
-  const faqs = [
-    {
-      question: "What cleaning products do you use?",
-      answer: "We use eco-friendly, non-toxic cleaning products that are safe for your family, pets, and the environment. All our products are EPA-approved and biodegradable."
-    },
-    {
-      question: "How do you price your cleaning services?",
-      answer: "Our pricing is based on the size of your space, type of cleaning needed, and frequency of service. We provide free, no-obligation quotes for all residential and commercial cleaning services."
-    },
-    {
-      question: "Are your cleaners insured and bonded?",
-      answer: "Yes, all our cleaning professionals are fully bonded, insured, and background-checked. This provides complete protection for your property and peace of mind for you."
-    },
-    {
-      question: "Can I schedule same-day cleaning service?",
-      answer: "Yes! We offer same-day cleaning services based on availability. Contact us early in the day for the best chance of scheduling same-day service."
-    },
-    {
-      question: "What if I'm not satisfied with the cleaning?",
-      answer: "We offer a 100% satisfaction guarantee. If you're not completely happy with our service, we'll return within 24 hours to re-clean any areas at no additional charge."
-    },
-    {
-      question: "Do I need to be home during the cleaning?",
-      answer: "No, you don't need to be home during the cleaning. Many of our clients provide us with a key or access code. All our cleaners are trusted, bonded professionals."
-    }
-  ];
-
   return (
     <section className="py-20 bg-white font-poppins">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-            Frequently Asked Questionss
+            Frequently Asked Questions
           </h2>
           <p className="text-xl text-gray-600">
             Got questions? We've got answers. Here are the most common questions about our cleaning services.

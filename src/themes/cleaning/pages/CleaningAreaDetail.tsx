@@ -29,43 +29,34 @@ import { slugify } from "../../../extras/slug";
 import humanizeString from "../../../extras/stringUtils.js";
 
 const CleaningAreaDetail = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
   const [projectServices, setprojectServices] = useState([]);
-
   const [projectLocations, setProjectLocations] = useState([]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [projectFaqs, setprojectFaqs] = useState([]);
   const currentLocation = location.pathname;
   const RefLocation = currentLocation.slice(1);
-
-
   const cityName = currentLocation.split('/').pop();
   console.log('Text after last slash:', cityName);
-
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
-
-
   const [projectCategory, setProjectCategory] = useState("");
   const [pageLocation, setPageLocation] = useState("");
 
-  const savedSiteId = localStorage.getItem("currentSiteId");
-  let projectId = savedSiteId || "684a89807771b19c131ff5e7";
-  const [locations, setLocations] = useState([]);
+  // Project ID hierarchy: env > localStorage > hardcoded
+  const getProjectId = () => {
+    if (import.meta.env.VITE_PROJECT_ID) {
+      return import.meta.env.VITE_PROJECT_ID;
+    }
+    const savedSiteId = localStorage.getItem("currentSiteId");
+    return savedSiteId || "685554e6ce43a5111d80438e";
+  };
 
+  const projectId = getProjectId();
+  const [locations, setLocations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
-  let { id,
-
-    UpcomingPage,
-    nextPage,
-    locationName,
-
-    _id } = location.state || {};
-
-
+  let { id, UpcomingPage, nextPage, locationName, _id } = location.state || {};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,8 +68,6 @@ const CleaningAreaDetail = () => {
           _id: _id,
           RefLocation: RefLocation,
           reqFrom: "cleningArea"
-
-
         });
 
         if (data.projectInfo && data.projectInfo.serviceType) {
@@ -90,13 +79,10 @@ const CleaningAreaDetail = () => {
 
           setLocations([{
             name: "Proud to say we covered the whole area"
-
           }]);
 
           setPageLocation(data.RefLocation)
           setIsLoading(false);
-
-
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -111,7 +97,6 @@ const CleaningAreaDetail = () => {
     const idx = text.indexOf('.');
     return idx > -1 ? text.slice(0, idx + 1) : text;
   };
-
 
   const handleServiceClick = (service: any) => {
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
@@ -147,14 +132,7 @@ const CleaningAreaDetail = () => {
     fetchData();
   }, [projectId]);
 
-
-
-
-
-  console.log(pageLocation, "pageLocation")
-
   const handleCallNow = () => {
-    // You can implement the actual phone call logic here
     console.log('Call now clicked');
   };
 
@@ -163,42 +141,41 @@ const CleaningAreaDetail = () => {
       <CleaningHeader />
 
       {/* Area Hero */}
-     <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div className="flex flex-col items-center justify-center space-y-6">
-      {/* Location Header */}
-      <div className="flex items-center justify-center mb-4">
-        <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
-        <h1 className="text-4xl md:text-5xl font-bold">{humanizeString(cityName)}</h1>
-      </div>
+      <section className="py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex flex-col items-center justify-center space-y-6">
+            {/* Location Header */}
+            <div className="flex items-center justify-center mb-4">
+              <MapPin className="w-8 h-8 text-emerald-400 mr-3" />
+              <h1 className="text-4xl md:text-5xl font-bold">{humanizeString(cityName)}</h1>
+            </div>
 
-      {/* Main Description */}
-      <p className="text-xl text-green-100 max-w-2xl">
-        Professional {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
-      </p>
+            {/* Main Description */}
+            <p className="text-xl text-green-100 max-w-2xl">
+              Professional {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
+            </p>
 
-      {/* Additional Description */}
-      <p className="text-lg text-green-100 max-w-xl">
-        Reach out today for personalized service and eco-friendly solutions at your doorstep.
-      </p>
+            {/* Additional Description */}
+            <p className="text-lg text-green-100 max-w-xl">
+              Reach out today for personalized service and eco-friendly solutions at your doorstep.
+            </p>
 
-      {/* Call to Action Button */}
-      <button
-        className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
-        onClick={handleCallNow}
-      >
-        Call Now
-      </button>
+            {/* Call to Action Button */}
+            <button
+              className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
+              onClick={handleCallNow}
+            >
+              Call Now
+            </button>
 
-      {/* Same-day Booking Note */}
-      <div className="flex items-center justify-center space-x-2">
-        <Clock className="w-6 h-6 text-emerald-400" />
-        <span className="text-lg">Same-day booking available</span>
-      </div>
-    </div>
-  </div>
-</section>
-
+            {/* Same-day Booking Note */}
+            <div className="flex items-center justify-center space-x-2">
+              <Clock className="w-6 h-6 text-emerald-400" />
+              <span className="text-lg">Same-day booking available</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <CleaningCTA />
 
@@ -360,8 +337,6 @@ const CleaningAreaDetail = () => {
                     <span>100% Original services</span>
                   </div>
                 </div>
-
-
               </div>
             ))}
           </div>

@@ -48,7 +48,16 @@ const PlumbingCountry = () => {
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const projectId = "685554e6ce43a5111d80438e";
+  // Project ID hierarchy: env > localStorage > hardcoded
+  const getProjectId = () => {
+    if (import.meta.env.VITE_PROJECT_ID) {
+      return import.meta.env.VITE_PROJECT_ID;
+    }
+    const savedSiteId = localStorage.getItem("currentSiteId");
+    return savedSiteId || "685554e6ce43a5111d80438e";
+  };
+
+  const projectId = getProjectId();
 
   // Extract values from location state or URL
   let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
@@ -450,7 +459,7 @@ const PlumbingCountry = () => {
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900">
-                    {area.name}{pageType === 'country' && sortname ? `,${sortname}` : ''}
+                    {area.name}{pageType === 'country' && sortname ? `, ${sortname}` : ''}
                   </h3>
                 </div>
 

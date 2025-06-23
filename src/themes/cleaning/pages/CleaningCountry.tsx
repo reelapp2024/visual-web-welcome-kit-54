@@ -1,11 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { httpFile } from "../../../config.js";
-import { MapPin, Clock, Shield } from 'lucide-react';
+import { MapPin, Clock, Shield, Building } from 'lucide-react';
 import { Star, StarHalf, Quote } from "lucide-react";
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Building } from 'lucide-react';
 
 interface Testimonial {
   review_text: string;
@@ -31,8 +30,6 @@ import CleaningFAQ from '../components/CleaningFAQ';
 import CleaningFooter from '../components/CleaningFooter';
 import { Flag } from 'lucide-react';
 import CleaningLoader from '../components/CleaningLoader';
-import CleaningCountryMap from '../components/CleaningCountryMap';
-import DynamicIcon from '../../../extras/DynamicIcon.js';
 
 const CleaningCountry = () => {
   const navigate = useNavigate();
@@ -45,8 +42,6 @@ const CleaningCountry = () => {
   const [pageType, setPageType] = useState('');
   const [projectLocations, setProjectLocations] = useState([]);
   const [projectServices, setprojectServices] = useState([]);
-  const [locInfo, setLocInfo] = useState<{ name: string; lat: number; lng: number } | null>(null);
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [projectReviews, setProjectReviews] = useState<Testimonial[]>([]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [projectFaqs, setprojectFaqs] = useState([]);
@@ -54,7 +49,16 @@ const CleaningCountry = () => {
   const [pageLocation, setPageLocation] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const projectId = "685554e6ce43a5111d80438e";
+  // Project ID hierarchy: env > localStorage > hardcoded
+  const getProjectId = () => {
+    if (import.meta.env.VITE_PROJECT_ID) {
+      return import.meta.env.VITE_PROJECT_ID;
+    }
+    const savedSiteId = localStorage.getItem("currentSiteId");
+    return savedSiteId || "685554e6ce43a5111d80438e";
+  };
+
+  const projectId = getProjectId();
 
   // Extract values from location state or URL
   let { id, UpcomingPage, nextPage, locationName, sortname, _id } = location.state || {};
@@ -62,7 +66,6 @@ const CleaningCountry = () => {
   // Get city name from URL for city/local area pages
   const cityName = pathname.split('/').pop();
 
-  // Determine page content based on pageType
   const getPageTitle = () => {
     switch (pageType) {
       case 'country':
@@ -121,7 +124,7 @@ const CleaningCountry = () => {
         }
       } catch (error) {
         console.error("Error fetching page type:", error);
-        setPageType('country'); // fallback
+        setPageType('country');
       }
     };
 
@@ -142,7 +145,6 @@ const CleaningCountry = () => {
         let refLocation = slug;
         let reqFrom = "";
 
-        // Set appropriate values based on page type
         switch (pageType) {
           case 'country':
             reqFrom = "cleaningCountry";
@@ -174,17 +176,6 @@ const CleaningCountry = () => {
           setProjectReviews(data.testimonials || []);
           setprojectFaqs(data.faq || []);
           setPageLocation(data.RefLocation || '');
-          setPhoneNumber(data.aboutUs?.phone || '');
-          
-          // Set location info for map if available
-          if (data.info && typeof data.info.lat === 'number' && typeof data.info.lng === 'number') {
-            setLocInfo({
-              name: data.info.name,
-              lat: data.info.lat,
-              lng: data.info.lng
-            });
-          }
-          
           setIsLoading(false);
         }
       } catch (error) {
@@ -196,39 +187,7 @@ const CleaningCountry = () => {
     fetchData();
   }, [pageType, projectId, slug]);
 
-  // Fetch services
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
-          projectId,
-        });
-
-        if (data) {
-          setprojectServices(data.services || []);
-        }
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    };
-
-    fetchServices();
-  }, [projectId]);
-
   const handleLocationClick = (locationName, id, _id, sortname) => {
-    let PrevLocation = `${locationName},${humanizeString(pageLocation)}, ${sortname}`;
-    let nextPage = '';
-
-    if (UpcomingPage == 'country') {
-      nextPage = 'States';
-    } else if (UpcomingPage == 'state') {
-      nextPage = 'Cities';
-    } else if (UpcomingPage == 'city') {
-      nextPage = 'Local Areas';
-    } else if (UpcomingPage == 'local') {
-      nextPage = 'whole areas';
-    }
-
     let locationToNavigate = `/${slug}/${slugify(locationName)}`;
 
     navigate(locationToNavigate, {
@@ -238,7 +197,6 @@ const CleaningCountry = () => {
         UpcomingPage,
         nextPage,
         locationName,
-        PrevLocation,
         _id
       }
     });
@@ -271,11 +229,31 @@ const CleaningCountry = () => {
         serviceName: service.service_name,
         serviceDescription: service.service_description,
         areaName: areaName,
-        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-        serviceImage1: service.images[1]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg",
-        serviceImage2: service.images[2]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
+        serviceImage: service.images[0]?.url || "https://img.freepik.com/free-photo/standard-quality-control-concept-m_23-2150041850.jpg"
       }
     });
+  };
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data } = await httpFile.post("/webapp/v1/fetch_services", {
+          projectId,
+        });
+
+        if (data) {
+          setprojectServices(data.services || []);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, [projectId]);
+
+  const handleCallNow = () => {
+    console.log('Call now clicked');
   };
 
   if (isLoading) {
@@ -287,22 +265,21 @@ const CleaningCountry = () => {
   return (
     <div className="min-h-screen font-poppins">
       <CleaningHeader />
-
+      
       {/* Dynamic Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-green-600 to-emerald-600 text-white overflow-hidden min-h-[500px] flex items-center">
-        <div
+        <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
+          style={{ 
             backgroundImage: pageType === 'local_area' 
               ? 'url(https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)'
               : 'url(https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
           }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85" />
-
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600/85 to-emerald-600/85"></div>
+        
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           {pageType === 'local_area' ? (
-            // Local Area Hero Layout
             <div className="text-center">
               <div className="flex items-center justify-center mb-4">
                 <HeroIcon className="w-8 h-8 text-emerald-400 mr-3" />
@@ -314,7 +291,10 @@ const CleaningCountry = () => {
               <p className="text-lg text-green-100 max-w-xl mx-auto mb-8">
                 Reach out today for personalized service and eco-friendly solutions at your doorstep.
               </p>
-              <button className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg">
+              <button
+                className="bg-emerald-400 hover:bg-emerald-500 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg"
+                onClick={handleCallNow}
+              >
                 Call Now
               </button>
               <div className="flex items-center justify-center space-x-2 mt-6">
@@ -323,50 +303,22 @@ const CleaningCountry = () => {
               </div>
             </div>
           ) : (
-            // Country/State/City Hero Layout
             <div className="text-center">
               <div className="flex items-center justify-center mb-4">
                 <HeroIcon className="w-8 h-8 text-emerald-400 mr-3" />
                 <h1 className="text-4xl md:text-5xl font-bold">{getPageTitle()}</h1>
               </div>
-              <p className="text-xl text-green-100 max-w-3xl mx-auto mb-8">
+              <p className="text-xl text-green-100 max-w-3xl mx-auto">
                 {getPageDescription()}
               </p>
-              {pageType === 'country' && (
-                <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-                  <a
-                    href={`tel:${phoneNumber}`}
-                    className="group bg-white text-green-600 px-8 py-5 rounded-2xl font-bold text-lg transition-transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3"
-                  >
-                    <DynamicIcon iconName="Phone" className="group-hover:animate-bounce" />
-                    <span>Call Now: {phoneNumber}</span>
-                  </a>
-                  <button
-                    onClick={() => navigate('/contact')}
-                    className="group bg-emerald-500/80 backdrop-blur-sm hover:bg-emerald-400 text-white px-8 py-5 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-transform hover:scale-105 border border-white/30"
-                  >
-                    <DynamicIcon iconName="Sparkles" className="group-hover:rotate-12 transition-transform" />
-                    <span>Free Quote</span>
-                  </button>
-                </div>
-              )}
             </div>
           )}
         </div>
       </section>
 
-      {/* Conditional Map Section */}
-      {pageType === 'country' && locInfo && (
-        <CleaningCountryMap
-          locationName={locInfo.name}
-          lat={locInfo.lat}
-          lng={locInfo.lng}
-        />
-      )}
-
-      {/* Always show CTA */}
       <CleaningCTA />
-
+      <CleaningAboutUs />
+      
       {/* Services Section */}
       <section className="py-20 bg-white font-poppins">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -375,7 +327,7 @@ const CleaningCountry = () => {
               Our {projectCategory} Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive {projectCategory} solutions for you and we make sure for professional results.
+              Comprehensive {projectCategory} solutions for professional results.
             </p>
           </div>
 
@@ -399,7 +351,7 @@ const CleaningCountry = () => {
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    {service.service_name} in {pageType === 'country' ? `${humanizeString(pageLocation)},${sortname}` : humanizeString(cityName)}
+                    {service.service_name} in {pageType === 'country' ? `${humanizeString(pageLocation)}, ${sortname}` : humanizeString(cityName)}
                   </h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{getFirstSentence(service.service_description)}</p>
                 </div>
@@ -416,75 +368,74 @@ const CleaningCountry = () => {
       <CleaningGuarantee />
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white font-poppins">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              What Our Customers Say
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our satisfied customers have to say about our cleaning services.
-            </p>
-          </div>
+      {projectReviews.length > 0 && (
+        <section className="py-20 bg-white font-poppins">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+                What Our Customers Say
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Don't just take our word for it. Here's what our satisfied customers have to say about our cleaning services.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projectReviews.map((testimonial, index) => {
-              const rawRating = Number(testimonial.rating) || 0;
-              const fullStars = Math.floor(rawRating);
-              const hasHalf = rawRating - fullStars >= 0.5;
-              const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projectReviews.map((testimonial, index) => {
+                const rawRating = Number(testimonial.rating) || 0;
+                const fullStars = Math.floor(rawRating);
+                const hasHalf = rawRating - fullStars >= 0.5;
+                const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
 
-              return (
-                <div
-                  key={index}
-                  className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-                >
-                  <div className="mb-6">
-                    <Quote className="w-10 h-10 text-green-500 mb-4" />
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      "{testimonial.review_text}"
-                    </p>
-                  </div>
+                return (
+                  <div
+                    key={index}
+                    className="bg-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                  >
+                    <div className="mb-6">
+                      <Quote className="w-10 h-10 text-green-500 mb-4" />
+                      <p className="text-gray-700 leading-relaxed text-lg">
+                        "{testimonial.review_text}"
+                      </p>
+                    </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          {testimonial.customer_name}
-                        </h4>
-                        <p className="text-gray-600 text-sm">
-                          {testimonial.customer_name}
-                        </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div>
+                          <h4 className="font-bold text-gray-900">
+                            {testimonial.customer_name}
+                          </h4>
+                        </div>
+                      </div>
+
+                      <div className="flex space-x-1">
+                        {[...Array(fullStars)].map((_, i) => (
+                          <Star
+                            key={`full-${index}-${i}`}
+                            className="w-5 h-5 text-yellow-400 fill-current"
+                          />
+                        ))}
+                        {hasHalf && (
+                          <StarHalf
+                            key={`half-${index}`}
+                            className="w-5 h-5 text-yellow-400 fill-current"
+                          />
+                        )}
+                        {[...Array(emptyStars)].map((_, i) => (
+                          <Star
+                            key={`empty-${index}-${i}`}
+                            className="w-5 h-5 text-gray-300 fill-current"
+                          />
+                        ))}
                       </div>
                     </div>
-
-                    <div className="flex space-x-1">
-                      {[...Array(fullStars)].map((_, i) => (
-                        <Star
-                          key={`full-${index}-${i}`}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                        />
-                      ))}
-                      {hasHalf && (
-                        <StarHalf
-                          key={`half-${index}`}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                        />
-                      )}
-                      {[...Array(emptyStars)].map((_, i) => (
-                        <Star
-                          key={`empty-${index}-${i}`}
-                          className="w-5 h-5 text-gray-300 fill-current"
-                        />
-                      ))}
-                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <CleaningCTA />
 
@@ -496,7 +447,7 @@ const CleaningCountry = () => {
               Areas We Serve
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional {projectCategory} services throughout Our availability.
+              Professional {projectCategory} services throughout our coverage area.
             </p>
           </div>
 
@@ -508,18 +459,18 @@ const CleaningCountry = () => {
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900">
-                    {area.name}{pageType === 'country' && sortname ? `,${sortname}` : ''}
+                    {area.name}{pageType === 'country' && sortname ? `, ${sortname}` : ''}
                   </h3>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center text-gray-600">
                     <Clock className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Response time: Extreme</span>
+                    <span>Response time: Fast</span>
                   </div>
                   <div className="flex items-center text-gray-600">
                     <Shield className="w-5 h-5 text-emerald-500 mr-3" />
-                    <span>100% Original services</span>
+                    <span>100% Eco-friendly services</span>
                   </div>
                 </div>
 
@@ -537,42 +488,46 @@ const CleaningCountry = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-white font-poppins">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Got questions? We've got answers. Here are the most common questions about our cleaning services.
-            </p>
-          </div>
+      {pageType === 'country' && <ServiceMap theme="cleaning" />}
 
-          <div className="space-y-4">
-            {projectFaqs.map((faq, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
-                <button
-                  className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
-                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                >
-                  <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
-                  {openFAQ === index ? (
-                    <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+      {/* FAQ Section */}
+      {projectFaqs.length > 0 && (
+        <section className="py-20 bg-white font-poppins">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-xl text-gray-600">
+                Got questions? We've got answers. Here are the most common questions about our cleaning services.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {projectFaqs.map((faq, index) => (
+                <div key={index} className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+                  <button
+                    className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200"
+                    onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                  >
+                    <h3 className="text-lg font-bold text-gray-900 pr-4">{faq.question}</h3>
+                    {openFAQ === index ? (
+                      <ChevronUp className="w-6 h-6 text-green-600 flex-shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                    )}
+                  </button>
+                  {openFAQ === index && (
+                    <div className="px-8 pb-6">
+                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    </div>
                   )}
-                </button>
-                {openFAQ === index && (
-                  <div className="px-8 pb-6">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <CleaningCTA />
       <CleaningFooter />
