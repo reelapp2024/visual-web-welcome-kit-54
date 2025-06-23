@@ -221,6 +221,7 @@ const CleaningCountry = () => {
   };
 
   const handleServiceClick = (service: any) => {
+    // alert("hey you clicked on serfice")
     const serviceName = service.service_name.toLowerCase().replace(/\s+/g, '-');
     let locationName = '';
     
@@ -235,7 +236,9 @@ const CleaningCountry = () => {
         break;
     }
 
-    navigate(`/services/${serviceName}`, {
+    // alert(locationName)
+
+    navigate( `/${slugify(locationName)}/services/${serviceName}`, {
       state: {
         serviceId: service._id,
         serviceName: service.service_name,
