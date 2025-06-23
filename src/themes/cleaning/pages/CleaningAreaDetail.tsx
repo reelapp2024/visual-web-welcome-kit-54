@@ -152,7 +152,7 @@ const CleaningAreaDetail = () => {
 
             {/* Main Description */}
             <p className="text-xl text-green-100 max-w-2xl">
-              Professional {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
+               {projectCategory} services in {humanizeString(cityName)}.
             </p>
 
             {/* Additional Description */}

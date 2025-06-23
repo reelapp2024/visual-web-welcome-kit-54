@@ -88,15 +88,15 @@ const CleaningCountry = () => {
   const getPageDescription = () => {
     switch (pageType) {
       case 'country':
-        return `Professional ${projectCategory} services across the ${humanizeString(pageLocation)} with nationwide coverage and local expertise in every state.`;
+        return `${projectCategory} services across the ${humanizeString(pageLocation)} with nationwide coverage and local expertise in every state.`;
       case 'state':
-        return `Professional residential and commercial ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+        return ` ${projectCategory} services in ${humanizeString(cityName)}`;
       case 'city':
-        return `Professional residential and commercial ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+        return ` ${projectCategory} services in ${humanizeString(cityName)}`;
       case 'local_area':
-        return `Professional ${projectCategory} services in ${humanizeString(cityName)} with same-day booking and eco-friendly products.`;
+        return `${projectCategory} services in ${humanizeString(cityName)}`;
       default:
-        return `Professional ${projectCategory} services.`;
+        return `${projectCategory} services.`;
     }
   };
 
@@ -303,7 +303,7 @@ const CleaningCountry = () => {
                 {getPageDescription()}
               </p>
               <p className="text-lg text-green-100 max-w-xl mx-auto mb-8">
-                Reach out today for personalized service and reliable solutions at your doorstep.
+              {welcomeLine}
               </p>
               
               {/* Call to Action Buttons */}
@@ -326,7 +326,7 @@ const CleaningCountry = () => {
               
               <div className="flex items-center justify-center space-x-2">
                 <Clock className="w-6 h-6 text-emerald-400" />
-                <span className="text-lg">Same-day booking available</span>
+                <span className="text-lg">Same-day available</span>
               </div>
             </div>
           ) : (
@@ -501,7 +501,7 @@ const CleaningCountry = () => {
               Areas We Serve
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional {projectCategory} services throughout our coverage area.
+              {projectCategory} services throughout our coverage area.
             </p>
           </div>
 

@@ -236,7 +236,7 @@ const CleaningCity = () => {
             <h1 className="text-4xl md:text-5xl font-bold"> {humanizeString(cityName)} {projectCategory} Services</h1>
           </div>
           <p className="text-xl text-green-100 max-w-3xl mx-auto">
-            Professional residential and commercial {projectCategory} services in {humanizeString(cityName)} with same-day booking and eco-friendly products.
+            {projectCategory} services in {humanizeString(cityName)}.
           </p>
         </div>
       </section>

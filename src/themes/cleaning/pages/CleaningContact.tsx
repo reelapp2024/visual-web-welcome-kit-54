@@ -14,6 +14,7 @@ const CleaningContact = () => {
     const [email, setEmail] = useState("");
     const [mainLocation, setMainLocation] = useState("");
     const [projectCategory, setProjectCategory] = useState("");
+    const [image, setImage] = useState("");
   
     const savedSiteId = localStorage.getItem("currentSiteId");
     const projectId = savedSiteId || "684a89807771b19c131ff5e7";
@@ -32,6 +33,7 @@ const CleaningContact = () => {
                 setPhoneNumber(data.aboutUs.phone);
               setMainLocation(data.aboutUs.mainLocation);
           setProjectCategory(data.projectInfo.serviceType);
+          setImage(data.projectInfo.images[3].url)
                
               }
             } catch (error) {
@@ -52,7 +54,7 @@ const CleaningContact = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80)',
+           backgroundImage: `url(${image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
